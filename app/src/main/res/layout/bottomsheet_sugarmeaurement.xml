@@ -7,12 +7,15 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <CheckBox
-        android:layout_width="wrap_content"
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center_vertical"
-        android:text="First measurement of the day?" />
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:focusedByDefault="true"
+        android:gravity="center"
+        android:text="Add Sugar Measurement"
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,26 +56,26 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/et_sugar_measurement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Sugar Measurement"
+            android:inputType="numberDecimal"
+            android:textSize="16dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <CheckBox
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/bt_cancel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Cancel" />
-
-        <Button
-            android:id="@+id/bt_save"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Save" />
-
-    </LinearLayout>
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:text="First measurement of the day?" />
 
     <RadioGroup
         android:layout_width="wrap_content"
@@ -99,16 +102,6 @@
 
     </RadioGroup>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:focusedByDefault="true"
-        android:gravity="center"
-        android:text="Add Sugar Measurement"
-        android:textSize="20sp" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -123,18 +116,25 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/et_sugar_measurement"
+        <Button
+            android:id="@+id/bt_cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Sugar Measurement"
-            android:inputType="numberDecimal"
-            android:textSize="16dp" />
+            android:layout_weight="1"
+            android:text="Cancel" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <Button
+            android:id="@+id/bt_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Save" />
+
+    </LinearLayout>
 
 </LinearLayout>

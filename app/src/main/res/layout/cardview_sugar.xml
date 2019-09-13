@@ -1,12 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="8dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginLeft="16dp"
+    app:cardCornerRadius="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_sugar_value"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="100.5"
+            android:textColor="#FFFFFF"
+            android:textSize="25sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -50,41 +66,36 @@
             android:paddingLeft="16dp">
 
             <TextView
+                android:id="@+id/tv_sugar_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2019-01-01" />
 
             <TextView
+                android:id="@+id/tv_sugar_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="24:00" />
 
             <TextView
+                android:id="@+id/tv_sugar_first_measurement"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Yes" />
 
             <TextView
+                android:id="@+id/tv_sugar_meal_timing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="After" />
 
             <TextView
+                android:id="@+id/tv_sugar_associated_meal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="None" />
 
         </LinearLayout>
-
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@color/colorPrimary"
-            android:gravity="center"
-            android:text="100.5"
-            android:textColor="#FFFFFF"
-            android:textSize="25sp" />
-
 
     </LinearLayout>
 

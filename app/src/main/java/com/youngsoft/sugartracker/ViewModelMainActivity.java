@@ -36,4 +36,8 @@ public class ViewModelMainActivity extends AndroidViewModel {
     public LiveData<List<MealRecord>> getAllMealRecordsSortedByDate() {
         return allMealRecordsSortedByDate;
     }
+
+    public DataRepository getDataRepository() {
+        return dataRepository;
+    }
 }
