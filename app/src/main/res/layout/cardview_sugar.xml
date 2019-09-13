@@ -18,7 +18,7 @@
             android:id="@+id/tv_sugar_value"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorAccent1"
             android:gravity="center"
             android:text="100.5"
             android:textColor="#FFFFFF"
@@ -31,57 +31,47 @@
             android:orientation="vertical"
             android:paddingLeft="16dp">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date" />
+                android:orientation="horizontal">
 
-            <TextView
+                <TextView
+                    android:id="@+id/tv_sugar_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2019-01-01" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="   @   "/>
+
+                <TextView
+                    android:id="@+id/tv_sugar_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="24:00" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Time" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="First measurement?" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="First measurement?   " />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Before or After meal?" />
+                <TextView
+                    android:id="@+id/tv_sugar_first_measurement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Associated meal" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:paddingLeft="16dp">
-
-            <TextView
-                android:id="@+id/tv_sugar_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2019-01-01" />
-
-            <TextView
-                android:id="@+id/tv_sugar_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="24:00" />
-
-            <TextView
-                android:id="@+id/tv_sugar_first_measurement"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Yes" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_sugar_meal_timing"

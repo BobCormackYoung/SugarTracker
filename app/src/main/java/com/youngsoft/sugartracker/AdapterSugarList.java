@@ -59,9 +59,9 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
             holder.tvFirstMeasurement.setText("No");
         }
         if (currentSugarMeasurement.getMealSequence() == 1) {
-            holder.tvMealTiming.setText("Before");
+            holder.tvMealTiming.setText("Before meal");
         } else if (currentSugarMeasurement.getMealSequence() == 2 ) {
-            holder.tvMealTiming.setText("After");
+            holder.tvMealTiming.setText("After meal");
         } else {
             holder.tvMealTiming.setText("Unknown");
         }

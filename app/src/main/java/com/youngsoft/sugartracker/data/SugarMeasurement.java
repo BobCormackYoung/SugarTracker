@@ -36,7 +36,8 @@ public class SugarMeasurement {
         long tempDate = Calendar.getInstance().getTimeInMillis();
         return new SugarMeasurement[]{
                 new SugarMeasurement(tempDate, 100, 1, 1, true),
-                new SugarMeasurement(tempDate + 1000 * 60, 105, 1, -1, true)
+                new SugarMeasurement(tempDate + 1000 * 60, 105, 1, -1, true),
+                new SugarMeasurement(tempDate + 1000 * 60 * 60, 105, 2, 1, false)
         };
 
     }
