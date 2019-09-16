@@ -14,13 +14,14 @@ public class MainActivity extends AppCompatActivity {
     Fragment fragmentDashboard = new FragmentDashboard();
     Fragment fragmentSugar = new FragmentSugar();
     Fragment fragmentMeal = new FragmentMeals();
+    Fragment selectedFragment;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment selectedFragment = null;
+            selectedFragment = null;
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     selectedFragment = fragmentDashboard;

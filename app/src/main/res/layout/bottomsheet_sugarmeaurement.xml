@@ -64,6 +64,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <CheckBox
+        android:id="@+id/cb_first_measurement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -71,24 +72,25 @@
         android:text="First measurement of the day?" />
 
     <RadioGroup
+        android:id="@+id/rg_meal_timing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="16dp">
 
         <RadioButton
-            android:id="@+id/radio_no_meal"
+            android:id="@+id/rb_no_timing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="No Associated Meal" />
 
         <RadioButton
-            android:id="@+id/radio_before_meal"
+            android:id="@+id/rb_before_meal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Before Meal" />
 
         <RadioButton
-            android:id="@+id/radio_after_meal"
+            android:id="@+id/rb_after_meal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="After Meal" />
@@ -96,6 +98,7 @@
     </RadioGroup>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:paddingTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

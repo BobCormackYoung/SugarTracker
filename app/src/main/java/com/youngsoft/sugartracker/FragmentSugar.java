@@ -31,12 +31,11 @@ public class FragmentSugar extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_sugar, container, false);
 
-        bottomSheet = new BottomSheetDialogAddSugar();
-
         floatingActionButton = view.findViewById(R.id.floating_action_button);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                bottomSheet = new BottomSheetDialogAddSugar();
                 bottomSheet.show(getChildFragmentManager(), "sugarBottomSheet");
             }
         });

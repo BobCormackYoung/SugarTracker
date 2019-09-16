@@ -1,5 +1,6 @@
 package com.youngsoft.sugartracker;
 
+import android.icu.text.DecimalFormat;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +51,11 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
     @Override
     public void onBindViewHolder(@NonNull SugarListHolder holder, int position) {
         SugarMeasurement currentSugarMeasurement = getItem(position);
-        holder.tvSugarMeasurement.setText(Double.toString(currentSugarMeasurement.getMeasurement()));
+
+        // Convert the sugar measurement to 1dp when displaying
+        DecimalFormat decimalFormat = new DecimalFormat("#.0");
+        holder.tvSugarMeasurement.setText(decimalFormat.format(currentSugarMeasurement.getMeasurement()));
+
         holder.tvDate.setText(DateFormat.format("yyyy-MM-dd",currentSugarMeasurement.getDate()).toString());
         holder.tvTime.setText(DateFormat.format("HH:mm",currentSugarMeasurement.getDate()).toString());
         if (currentSugarMeasurement.getIsFirstMeasurementOfDay()) {
