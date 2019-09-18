@@ -1,6 +1,8 @@
 package com.youngsoft.sugartracker;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -141,6 +143,21 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             }
         });
 
+        etSugarValue.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                viewModelAddSugarMeasurement.setSugarMutableLiveData(Double.valueOf(etSugarValue.getText().toString()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
         etSugarAssociatedMeal.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -230,6 +247,7 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             public void onChanged(Double aDouble) {
                 //Check if null. If "yes" then clear text view. If "no" then display the value
                 if (aDouble != null) {
+                    if (aDouble == Double.valueOf(etSugarValue.getText().toString()))
                     etSugarValue.setText(Double.toString(aDouble));
                 } else {
                     etSugarValue.getText().clear();

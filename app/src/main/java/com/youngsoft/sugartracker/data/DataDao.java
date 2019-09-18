@@ -32,4 +32,7 @@ public interface DataDao {
     @Query("SELECT * FROM SugarMeasurement_Table ORDER BY date DESC")
     LiveData<List<SugarMeasurement>> getAllSugarMeasurementsSortByDate();
 
+    @Query("SELECT * FROM MealRecord_Table WHERE id=:index")
+    MealRecord getMealRecordById(int index);
+
 }

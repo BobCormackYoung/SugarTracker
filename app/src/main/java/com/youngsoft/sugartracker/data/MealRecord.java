@@ -29,7 +29,12 @@ public class MealRecord {
         long tempDate = Calendar.getInstance().getTimeInMillis();
         return new MealRecord[]{
                 new MealRecord(tempDate, "chicken", 1),
-                new MealRecord(tempDate + 1000 * 60 * 60, "chicken2", 2)
+                new MealRecord(tempDate + 1000 * 60 * 60, "chicken2", 2),
+                new MealRecord(tempDate + 2000 * 60 * 60, "chicken3", 3),
+                new MealRecord(tempDate + 3000 * 60 * 60, "chicken4", 4),
+                new MealRecord(tempDate + 4000 * 60 * 60, "chicken5", 5),
+                new MealRecord(tempDate + 5000 * 60 * 60, "chicken6", 6),
+                new MealRecord(tempDate + 6000 * 60 * 60, "chicken7", 7)
         };
 
     }

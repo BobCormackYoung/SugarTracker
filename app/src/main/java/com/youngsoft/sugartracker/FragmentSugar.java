@@ -31,7 +31,7 @@ public class FragmentSugar extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_sugar, container, false);
 
-        floatingActionButton = view.findViewById(R.id.floating_action_button);
+        floatingActionButton = view.findViewById(R.id.fab_add_sugar);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
