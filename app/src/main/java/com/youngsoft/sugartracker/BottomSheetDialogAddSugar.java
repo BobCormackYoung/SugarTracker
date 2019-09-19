@@ -108,7 +108,7 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    DialogFragment datePickerFragment = new FragmentDatePicker();
+                    DialogFragment datePickerFragment = new FragmentDatePickerSugar();
                     datePickerFragment.show(getChildFragmentManager(), "datePickerFragment");
                 }
                 //TODO: 2. Save picked date in the viewmodel
@@ -118,7 +118,7 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
         etSugarDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment datePickerFragment = new FragmentDatePicker();
+                DialogFragment datePickerFragment = new FragmentDatePickerSugar();
                 datePickerFragment.show(getChildFragmentManager(), "datePickerFragment");
                 //TODO: 2. Save picked date in the viewmodel
             }
@@ -128,7 +128,7 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    DialogFragment timePickerFragment = new FragmentTimePicker();
+                    DialogFragment timePickerFragment = new FragmentTimePickerSugar();
                     timePickerFragment.show(getChildFragmentManager(), "timePickerFragment");
                 }
                 //TODO: 2. Save picked time in the viewModel
@@ -137,7 +137,7 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
         etSugarTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment timePickerFragment = new FragmentTimePicker();
+                DialogFragment timePickerFragment = new FragmentTimePickerSugar();
                 timePickerFragment.show(getChildFragmentManager(), "timePickerFragment");
                 //TODO: 2. Save picked time in the viewModel
             }
@@ -150,6 +150,7 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.i("BSDAS","onTextChanged = " + etSugarValue.getText().toString());
                 viewModelAddSugarMeasurement.setSugarMutableLiveData(Double.valueOf(etSugarValue.getText().toString()));
             }
 
@@ -247,7 +248,15 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             public void onChanged(Double aDouble) {
                 //Check if null. If "yes" then clear text view. If "no" then display the value
                 if (aDouble != null) {
-                    if (aDouble == Double.valueOf(etSugarValue.getText().toString()))
+                    Log.i("BSDAS","aDouble = " + aDouble);
+                    //Check if value in livedata is the same as in the textview
+                    //if no, then update the view. if yes, then do nothing
+                    if (aDouble == Double.valueOf(etSugarValue.getText().toString())) /*{
+                        Log.i("BSDAS","aDouble not equal to text");
+                        etSugarValue.setText(Double.toString(aDouble));
+                    } else {
+                        Log.i("BSDAS","aDouble equal to text");
+                    }*/
                     etSugarValue.setText(Double.toString(aDouble));
                 } else {
                     etSugarValue.getText().clear();

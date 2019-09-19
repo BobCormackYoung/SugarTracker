@@ -13,15 +13,15 @@ import androidx.lifecycle.ViewModelProviders;
 
 import java.util.Calendar;
 
-public class FragmentDatePicker extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+public class FragmentDatePickerMeal extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
-    ViewModelAddSugarMeasurement viewModelAddSugarMeasurement;
+    ViewModelAddMealRecord viewModelAddMealRecord;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
-        viewModelAddSugarMeasurement = ViewModelProviders.of(getParentFragment()).get(ViewModelAddSugarMeasurement.class);
+        viewModelAddMealRecord = ViewModelProviders.of(getParentFragment()).get(ViewModelAddMealRecord.class);
 
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
@@ -47,7 +47,7 @@ public class FragmentDatePicker extends DialogFragment implements DatePickerDial
         Log.i("DatePicker","" + month);
         Log.i("DatePicker","" + dayOfMonth);
 
-        viewModelAddSugarMeasurement.setDateMutableLiveData(c.getTimeInMillis());
+        viewModelAddMealRecord.setDateMutableLiveData(c.getTimeInMillis());
 
         Calendar b = Calendar.getInstance();
         b.setTimeInMillis(0);

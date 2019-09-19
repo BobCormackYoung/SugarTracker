@@ -55,13 +55,28 @@
         android:layout_weight="1">
 
         <EditText
-            android:id="@+id/et_time_details"
+            android:id="@+id/et_meal_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Meal Details"
             android:textSize="16dp"
             android:minLines="1"
             android:maxLines="20"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:paddingTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/et_meal_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:editable="false"
+            android:hint="Meal Type"
+            android:textSize="16dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

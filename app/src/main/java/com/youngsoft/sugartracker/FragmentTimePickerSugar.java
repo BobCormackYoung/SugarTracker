@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import java.util.Calendar;
 
-public class FragmentTimePicker extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+public class FragmentTimePickerSugar extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
     ViewModelAddSugarMeasurement viewModelAddSugarMeasurement;
 

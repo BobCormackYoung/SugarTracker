@@ -68,4 +68,14 @@ public class DataRepository {
     public LiveData<List<MealRecord>> getAllMealRecordsSortedByDate() {
         return allMealRecordsSortedByDate;
     }
+
+    public void addSingleMealRecord(final MealRecord mealRecord) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                dataDao.insertSingleMealRecord(mealRecord);
+                return null;
+            }
+        }.execute();
+    }
 }

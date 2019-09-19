@@ -91,12 +91,6 @@ public class ViewModelAddSugarMeasurement extends AndroidViewModel {
     //Save and Update
     public void saveData() {
 
-        /*SugarMeasurement output = new SugarMeasurement(dateMutableLiveData.getValue()+timeMutableLiveData.getValue(),
-                sugarMutableLiveData.getValue(),
-                mealTimingMutableLiveData.getValue(),
-                associatedMealMutableLiveData.getValue(),
-                isFirstMeasurementMutableLiveData.getValue()); */
-
         Log.i("VM","Date = " + DateFormat.format("yyyy-MM-dd HH:mm", dateMutableLiveData.getValue()));
         Log.i("VM","Time = " + DateFormat.format("yyyy-MM-dd HH:mm", timeMutableLiveData.getValue()));
         Log.i("VM","Time + Date = " + DateFormat.format("yyyy-MM-dd HH:mm", dateMutableLiveData.getValue() + timeMutableLiveData.getValue()));
