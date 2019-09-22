@@ -53,25 +53,25 @@ public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.Mea
 
         switch (currentMealRecord.getType()) {
             case 1:
-                holder.tvMealType.setText("breakfast");
+                holder.tvMealType.setText("breakfast" + currentMealRecord.getId());
                 break;
             case 2:
-                holder.tvMealType.setText("brunch");
+                holder.tvMealType.setText("brunch" + currentMealRecord.getId());
                 break;
             case 3:
-                holder.tvMealType.setText("lunch");
+                holder.tvMealType.setText("lunch" + currentMealRecord.getId());
                 break;
             case 4:
-                holder.tvMealType.setText("dinner");
+                holder.tvMealType.setText("dinner" + currentMealRecord.getId());
                 break;
             case 5:
-                holder.tvMealType.setText("supper");
+                holder.tvMealType.setText("supper" + currentMealRecord.getId());
                 break;
             case 6:
-                holder.tvMealType.setText("snack");
+                holder.tvMealType.setText("snack" + currentMealRecord.getId());
                 break;
             case 7:
-                holder.tvMealType.setText("other");
+                holder.tvMealType.setText("other" + currentMealRecord.getId());
                 break;
         }
         holder.tvDate.setText(DateFormat.format("yyyy-MM-dd",currentMealRecord.getDate()).toString());

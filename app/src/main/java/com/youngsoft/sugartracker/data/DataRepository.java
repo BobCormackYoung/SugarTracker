@@ -45,20 +45,7 @@ public class DataRepository {
     }
 
     public MealRecord getMealRecordById(int index){
-        final MealRecord[] output = new MealRecord[1];
-
-        new AsyncTask<Integer, Void, MealRecord>() {
-            @Override
-            protected MealRecord doInBackground(Integer... integers) {
-                return dataDao.getMealRecordById(integers[0]);
-            }
-
-            @Override
-            protected void onPostExecute(MealRecord mealRecord) {
-                output[0] = mealRecord;
-            }
-        }.execute();
-        return output[0];
+        return dataDao.getMealRecordById(index);
     }
 
     public LiveData<List<SugarMeasurement>> getAllSugarMeasurementsSortedByDate() {

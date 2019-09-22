@@ -1,6 +1,7 @@
 package com.youngsoft.sugartracker;
 
 import android.icu.text.DecimalFormat;
+import android.os.AsyncTask;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +14,12 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.youngsoft.sugartracker.data.DataRepository;
+import com.youngsoft.sugartracker.data.MealRecord;
 import com.youngsoft.sugartracker.data.SugarMeasurement;
 
 public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugarList.SugarListHolder> {
+
+    //TODO: add delete & edit item functionality
 
     DataRepository dataRepository;
     FragmentSugar fragmentSugar;
@@ -55,7 +59,6 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
         // Convert the sugar measurement to 1dp when displaying
         DecimalFormat decimalFormat = new DecimalFormat("#.0");
         holder.tvSugarMeasurement.setText(decimalFormat.format(currentSugarMeasurement.getMeasurement()));
-
         holder.tvDate.setText(DateFormat.format("yyyy-MM-dd",currentSugarMeasurement.getDate()).toString());
         holder.tvTime.setText(DateFormat.format("HH:mm",currentSugarMeasurement.getDate()).toString());
         if (currentSugarMeasurement.getIsFirstMeasurementOfDay()) {
@@ -70,7 +73,14 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
         } else {
             holder.tvMealTiming.setText("Unknown");
         }
-        holder.tvAssociatedMeal.setText(Integer.toString(currentSugarMeasurement.getAssociatedMeal()));
+
+        if (currentSugarMeasurement.getAssociatedMeal() == -1) {
+            holder.tvAssociatedMeal.setText("None");
+        } else {
+            ParamsGetMealData paramsGetMealData = new ParamsGetMealData(holder, currentSugarMeasurement.getAssociatedMeal());
+            GetMealDataAsync getMealDataAsync = new GetMealDataAsync();
+            getMealDataAsync.execute(paramsGetMealData);
+        }
     }
 
 
@@ -91,8 +101,72 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
             tvMealTiming = itemView.findViewById(R.id.tv_sugar_meal_timing);
             tvAssociatedMeal = itemView.findViewById(R.id.tv_sugar_associated_meal);
         }
+    }
 
+    private class GetMealDataAsync extends AsyncTask<ParamsGetMealData, Void, Void> {
 
+        int index;
+        String outputDate;
+        String outputMealType;
+        MealRecord outputMealRecord;
+        ParamsGetMealData inputParams;
 
+        @Override
+        protected Void doInBackground(ParamsGetMealData... paramsGetMealData) {
+
+            inputParams = paramsGetMealData[0];
+            index = inputParams.getIndex();
+            outputMealRecord = dataRepository.getMealRecordById(index);
+            outputDate = DateFormat.format("yyyy-MM-dd HH:mm", outputMealRecord.getDate()).toString();
+            switch (outputMealRecord.getType()) {
+                case 1:
+                    outputMealType = "Breakfast";
+                    break;
+                case 2:
+                    outputMealType = "Brunch";
+                    break;
+                case 3:
+                    outputMealType = "Lunch";
+                    break;
+                case 4:
+                    outputMealType = "Dinner";
+                    break;
+                case 5:
+                    outputMealType = "Supper";
+                    break;
+                case 6:
+                    outputMealType = "Snack";
+                    break;
+                case 7:
+                    outputMealType = "Other";
+                    break;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            inputParams.getHolder().tvAssociatedMeal.setText("" + outputMealType + " | " + outputDate);
+        }
+    }
+
+    private class ParamsGetMealData {
+
+        SugarListHolder holder;
+        int index;
+
+        ParamsGetMealData(SugarListHolder holder, int index) {
+            this.holder = holder;
+            this.index = index;
+        }
+
+        public SugarListHolder getHolder() {
+            return holder;
+        }
+
+        public int getIndex() {
+            return index;
+        }
     }
 }
