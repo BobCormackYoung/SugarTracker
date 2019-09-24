@@ -65,4 +65,8 @@ public class DataRepository {
             }
         }.execute();
     }
+
+    public List<MealRecord> getMealList() {
+        return dataDao.getAllMealRecordsNonLiveData();
+    }
 }

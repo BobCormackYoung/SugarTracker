@@ -35,4 +35,6 @@ public interface DataDao {
     @Query("SELECT * FROM MealRecord_Table WHERE id=:index")
     MealRecord getMealRecordById(int index);
 
+    @Query("SELECT * FROM MealRecord_Table ORDER BY date DESC")
+    List<MealRecord> getAllMealRecordsNonLiveData();
 }

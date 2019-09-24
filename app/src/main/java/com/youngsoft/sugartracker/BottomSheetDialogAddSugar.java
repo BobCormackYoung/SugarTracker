@@ -1,5 +1,6 @@
 package com.youngsoft.sugartracker;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,6 +23,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.youngsoft.sugartracker.data.MealRecord;
 
 import java.util.Calendar;
 
@@ -111,7 +113,6 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
                     DialogFragment datePickerFragment = new FragmentDatePickerSugar();
                     datePickerFragment.show(getChildFragmentManager(), "datePickerFragment");
                 }
-                //TODO: 2. Save picked date in the viewmodel
             }
         });
 
@@ -120,7 +121,6 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 DialogFragment datePickerFragment = new FragmentDatePickerSugar();
                 datePickerFragment.show(getChildFragmentManager(), "datePickerFragment");
-                //TODO: 2. Save picked date in the viewmodel
             }
         });
 
@@ -131,7 +131,6 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
                     DialogFragment timePickerFragment = new FragmentTimePickerSugar();
                     timePickerFragment.show(getChildFragmentManager(), "timePickerFragment");
                 }
-                //TODO: 2. Save picked time in the viewModel
             }
         });
         etSugarTime.setOnClickListener(new View.OnClickListener() {
@@ -139,7 +138,6 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 DialogFragment timePickerFragment = new FragmentTimePickerSugar();
                 timePickerFragment.show(getChildFragmentManager(), "timePickerFragment");
-                //TODO: 2. Save picked time in the viewModel
             }
         });
 
@@ -166,9 +164,6 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
                     DialogFragment mealPickerFragment = new FragmentMealPicker();
                     mealPickerFragment.show(getChildFragmentManager(), "mealPickerFragment");
                 }
-                //TODO: 1. Create custom dialog
-                //TODO: 2. Launch custom dialog to pick an associated meal
-                //TODO: 3. Save data to viewModel
             }
         });
 
@@ -177,9 +172,6 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 DialogFragment mealPickerFragment = new FragmentMealPicker();
                 mealPickerFragment.show(getChildFragmentManager(), "mealPickerFragment");
-                //TODO: 1. Create custom dialog
-                //TODO: 2. Launch custom dialog to pick an associated meal
-                //TODO: 3. Save data to viewModel
             }
         });
 
@@ -276,11 +268,12 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
         // Setting observer for the associated meal, calling the ROOM to get the data & updating the UI when changed
         viewModelAddSugarMeasurement.getAssociatedMealMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
-            public void onChanged(Integer integer) {
-                if (integer == -1) {
-                    etSugarAssociatedMeal.setText("- NONE -");
+            public void onChanged(Integer index) {
+                if (index == -1) {
+                    etSugarAssociatedMeal.setText("None");
                 } else {
-                    //TODO: create call to ROOM for the respective
+                    GetMealDataAsync getMealDataAsync = new GetMealDataAsync();
+                    getMealDataAsync.execute(index);
                 }
             }
         });
@@ -300,6 +293,32 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             }
         });
 
+    }
+
+    private class GetMealDataAsync extends AsyncTask<Integer, Void, Void> {
+
+        int index;
+        String outputDate;
+        String outputMealType;
+        MealRecord outputMealRecord;
+        Integer inputIntegers;
+
+        @Override
+        protected Void doInBackground(Integer... inputIntegers) {
+
+            index = inputIntegers[0];
+            outputMealRecord = viewModelAddSugarMeasurement.getDataRepository().getMealRecordById(index);
+            outputDate = DateFormat.format("yyyy-MM-dd HH:mm", outputMealRecord.getDate()).toString();
+            Log.i("BSDAS","type " + outputMealRecord.getType());
+            outputMealType = UtilMethods.getMealType(outputMealRecord.getType());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            etSugarAssociatedMeal.setText("" + outputMealType + " | " + outputDate);
+        }
     }
 
 }

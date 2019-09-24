@@ -40,6 +40,10 @@ public class ViewModelAddSugarMeasurement extends AndroidViewModel {
 
     //Getters and Setters
 
+    public DataRepository getDataRepository() {
+        return dataRepository;
+    }
+
     public LiveData<Long> getDateMutableLiveData() {
         return dateMutableLiveData;
     }
@@ -86,6 +90,10 @@ public class ViewModelAddSugarMeasurement extends AndroidViewModel {
 
     public void setAssociatedMealMutableLiveData(int associatedMeal) {
         associatedMealMutableLiveData.setValue(associatedMeal);
+    }
+
+    public LiveData<List<MealRecord>> getMealRecordLiveData() {
+        return mealRecordLiveData;
     }
 
     //Save and Update
