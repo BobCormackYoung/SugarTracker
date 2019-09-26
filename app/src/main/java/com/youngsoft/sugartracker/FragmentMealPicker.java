@@ -71,21 +71,17 @@ public class FragmentMealPicker extends DialogFragment implements AdapterMealPic
         viewModelAddSugarMeasurement.getMealRecordLiveData().observe(getViewLifecycleOwner(), new Observer<List<MealRecord>>() {
             @Override
             public void onChanged(List<MealRecord> mealRecords) {
-                if (mealRecords.isEmpty()) {
-                    MealRecord tempMealRecord = new MealRecord(0,"None",7);
-                    tempMealRecord.setId(-1);
-                    mealRecords.add(0,tempMealRecord);
-                    adapterMealPickerList.submitList(mealRecords);
-                } else {
+                //If the 1st item in the arrayList is not "-1" i.e. no meal, the add "-1" at the top
+                //If the 1st item in the arrayList is "-1", then leave the list as-is
                     if (mealRecords.get(0).getId() != -1) {
-                        adapterMealPickerList.submitList(mealRecords);
-                    } else {
                         MealRecord tempMealRecord = new MealRecord(0,"None",7);
                         tempMealRecord.setId(-1);
                         mealRecords.add(0,tempMealRecord);
                         adapterMealPickerList.submitList(mealRecords);
+                    } else {
+                        adapterMealPickerList.submitList(mealRecords);
                     }
-                }
+
             }
         });
     }

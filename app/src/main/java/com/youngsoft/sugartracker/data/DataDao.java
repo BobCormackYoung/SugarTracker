@@ -37,4 +37,7 @@ public interface DataDao {
 
     @Query("SELECT * FROM MealRecord_Table ORDER BY date DESC")
     List<MealRecord> getAllMealRecordsNonLiveData();
+
+    @Query("SELECT COUNT(id) FROM MealRecord_Table")
+    int getMealCount();
 }

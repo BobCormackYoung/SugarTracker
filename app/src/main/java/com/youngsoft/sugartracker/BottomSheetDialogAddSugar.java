@@ -1,5 +1,6 @@
 package com.youngsoft.sugartracker;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,12 +43,16 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
     Button btSugarSave;
     RadioGroup rgMealTiming;
 
+    Context mContext;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottomsheet_sugarmeaurement, container, false);
 
         mapViews(view);
+
+        mContext = this.getContext();
 
         return view;
     }
@@ -161,8 +167,8 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    DialogFragment mealPickerFragment = new FragmentMealPicker();
-                    mealPickerFragment.show(getChildFragmentManager(), "mealPickerFragment");
+                    GetMealCountAsync getMealCountAsync= new GetMealCountAsync();
+                    getMealCountAsync.execute();
                 }
             }
         });
@@ -170,8 +176,8 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
         etSugarAssociatedMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment mealPickerFragment = new FragmentMealPicker();
-                mealPickerFragment.show(getChildFragmentManager(), "mealPickerFragment");
+                GetMealCountAsync getMealCountAsync= new GetMealCountAsync();
+                getMealCountAsync.execute();
             }
         });
 
@@ -321,4 +327,24 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
         }
     }
 
+    private class GetMealCountAsync extends AsyncTask<Void, Void, Void> {
+        int mealCount;
+
+        @Override
+        protected Void doInBackground(Void... aVoid) {
+            mealCount=viewModelAddSugarMeasurement.getDataRepository().getMealCount();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            if (mealCount != 0) {
+                DialogFragment mealPickerFragment = new FragmentMealPicker();
+                mealPickerFragment.show(getChildFragmentManager(), "mealPickerFragment");
+            } else {
+                Toast.makeText(mContext, "No meals in database!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }

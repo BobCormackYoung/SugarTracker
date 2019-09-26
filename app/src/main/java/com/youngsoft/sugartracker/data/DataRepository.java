@@ -69,4 +69,8 @@ public class DataRepository {
     public List<MealRecord> getMealList() {
         return dataDao.getAllMealRecordsNonLiveData();
     }
+
+    public int getMealCount() {
+        return dataDao.getMealCount();
+    }
 }
