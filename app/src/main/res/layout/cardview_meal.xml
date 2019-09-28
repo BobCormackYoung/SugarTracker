@@ -14,19 +14,88 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_meal_title"
-            android:text="Breakfast"
-            android:textColor="#FFFFFF"
-            android:background="@color/colorAccent1"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="16dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textAllCaps="true"/>
+            android:background="@color/colorAccent1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_meal_title"
+                android:text="Breakfast"
+                android:layout_gravity="center_vertical"
+                android:textColor="#FFFFFF"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:layout_alignParentLeft="true"/>
+
+            <TextView
+                android:id="@+id/tv_before_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@color/colorAccent1"
+                android:paddingLeft="16dp"
+                android:paddingTop="12dp"
+                android:paddingRight="4dp"
+                android:text="Before"
+                android:textAllCaps="true"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:layout_toLeftOf="@id/tv_before_value"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/tv_before_value"
+                android:textColor="#40ED4E"
+                android:background="@color/colorAccent1"
+                android:paddingTop="12dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="8dp"
+                android:textSize="12sp"
+                android:textAllCaps="true"
+                android:layout_toLeftOf="@+id/tv_after_title"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="After"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/tv_after_title"
+                android:textColor="#FFFFFF"
+                android:background="@color/colorAccent1"
+                android:paddingTop="12dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="4dp"
+                android:textSize="12sp"
+                android:textAllCaps="true"
+                android:layout_toLeftOf="@+id/tv_after_value"/>
+
+            <TextView
+                android:id="@+id/tv_after_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="3dp"
+                android:background="@color/colorAccent1"
+                android:paddingLeft="4dp"
+                android:paddingTop="12dp"
+                android:paddingRight="16dp"
+                android:text="100"
+                android:textAllCaps="true"
+                android:textColor="#ED4C40"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,7 +134,7 @@
                 android:id="@+id/tv_meal_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="2019-01-01" />
+                android:text="Some dummy data blah blah blah" />
 
         </LinearLayout>
 

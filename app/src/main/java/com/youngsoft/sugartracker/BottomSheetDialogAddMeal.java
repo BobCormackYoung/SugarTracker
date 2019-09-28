@@ -98,29 +98,7 @@ public class BottomSheetDialogAddMeal extends BottomSheetDialogFragment {
         viewModelAddMealRecord.getMealTypeMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
-                switch (integer) {
-                    case 1:
-                        etMealType.setText("breakfast");
-                        break;
-                    case 2:
-                        etMealType.setText("brunch");
-                        break;
-                    case 3:
-                        etMealType.setText("lunch");
-                        break;
-                    case 4:
-                        etMealType.setText("dinner");
-                        break;
-                    case 5:
-                        etMealType.setText("supper");
-                        break;
-                    case 6:
-                        etMealType.setText("snack");
-                        break;
-                    case 7:
-                        etMealType.setText("other");
-                        break;
-                }
+                etMealType.setText(UtilMethods.getMealType(integer));
             }
         });
 
@@ -135,7 +113,6 @@ public class BottomSheetDialogAddMeal extends BottomSheetDialogFragment {
                     DialogFragment datePickerFragment = new FragmentDatePickerMeal();
                     datePickerFragment.show(getChildFragmentManager(), "datePickerFragment");
                 }
-                //TODO: 2. Save picked date in the viewmodel
             }
         });
 
@@ -144,7 +121,6 @@ public class BottomSheetDialogAddMeal extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 DialogFragment datePickerFragment = new FragmentDatePickerMeal();
                 datePickerFragment.show(getChildFragmentManager(), "datePickerFragment");
-                //TODO: 2. Save picked date in the viewmodel
             }
         });
 
@@ -155,7 +131,6 @@ public class BottomSheetDialogAddMeal extends BottomSheetDialogFragment {
                     DialogFragment timePickerFragment = new FragmentTimePickerMeal();
                     timePickerFragment.show(getChildFragmentManager(), "timePickerFragment");
                 }
-                //TODO: 2. Save picked time in the viewModel
             }
         });
         etMealTime.setOnClickListener(new View.OnClickListener() {
@@ -163,7 +138,6 @@ public class BottomSheetDialogAddMeal extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 DialogFragment timePickerFragment = new FragmentTimePickerMeal();
                 timePickerFragment.show(getChildFragmentManager(), "timePickerFragment");
-                //TODO: 2. Save picked time in the viewModel
             }
         });
 
@@ -189,9 +163,14 @@ public class BottomSheetDialogAddMeal extends BottomSheetDialogFragment {
                     DialogFragment mealTypePickerFragment = new FragmentMealTypePicker();
                     mealTypePickerFragment.show(getChildFragmentManager(), "mealTypePickerFragment");
                 }
-                //TODO: 1. Create custom dialog
-                //TODO: 2. Launch custom dialog to pick an associated meal
-                //TODO: 3. Save data to viewModel
+            }
+        });
+
+        etMealType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment mealTypePickerFragment = new FragmentMealTypePicker();
+                mealTypePickerFragment.show(getChildFragmentManager(), "mealTypePickerFragment");
             }
         });
 
@@ -233,8 +212,8 @@ public class BottomSheetDialogAddMeal extends BottomSheetDialogFragment {
 
         viewModelAddMealRecord.setTimeMutableLiveData(calendarTime.getTimeInMillis());
 
-        //TODO: remove this next line... for debugging only
-        viewModelAddMealRecord.setMealTypeMutableLiveData(1);
+        //Init the meal type as "other" and allow to be changed later
+        viewModelAddMealRecord.setMealTypeMutableLiveData(7);
 
     }
 

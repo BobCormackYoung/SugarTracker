@@ -51,29 +51,8 @@ public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.Mea
     public void onBindViewHolder(@NonNull AdapterMealList.MealListHolder holder, int position) {
         MealRecord currentMealRecord = getItem(position);
 
-        switch (currentMealRecord.getType()) {
-            case 1:
-                holder.tvMealType.setText("breakfast" + currentMealRecord.getId());
-                break;
-            case 2:
-                holder.tvMealType.setText("brunch" + currentMealRecord.getId());
-                break;
-            case 3:
-                holder.tvMealType.setText("lunch" + currentMealRecord.getId());
-                break;
-            case 4:
-                holder.tvMealType.setText("dinner" + currentMealRecord.getId());
-                break;
-            case 5:
-                holder.tvMealType.setText("supper" + currentMealRecord.getId());
-                break;
-            case 6:
-                holder.tvMealType.setText("snack" + currentMealRecord.getId());
-                break;
-            case 7:
-                holder.tvMealType.setText("other" + currentMealRecord.getId());
-                break;
-        }
+        holder.tvMealType.setText(UtilMethods.getMealType(currentMealRecord.getType()));
+
         holder.tvDate.setText(DateFormat.format("yyyy-MM-dd",currentMealRecord.getDate()).toString());
         holder.tvTime.setText(DateFormat.format("HH:mm",currentMealRecord.getDate()).toString());
         holder.tvMealDetails.setText(currentMealRecord.getDescription());
