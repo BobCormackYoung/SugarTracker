@@ -118,29 +118,7 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
             index = inputParams.getIndex();
             outputMealRecord = dataRepository.getMealRecordById(index);
             outputDate = DateFormat.format("yyyy-MM-dd HH:mm", outputMealRecord.getDate()).toString();
-            switch (outputMealRecord.getType()) {
-                case 1:
-                    outputMealType = "Breakfast";
-                    break;
-                case 2:
-                    outputMealType = "Brunch";
-                    break;
-                case 3:
-                    outputMealType = "Lunch";
-                    break;
-                case 4:
-                    outputMealType = "Dinner";
-                    break;
-                case 5:
-                    outputMealType = "Supper";
-                    break;
-                case 6:
-                    outputMealType = "Snack";
-                    break;
-                case 7:
-                    outputMealType = "Other";
-                    break;
-            }
+            outputMealType = UtilMethods.getMealType(outputMealRecord.getType());
             return null;
         }
 

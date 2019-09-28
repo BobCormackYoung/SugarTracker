@@ -1,6 +1,9 @@
 package com.youngsoft.sugartracker;
 
+import android.icu.text.DecimalFormat;
+import android.os.AsyncTask;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.youngsoft.sugartracker.data.DataRepository;
 import com.youngsoft.sugartracker.data.MealRecord;
+import com.youngsoft.sugartracker.data.SugarMeasurement;
+
+import java.util.List;
 
 public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.MealListHolder> {
 
@@ -56,6 +62,15 @@ public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.Mea
         holder.tvDate.setText(DateFormat.format("yyyy-MM-dd",currentMealRecord.getDate()).toString());
         holder.tvTime.setText(DateFormat.format("HH:mm",currentMealRecord.getDate()).toString());
         holder.tvMealDetails.setText(currentMealRecord.getDescription());
+
+        ParamsSugarMeasurement paramsSugarMeasurement = new ParamsSugarMeasurement(holder, currentMealRecord.getId());
+        GetValueBeforeMeal getValueBeforeMeal = new GetValueBeforeMeal();
+        getValueBeforeMeal.execute(paramsSugarMeasurement);
+
+        GetValueAfterMeal getValueAfterMeal = new GetValueAfterMeal();
+        getValueAfterMeal.execute(paramsSugarMeasurement);
+
+
     }
 
     public class MealListHolder extends RecyclerView.ViewHolder{
@@ -63,6 +78,10 @@ public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.Mea
         TextView tvDate;
         TextView tvTime;
         TextView tvMealDetails;
+        TextView tvBeforeTitle;
+        TextView tvBeforeValue;
+        TextView tvAfterTitle;
+        TextView tvAfterValue;
 
         public MealListHolder(View itemView) {
             super(itemView);
@@ -70,6 +89,109 @@ public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.Mea
             tvDate = itemView.findViewById(R.id.tv_meal_date);
             tvTime = itemView.findViewById(R.id.tv_meal_time);
             tvMealDetails = itemView.findViewById(R.id.tv_meal_details);
+            tvBeforeTitle = itemView.findViewById(R.id.tv_before_title);
+            tvBeforeValue = itemView.findViewById(R.id.tv_before_value);
+            tvAfterTitle = itemView.findViewById(R.id.tv_after_title);
+            tvAfterValue = itemView.findViewById(R.id.tv_after_value);
+        }
+    }
+
+    private class GetValueBeforeMeal extends AsyncTask<ParamsSugarMeasurement, Void, Void> {
+
+        ParamsSugarMeasurement inputParams;
+        int index;
+        double outputMeasurement;
+        List<SugarMeasurement> outputList;
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            DecimalFormat decimalFormat = new DecimalFormat("#");
+            if (outputList == null) {
+                Log.i("AdapterMeal","Meal " + index + ", List size null");
+                inputParams.holder.tvBeforeValue.setText("");
+                inputParams.holder.tvBeforeTitle.setVisibility(View.INVISIBLE);
+                inputParams.holder.tvBeforeValue.setVisibility(View.INVISIBLE);
+            } else if (outputList.isEmpty()) {
+                Log.i("AdapterMeal","Meal " + index + ", List is empty");
+                inputParams.holder.tvBeforeValue.setText("");
+                inputParams.holder.tvBeforeTitle.setVisibility(View.INVISIBLE);
+                inputParams.holder.tvBeforeValue.setVisibility(View.INVISIBLE);
+            } else if (outputList.size() == 1) {
+                Log.i("AdapterMeal","Meal " + index + ", List size is 1");
+                inputParams.holder.tvBeforeValue.setText(decimalFormat.format(outputList.get(0).getMeasurement()));
+                inputParams.holder.tvBeforeTitle.setVisibility(View.VISIBLE);
+                inputParams.holder.tvBeforeValue.setVisibility(View.VISIBLE);
+            } else {
+                Log.i("AdapterMeal","Meal " + index + ", List size neither null, 1 nor empty");
+            }
+        }
+
+        @Override
+        protected Void doInBackground(ParamsSugarMeasurement... paramsSugarMeasurements) {
+            inputParams = paramsSugarMeasurements[0];
+            index = inputParams.getIndex();
+            outputList = dataRepository.getBeforeMealSugarMeasurement(index);
+            return null;
+        }
+    }
+
+    private class GetValueAfterMeal extends AsyncTask<ParamsSugarMeasurement, Void, Void> {
+
+        ParamsSugarMeasurement inputParams;
+        int index;
+        double outputMeasurement;
+        List<SugarMeasurement> outputList;
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            DecimalFormat decimalFormat = new DecimalFormat("#");
+            if (outputList == null) {
+                Log.i("AdapterMeal","Meal " + index + ", List size null");
+                inputParams.holder.tvAfterValue.setText("");
+                inputParams.holder.tvAfterTitle.setVisibility(View.INVISIBLE);
+                inputParams.holder.tvAfterValue.setVisibility(View.INVISIBLE);
+            } else if (outputList.isEmpty()) {
+                Log.i("AdapterMeal","Meal " + index + ", List is empty");
+                inputParams.holder.tvAfterValue.setText("");
+                inputParams.holder.tvAfterTitle.setVisibility(View.INVISIBLE);
+                inputParams.holder.tvAfterValue.setVisibility(View.INVISIBLE);
+            } else if (outputList.size() == 1) {
+                Log.i("AdapterMeal","Meal " + index + ", List size is 1");
+                inputParams.holder.tvAfterValue.setText(decimalFormat.format(outputList.get(0).getMeasurement()));
+                inputParams.holder.tvAfterTitle.setVisibility(View.VISIBLE);
+                inputParams.holder.tvAfterValue.setVisibility(View.VISIBLE);
+            } else {
+                Log.i("AdapterMeal","Meal " + index + ", List size neither null, 1 nor empty");
+            }
+        }
+
+        @Override
+        protected Void doInBackground(ParamsSugarMeasurement... paramsSugarMeasurements) {
+            inputParams = paramsSugarMeasurements[0];
+            index = inputParams.getIndex();
+            outputList = dataRepository.getAfterMealSugarMeasurement(index);
+            return null;
+        }
+    }
+
+    private class ParamsSugarMeasurement {
+
+        MealListHolder holder;
+        int index;
+
+        ParamsSugarMeasurement (MealListHolder holder, int index) {
+            this.holder = holder;
+            this.index = index;
+        }
+
+        public MealListHolder getHolder() {
+            return holder;
+        }
+
+        public int getIndex() {
+            return index;
         }
     }
 }

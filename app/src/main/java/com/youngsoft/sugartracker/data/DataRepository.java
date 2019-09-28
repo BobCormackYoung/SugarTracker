@@ -73,4 +73,12 @@ public class DataRepository {
     public int getMealCount() {
         return dataDao.getMealCount();
     }
+
+    public List<SugarMeasurement> getBeforeMealSugarMeasurement(int index) {
+        return dataDao.getBeforeMealSugarMeasurement(index);
+    }
+
+    public List<SugarMeasurement> getAfterMealSugarMeasurement(int index) {
+        return dataDao.getAfterMealSugarMeasurement(index);
+    }
 }

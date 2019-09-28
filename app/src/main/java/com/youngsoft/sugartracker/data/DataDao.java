@@ -40,4 +40,10 @@ public interface DataDao {
 
     @Query("SELECT COUNT(id) FROM MealRecord_Table")
     int getMealCount();
+
+    @Query("SELECT * FROM SugarMeasurement_Table WHERE mealSequence=1 AND associatedMeal=:index")
+    List<SugarMeasurement> getBeforeMealSugarMeasurement(int index);
+
+    @Query("SELECT * FROM SugarMeasurement_Table WHERE mealSequence=2 AND associatedMeal=:index")
+    List<SugarMeasurement> getAfterMealSugarMeasurement(int index);
 }
