@@ -36,7 +36,7 @@
 
             <TextView
                 android:id="@+id/tv_before_title"
-                android:layout_width="wrap_content"
+                android:layout_width="65dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:background="@color/colorAccent1"
@@ -50,7 +50,7 @@
                 android:layout_toLeftOf="@id/tv_before_value"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="33dp"
                 android:layout_height="wrap_content"
                 android:text="100"
                 android:layout_gravity="center_vertical"
@@ -65,7 +65,7 @@
                 android:layout_toLeftOf="@+id/tv_after_title"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:text="After"
                 android:layout_gravity="center_vertical"
@@ -81,7 +81,7 @@
 
             <TextView
                 android:id="@+id/tv_after_value"
-                android:layout_width="wrap_content"
+                android:layout_width="43dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="center_vertical"

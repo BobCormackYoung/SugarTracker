@@ -109,19 +109,13 @@ public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.Mea
             DecimalFormat decimalFormat = new DecimalFormat("#");
             if (outputList == null) {
                 Log.i("AdapterMeal","Meal " + index + ", List size null");
-                inputParams.holder.tvBeforeValue.setText("");
-                inputParams.holder.tvBeforeTitle.setVisibility(View.INVISIBLE);
-                inputParams.holder.tvBeforeValue.setVisibility(View.INVISIBLE);
+                inputParams.holder.tvBeforeValue.setText("-");
             } else if (outputList.isEmpty()) {
                 Log.i("AdapterMeal","Meal " + index + ", List is empty");
-                inputParams.holder.tvBeforeValue.setText("");
-                inputParams.holder.tvBeforeTitle.setVisibility(View.INVISIBLE);
-                inputParams.holder.tvBeforeValue.setVisibility(View.INVISIBLE);
+                inputParams.holder.tvBeforeValue.setText("-");
             } else if (outputList.size() == 1) {
                 Log.i("AdapterMeal","Meal " + index + ", List size is 1");
                 inputParams.holder.tvBeforeValue.setText(decimalFormat.format(outputList.get(0).getMeasurement()));
-                inputParams.holder.tvBeforeTitle.setVisibility(View.VISIBLE);
-                inputParams.holder.tvBeforeValue.setVisibility(View.VISIBLE);
             } else {
                 Log.i("AdapterMeal","Meal " + index + ", List size neither null, 1 nor empty");
             }
@@ -149,19 +143,13 @@ public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.Mea
             DecimalFormat decimalFormat = new DecimalFormat("#");
             if (outputList == null) {
                 Log.i("AdapterMeal","Meal " + index + ", List size null");
-                inputParams.holder.tvAfterValue.setText("");
-                inputParams.holder.tvAfterTitle.setVisibility(View.INVISIBLE);
-                inputParams.holder.tvAfterValue.setVisibility(View.INVISIBLE);
+                inputParams.holder.tvAfterValue.setText("-");
             } else if (outputList.isEmpty()) {
                 Log.i("AdapterMeal","Meal " + index + ", List is empty");
-                inputParams.holder.tvAfterValue.setText("");
-                inputParams.holder.tvAfterTitle.setVisibility(View.INVISIBLE);
-                inputParams.holder.tvAfterValue.setVisibility(View.INVISIBLE);
+                inputParams.holder.tvAfterValue.setText("-");
             } else if (outputList.size() == 1) {
                 Log.i("AdapterMeal","Meal " + index + ", List size is 1");
                 inputParams.holder.tvAfterValue.setText(decimalFormat.format(outputList.get(0).getMeasurement()));
-                inputParams.holder.tvAfterTitle.setVisibility(View.VISIBLE);
-                inputParams.holder.tvAfterValue.setVisibility(View.VISIBLE);
             } else {
                 Log.i("AdapterMeal","Meal " + index + ", List size neither null, 1 nor empty");
             }
