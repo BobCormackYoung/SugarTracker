@@ -1,6 +1,7 @@
 package com.youngsoft.sugartracker;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -39,5 +40,10 @@ public class ViewModelMainActivity extends AndroidViewModel {
 
     public DataRepository getDataRepository() {
         return dataRepository;
+    }
+
+    public void deleteSugarMeasurement(int index) {
+        Log.i("VMMainActivity","deleteSugarMeasurement " + index);
+        dataRepository.deleteSugarMeasurement(index);
     }
 }

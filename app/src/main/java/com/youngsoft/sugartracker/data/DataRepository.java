@@ -81,4 +81,16 @@ public class DataRepository {
     public List<SugarMeasurement> getAfterMealSugarMeasurement(int index) {
         return dataDao.getAfterMealSugarMeasurement(index);
     }
+
+    public void deleteSugarMeasurement(final int index) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                Log.i("DataRepository","deleteSugarMeasurement " + index);
+                int affectRows = dataDao.deleteSugarMeasurement(index);
+                Log.i("DataRepository","deleteSugarMeasurement affects rows " + affectRows);
+                return null;
+            }
+        }.execute();
+    }
 }

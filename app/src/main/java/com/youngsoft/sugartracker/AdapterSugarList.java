@@ -3,9 +3,11 @@ package com.youngsoft.sugartracker;
 import android.icu.text.DecimalFormat;
 import android.os.AsyncTask;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +26,8 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
     DataRepository dataRepository;
     FragmentSugar fragmentSugar;
     ViewModelMainActivity viewModelMainActivity;
+    private OnDeleteClickListener onDeleteClickListener;
+    //SugarMeasurement currentSugarMeasurement;
 
     private static final DiffUtil.ItemCallback<SugarMeasurement> DIFF_CALLBACK = new DiffUtil.ItemCallback<SugarMeasurement>() {
         @Override
@@ -37,11 +41,15 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
         }
     };
 
-    public AdapterSugarList(DataRepository dataRepository, FragmentSugar fragmentSugar, ViewModelMainActivity viewModelMainActivity) {
+    public AdapterSugarList(DataRepository dataRepository,
+                            FragmentSugar fragmentSugar,
+                            ViewModelMainActivity viewModelMainActivity,
+                            OnDeleteClickListener onDeleteClickListener) {
         super(DIFF_CALLBACK);
         this.dataRepository = dataRepository;
         this.fragmentSugar = fragmentSugar;
         this.viewModelMainActivity = viewModelMainActivity;
+        this.onDeleteClickListener = onDeleteClickListener;
     }
 
     @NonNull
@@ -54,7 +62,7 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
 
     @Override
     public void onBindViewHolder(@NonNull SugarListHolder holder, int position) {
-        SugarMeasurement currentSugarMeasurement = getItem(position);
+        final SugarMeasurement currentSugarMeasurement = getItem(position);
 
         // Convert the sugar measurement to 1dp when displaying
         DecimalFormat decimalFormat = new DecimalFormat("#.0");
@@ -68,19 +76,30 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
         }
         if (currentSugarMeasurement.getMealSequence() == 1) {
             holder.tvMealTiming.setText("Before meal");
+            holder.tvMealTiming.setVisibility(View.VISIBLE);
         } else if (currentSugarMeasurement.getMealSequence() == 2 ) {
             holder.tvMealTiming.setText("After meal");
+            holder.tvMealTiming.setVisibility(View.VISIBLE);
         } else {
-            holder.tvMealTiming.setText("Unknown");
+            holder.tvMealTiming.setVisibility(View.GONE);
         }
 
         if (currentSugarMeasurement.getAssociatedMeal() == -1) {
-            holder.tvAssociatedMeal.setText("None");
+            holder.tvAssociatedMeal.setText("No associated meal");
         } else {
             ParamsGetMealData paramsGetMealData = new ParamsGetMealData(holder, currentSugarMeasurement.getAssociatedMeal());
             GetMealDataAsync getMealDataAsync = new GetMealDataAsync();
             getMealDataAsync.execute(paramsGetMealData);
         }
+
+        holder.ibDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("AdapterSugarList","onDeleteClick " + currentSugarMeasurement.getId());
+                onDeleteClickListener.onDeleteClick(currentSugarMeasurement.getId());
+            }
+        });
+
     }
 
 
@@ -91,6 +110,8 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
         TextView tvFirstMeasurement;
         TextView tvMealTiming;
         TextView tvAssociatedMeal;
+        ImageButton ibDelete;
+        ImageButton ibEdit;
 
         public SugarListHolder(View itemView) {
             super(itemView);
@@ -100,11 +121,13 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
             tvFirstMeasurement = itemView.findViewById(R.id.tv_sugar_first_measurement);
             tvMealTiming = itemView.findViewById(R.id.tv_sugar_meal_timing);
             tvAssociatedMeal = itemView.findViewById(R.id.tv_sugar_associated_meal);
+            ibDelete = itemView.findViewById(R.id.ib_delete_sugar);
+            ibEdit = itemView.findViewById(R.id.ib_edit_sugar);
         }
     }
 
     private class GetMealDataAsync extends AsyncTask<ParamsGetMealData, Void, Void> {
-
+        //TODO: move to viewModel with a listener
         int index;
         String outputDate;
         String outputMealType;
@@ -147,4 +170,9 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
             return index;
         }
     }
+
+    public interface OnDeleteClickListener {
+        void onDeleteClick(int index);
+    }
+
 }

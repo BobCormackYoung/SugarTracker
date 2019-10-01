@@ -46,4 +46,7 @@ public interface DataDao {
 
     @Query("SELECT * FROM SugarMeasurement_Table WHERE mealSequence=2 AND associatedMeal=:index")
     List<SugarMeasurement> getAfterMealSugarMeasurement(int index);
+
+    @Query("DELETE FROM SugarMeasurement_Table WHERE id = :index")
+    int deleteSugarMeasurement(int index);
 }
