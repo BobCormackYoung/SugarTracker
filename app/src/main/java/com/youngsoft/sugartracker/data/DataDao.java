@@ -49,4 +49,10 @@ public interface DataDao {
 
     @Query("DELETE FROM SugarMeasurement_Table WHERE id = :index")
     int deleteSugarMeasurement(int index);
+
+    @Query("SELECT * FROM SugarMeasurement_Table WHERE associatedMeal=:index")
+    List<SugarMeasurement> getAssociatedSugarMeasurements(int index);
+
+    @Query("DELETE FROM MealRecord_Table WHERE id = :index")
+    int deleteMealRecord(int index);
 }

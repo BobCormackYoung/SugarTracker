@@ -107,6 +107,7 @@
                 android:paddingBottom="8dp"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="0"
                 android:orientation="vertical"
                 android:layout_gravity="center_vertical"
                 android:gravity="center">
@@ -134,7 +135,37 @@
                 android:id="@+id/tv_meal_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Some dummy data blah blah blah" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="0"
+                android:paddingRight="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp">
+
+                <ImageButton
+                    android:id="@+id/ib_delete_meal"
+                    android:clickable="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_delete_forever_24px"/>
+
+                <ImageButton
+                    android:id="@+id/ib_edit_meal"
+                    android:clickable="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@drawable/ic_edit_24px"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -155,6 +155,7 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.i("BSDAS","onTextChanged = " + etSugarValue.getText().toString());
+                //TODO: fix bug when user deletes all text from the view
                 viewModelAddSugarMeasurement.setSugarMutableLiveData(Double.valueOf(etSugarValue.getText().toString()));
             }
 

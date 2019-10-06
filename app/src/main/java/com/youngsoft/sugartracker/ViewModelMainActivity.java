@@ -46,4 +46,9 @@ public class ViewModelMainActivity extends AndroidViewModel {
         Log.i("VMMainActivity","deleteSugarMeasurement " + index);
         dataRepository.deleteSugarMeasurement(index);
     }
+
+    public void deleteMealRecord(int index) {
+        Log.i("VMMainActivity","deleteMealMeasurement " + index);
+        dataRepository.deleteMealRecord(index);
+    }
 }

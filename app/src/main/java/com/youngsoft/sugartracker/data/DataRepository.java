@@ -93,4 +93,20 @@ public class DataRepository {
             }
         }.execute();
     }
+
+    public List<SugarMeasurement> getAssociatedSugarMeasurements(int index) {
+        return dataDao.getAssociatedSugarMeasurements(index);
+    }
+
+    public void deleteMealRecord(final int index) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                Log.i("DataRepository","deleteMealMeasurement " + index);
+                int affectRows = dataDao.deleteMealRecord(index);
+                Log.i("DataRepository","deleteMealMeasurement affects rows " + affectRows);
+                return null;
+            }
+        }.execute();
+    }
 }

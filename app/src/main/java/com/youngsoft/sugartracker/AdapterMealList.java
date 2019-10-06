@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.Mea
     DataRepository dataRepository;
     FragmentMeals fragmentMeals;
     ViewModelMainActivity viewModelMainActivity;
+    private OnDeleteClickListener onDeleteClickListener;
 
     private static final DiffUtil.ItemCallback<MealRecord> DIFF_CALLBACK = new DiffUtil.ItemCallback<MealRecord>() {
         @Override
@@ -38,11 +40,15 @@ public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.Mea
         }
     };
 
-    public AdapterMealList(DataRepository dataRepository, FragmentMeals fragmentMeals, ViewModelMainActivity viewModelMainActivity) {
+    public AdapterMealList(DataRepository dataRepository,
+                           FragmentMeals fragmentMeals,
+                           ViewModelMainActivity viewModelMainActivity,
+                           OnDeleteClickListener onDeleteClickListener) {
         super(DIFF_CALLBACK);
         this.dataRepository = dataRepository;
         this.fragmentMeals = fragmentMeals;
         this.viewModelMainActivity = viewModelMainActivity;
+        this.onDeleteClickListener = onDeleteClickListener;
     }
 
     @NonNull
@@ -55,7 +61,7 @@ public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.Mea
 
     @Override
     public void onBindViewHolder(@NonNull AdapterMealList.MealListHolder holder, int position) {
-        MealRecord currentMealRecord = getItem(position);
+        final MealRecord currentMealRecord = getItem(position);
 
         holder.tvMealType.setText(UtilMethods.getMealType(currentMealRecord.getType()));
 
@@ -70,6 +76,14 @@ public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.Mea
         GetValueAfterMeal getValueAfterMeal = new GetValueAfterMeal();
         getValueAfterMeal.execute(paramsSugarMeasurement);
 
+        holder.ibDeleteMeal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("AdapterMealList","onDeleteClick " + currentMealRecord.getId());
+                onDeleteClickListener.onDeleteClick(currentMealRecord.getId());
+            }
+        });
+
 
     }
 
@@ -82,6 +96,8 @@ public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.Mea
         TextView tvBeforeValue;
         TextView tvAfterTitle;
         TextView tvAfterValue;
+        ImageButton ibDeleteMeal;
+        ImageButton ibEditMeal;
 
         public MealListHolder(View itemView) {
             super(itemView);
@@ -93,6 +109,8 @@ public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.Mea
             tvBeforeValue = itemView.findViewById(R.id.tv_before_value);
             tvAfterTitle = itemView.findViewById(R.id.tv_after_title);
             tvAfterValue = itemView.findViewById(R.id.tv_after_value);
+            ibDeleteMeal = itemView.findViewById(R.id.ib_delete_meal);
+            ibEditMeal = itemView.findViewById(R.id.ib_edit_meal);
         }
     }
 
@@ -181,5 +199,9 @@ public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.Mea
         public int getIndex() {
             return index;
         }
+    }
+
+    public interface OnDeleteClickListener {
+        void onDeleteClick(int index);
     }
 }
