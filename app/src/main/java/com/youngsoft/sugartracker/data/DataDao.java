@@ -55,4 +55,7 @@ public interface DataDao {
 
     @Query("DELETE FROM MealRecord_Table WHERE id = :index")
     int deleteMealRecord(int index);
+
+    @Query("SELECT * FROM SugarMeasurement_Table ORDER BY date")
+    LiveData<List<SugarMeasurement>> getAllSugarMeasurementsSortByDateInc();
 }

@@ -17,12 +17,14 @@ public class ViewModelMainActivity extends AndroidViewModel {
 
     private DataRepository dataRepository;
     private LiveData<List<SugarMeasurement>> allSugarMeasurementsSortedByDate;
+    private LiveData<List<SugarMeasurement>> allSugarMeasurementsSortedByDateInc;
     private LiveData<List<MealRecord>> allMealRecordsSortedByDate;
 
     public ViewModelMainActivity(@NonNull Application application) {
         super(application);
         dataRepository = new DataRepository(application);
         allSugarMeasurementsSortedByDate = dataRepository.getAllSugarMeasurementsSortedByDate();
+        allSugarMeasurementsSortedByDateInc = dataRepository.getAllSugarMeasurementsSortedByDateInc();
         allMealRecordsSortedByDate = dataRepository.getAllMealRecordsSortedByDate();
     }
 
@@ -32,6 +34,10 @@ public class ViewModelMainActivity extends AndroidViewModel {
 
     public LiveData<List<SugarMeasurement>> getAllSugarMeasurementsSortedByDate() {
         return allSugarMeasurementsSortedByDate;
+    }
+
+    public LiveData<List<SugarMeasurement>> getAllSugarMeasurementsSortedByDateInc() {
+        return allSugarMeasurementsSortedByDateInc;
     }
 
     public LiveData<List<MealRecord>> getAllMealRecordsSortedByDate() {

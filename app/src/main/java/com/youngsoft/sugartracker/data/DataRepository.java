@@ -13,12 +13,14 @@ public class DataRepository {
     private final String TAG = "DataRepository";
     private DataDao dataDao;
     private LiveData<List<SugarMeasurement>> allSugarMeasurementsSortedByDate;
+    private LiveData<List<SugarMeasurement>> allSugarMeasurementsSortedByDateInc;
     private LiveData<List<MealRecord>> allMealRecordsSortedByDate;
 
     public DataRepository(Application application) {
         DataDatabase dataDatabase = DataDatabase.getInstance(application);
         dataDao = dataDatabase.dataDao();
         allSugarMeasurementsSortedByDate = dataDao.getAllSugarMeasurementsSortByDate();
+        allSugarMeasurementsSortedByDateInc = dataDao.getAllSugarMeasurementsSortByDateInc();
         allMealRecordsSortedByDate = dataDao.getAllMealRecordsSortByDate();
     }
 
@@ -108,5 +110,9 @@ public class DataRepository {
                 return null;
             }
         }.execute();
+    }
+
+    public LiveData<List<SugarMeasurement>> getAllSugarMeasurementsSortedByDateInc() {
+        return allSugarMeasurementsSortedByDateInc;
     }
 }
