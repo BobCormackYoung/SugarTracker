@@ -59,6 +59,7 @@
             android:layout_height="wrap_content"
             android:hint="Sugar Measurement"
             android:inputType="numberDecimal"
+            android:editable="false"
             android:textSize="16dp" />
 
     </com.google.android.material.textfield.TextInputLayout>

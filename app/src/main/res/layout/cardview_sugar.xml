@@ -41,18 +41,20 @@
                     android:id="@+id/tv_sugar_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2019-01-01" />
+                    android:text="2019-01-01"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="   @   "/>
+                    android:text="  @  "/>
 
                 <TextView
                     android:id="@+id/tv_sugar_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="24:00" />
+                    android:text="24:00"
+                    android:textStyle="bold"/>
 
             </LinearLayout>
 

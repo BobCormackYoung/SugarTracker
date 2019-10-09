@@ -3,8 +3,6 @@ package com.youngsoft.sugartracker;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +23,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.youngsoft.sugartracker.data.FragmentNumberPicker;
 import com.youngsoft.sugartracker.data.MealRecord;
 
 import java.util.Calendar;
@@ -100,6 +99,8 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
         Log.i("BSF","Date" + calendarDate.getTimeInMillis());
         Log.i("BSF","Time" + calendarTime.getTimeInMillis());
 
+        viewModelAddSugarMeasurement.setSugarMutableLiveData(0);
+
         viewModelAddSugarMeasurement.setTimeMutableLiveData(calendarTime.getTimeInMillis());
 
         viewModelAddSugarMeasurement.setIsFirstMeasurementMutableLiveData(false);
@@ -147,20 +148,21 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             }
         });
 
-        etSugarValue.addTextChangedListener(new TextWatcher() {
+        etSugarValue.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void onClick(View v) {
+                DialogFragment numberPickerFragment = new FragmentNumberPicker();
+                numberPickerFragment.show(getChildFragmentManager(), "numberPickerFragment");
             }
+        });
 
+        etSugarValue.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.i("BSDAS","onTextChanged = " + etSugarValue.getText().toString());
-                //TODO: fix bug when user deletes all text from the view
-                viewModelAddSugarMeasurement.setSugarMutableLiveData(Double.valueOf(etSugarValue.getText().toString()));
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    DialogFragment numberPickerFragment = new FragmentNumberPicker();
+                    numberPickerFragment.show(getChildFragmentManager(), "numberPickerFragment");
+                }
             }
         });
 
@@ -248,14 +250,6 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
                 //Check if null. If "yes" then clear text view. If "no" then display the value
                 if (aDouble != null) {
                     Log.i("BSDAS","aDouble = " + aDouble);
-                    //Check if value in livedata is the same as in the textview
-                    //if no, then update the view. if yes, then do nothing
-                    if (aDouble == Double.valueOf(etSugarValue.getText().toString())) /*{
-                        Log.i("BSDAS","aDouble not equal to text");
-                        etSugarValue.setText(Double.toString(aDouble));
-                    } else {
-                        Log.i("BSDAS","aDouble equal to text");
-                    }*/
                     etSugarValue.setText(Double.toString(aDouble));
                 } else {
                     etSugarValue.getText().clear();

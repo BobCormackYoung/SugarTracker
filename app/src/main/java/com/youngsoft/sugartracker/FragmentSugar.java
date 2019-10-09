@@ -71,8 +71,8 @@ public class FragmentSugar extends Fragment implements AdapterSugarList.OnDelete
     public void onDeleteClick(final int index) {
         Log.i("FragmentSugar","onDeleteClick " + index);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setTitle("Confirm deletion")
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.Theme_MaterialComponents_Light_Dialog_Alert)
+                .setMessage("Are you sure you'd like to delete this record?")
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         viewModelMainActivity.deleteSugarMeasurement(index);
