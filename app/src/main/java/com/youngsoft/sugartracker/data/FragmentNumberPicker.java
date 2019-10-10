@@ -81,17 +81,19 @@ public class FragmentNumberPicker extends DialogFragment {
         viewModelAddSugarMeasurement.getSugarMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Double>() {
             @Override
             public void onChanged(Double aDouble) {
-                int hundreds = Integer.valueOf(Double.toString(aDouble/100));
-                int tens = Integer.valueOf(Double.toString((aDouble-hundreds*100)/10));
-                int ones = Integer.valueOf(Double.toString((aDouble-hundreds*100-tens*10)/1));
-                int decimals = Integer.valueOf(Double.toString((aDouble-hundreds*100-tens*10-ones)*10));
+                Double hundredsDouble = (aDouble/100);
+                int hundreds = hundredsDouble.intValue();
+                Double tensDouble = (aDouble-hundreds*100)/10;
+                int tens = tensDouble.intValue();
+                Double onesDouble = (aDouble-hundreds*100-tens*10)/1;
+                int ones = onesDouble.intValue();
+                Double decimalsDouble = (aDouble-hundreds*100-tens*10-ones)*10;
+                int decimals = decimalsDouble.intValue();
 
                 numberPickerHundreds.setValue(hundreds);
                 numberPickerTens.setValue(tens);
                 numberPickerOnes.setValue(ones);
                 numberPickerDecimals.setValue(decimals);
-
-                Log.i("FragmentNumberPicker","Observer results: " + hundreds + " " + tens + " " + ones + " " + decimals);
             }
         });
 
