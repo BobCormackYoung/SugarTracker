@@ -27,6 +27,7 @@ public class ViewModelAddSugarMeasurement extends AndroidViewModel {
     private MutableLiveData<Boolean> isFirstMeasurementMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Integer> mealTimingMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Integer> associatedMealMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<Integer> indexMutableLiveData = new MutableLiveData<>();
 
     public ViewModelAddSugarMeasurement(@NonNull Application application) {
         super(application);
@@ -62,6 +63,10 @@ public class ViewModelAddSugarMeasurement extends AndroidViewModel {
 
     public LiveData<Double> getSugarMutableLiveData() {
         return sugarMutableLiveData;
+    }
+
+    public void setIndexMutableLiveData(int index) {
+        indexMutableLiveData.setValue(index);
     }
 
     public void setSugarMutableLiveData(double sugarValue) {
@@ -113,5 +118,16 @@ public class ViewModelAddSugarMeasurement extends AndroidViewModel {
                 mealTimingMutableLiveData.getValue(),
                 associatedMealMutableLiveData.getValue(),
                 isFirstMeasurementMutableLiveData.getValue()));
+    }
+
+    public void updateData() {
+        SugarMeasurement outputSugarMeasurement = new SugarMeasurement(
+                dateMutableLiveData.getValue()+timeMutableLiveData.getValue(),
+                sugarMutableLiveData.getValue(),
+                mealTimingMutableLiveData.getValue(),
+                associatedMealMutableLiveData.getValue(),
+                isFirstMeasurementMutableLiveData.getValue());
+        outputSugarMeasurement.setId(indexMutableLiveData.getValue());
+        dataRepository.updateSugarMeasurementEntry(outputSugarMeasurement);
     }
 }

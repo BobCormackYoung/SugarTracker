@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -58,4 +59,10 @@ public interface DataDao {
 
     @Query("SELECT * FROM SugarMeasurement_Table ORDER BY date")
     LiveData<List<SugarMeasurement>> getAllSugarMeasurementsSortByDateInc();
+
+    @Query("SELECT * FROM SugarMeasurement_Table WHERE id=:index")
+    SugarMeasurement getSugarMeasurementById(int index);
+
+    @Update
+    void updateSugarMeasurementEntry(SugarMeasurement... outputSugarMeasurements);
 }

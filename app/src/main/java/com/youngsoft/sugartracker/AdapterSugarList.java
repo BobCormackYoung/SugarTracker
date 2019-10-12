@@ -27,6 +27,7 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
     FragmentSugar fragmentSugar;
     ViewModelMainActivity viewModelMainActivity;
     private OnDeleteClickListener onDeleteClickListener;
+    private OnEditClickListener onEditClickListener;
     //SugarMeasurement currentSugarMeasurement;
 
     private static final DiffUtil.ItemCallback<SugarMeasurement> DIFF_CALLBACK = new DiffUtil.ItemCallback<SugarMeasurement>() {
@@ -44,12 +45,14 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
     public AdapterSugarList(DataRepository dataRepository,
                             FragmentSugar fragmentSugar,
                             ViewModelMainActivity viewModelMainActivity,
-                            OnDeleteClickListener onDeleteClickListener) {
+                            OnDeleteClickListener onDeleteClickListener,
+                            OnEditClickListener onEditClickListener) {
         super(DIFF_CALLBACK);
         this.dataRepository = dataRepository;
         this.fragmentSugar = fragmentSugar;
         this.viewModelMainActivity = viewModelMainActivity;
         this.onDeleteClickListener = onDeleteClickListener;
+        this.onEditClickListener = onEditClickListener;
     }
 
     @NonNull
@@ -97,6 +100,14 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
             public void onClick(View v) {
                 Log.i("AdapterSugarList","onDeleteClick " + currentSugarMeasurement.getId());
                 onDeleteClickListener.onDeleteClick(currentSugarMeasurement.getId());
+            }
+        });
+
+        holder.ibEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("AdapterSugarList","onEditClick " + currentSugarMeasurement.getId());
+                onEditClickListener.onEditClick(currentSugarMeasurement.getId());
             }
         });
 
@@ -173,6 +184,10 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
 
     public interface OnDeleteClickListener {
         void onDeleteClick(int index);
+    }
+
+    public interface OnEditClickListener {
+        void onEditClick(int index);
     }
 
 }

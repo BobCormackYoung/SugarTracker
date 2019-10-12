@@ -17,18 +17,23 @@ public class FragmentTimePickerSugar extends DialogFragment implements TimePicke
 
     ViewModelAddSugarMeasurement viewModelAddSugarMeasurement;
 
+    //TODO: read time data from the viewModel & set that as the initialised value instead of it being passed as a bundle
+    long inputTime;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
         viewModelAddSugarMeasurement = ViewModelProviders.of(getParentFragment()).get(ViewModelAddSugarMeasurement.class);
 
+        inputTime = getArguments().getLong("inputTime");
+
         final Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(inputTime);
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
 
-        return new TimePickerDialog(getParentFragment().getActivity(), this, hour, minute,
-                true);
+        return new TimePickerDialog(getParentFragment().getActivity(), this, hour, minute,true);
     }
 
     @Override

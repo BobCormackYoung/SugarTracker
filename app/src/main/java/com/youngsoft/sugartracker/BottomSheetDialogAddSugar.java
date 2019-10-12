@@ -23,8 +23,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.youngsoft.sugartracker.data.FragmentNumberPicker;
 import com.youngsoft.sugartracker.data.MealRecord;
+import com.youngsoft.sugartracker.data.SugarMeasurement;
 
 import java.util.Calendar;
 
@@ -41,6 +41,10 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
     Button btSugarCancel;
     Button btSugarSave;
     RadioGroup rgMealTiming;
+    int sugarMeasurementEntryId;
+
+    long date;
+    long time;
 
     Context mContext;
 
@@ -48,11 +52,12 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottomsheet_sugarmeaurement, container, false);
-
         mapViews(view);
-
         mContext = this.getContext();
 
+        //Get the entryId - required if editing an existing entry
+        // if a there is no value passed, default value is -1, triggering data fields for a new entry
+        sugarMeasurementEntryId = getArguments().getInt("EntryId",-1);
         return view;
     }
 
@@ -62,10 +67,23 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
 
         viewModelAddSugarMeasurement = ViewModelProviders.of(this).get(ViewModelAddSugarMeasurement.class);
 
-        initNewData();
+        if (sugarMeasurementEntryId == -1) {
+            //new data entry, initialise the data as a clean entry
+            initNewData();
+        } else {
+            //existing data entry, initialise the data as an existing entry
+            initNewData(); // first init clean entry values... to wait for asyn-task to finish on calling existing data
+            //TODO: avoid initialising clean data first
+            initExistingData();
+        }
+
         setOnClickListeners();
         setObservers();
+    }
 
+    private void initExistingData() {
+        GetSugarMeasurementEntry getSugarMeasurementEntry = new GetSugarMeasurementEntry();
+        getSugarMeasurementEntry.execute(sugarMeasurementEntryId);
     }
 
     private void mapViews(View view) {
@@ -118,6 +136,9 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     DialogFragment datePickerFragment = new FragmentDatePickerSugar();
+                    Bundle inputs = new Bundle();
+                    inputs.putLong("inputDate",date);
+                    datePickerFragment.setArguments(inputs);
                     datePickerFragment.show(getChildFragmentManager(), "datePickerFragment");
                 }
             }
@@ -127,6 +148,9 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 DialogFragment datePickerFragment = new FragmentDatePickerSugar();
+                Bundle inputs = new Bundle();
+                inputs.putLong("inputDate",date);
+                datePickerFragment.setArguments(inputs);
                 datePickerFragment.show(getChildFragmentManager(), "datePickerFragment");
             }
         });
@@ -136,6 +160,9 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     DialogFragment timePickerFragment = new FragmentTimePickerSugar();
+                    Bundle inputs = new Bundle();
+                    inputs.putLong("inputTime",time);
+                    timePickerFragment.setArguments(inputs);
                     timePickerFragment.show(getChildFragmentManager(), "timePickerFragment");
                 }
             }
@@ -144,6 +171,9 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 DialogFragment timePickerFragment = new FragmentTimePickerSugar();
+                Bundle inputs = new Bundle();
+                inputs.putLong("inputTime",time);
+                timePickerFragment.setArguments(inputs);
                 timePickerFragment.show(getChildFragmentManager(), "timePickerFragment");
             }
         });
@@ -209,7 +239,14 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
         btSugarSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModelAddSugarMeasurement.saveData();
+                if (sugarMeasurementEntryId == -1) {
+                    //new entry, save as a new row in the database
+                    viewModelAddSugarMeasurement.saveData();
+                } else {
+                    //existing entry, update the row in the database with new data
+                    viewModelAddSugarMeasurement.updateData();
+                }
+
                 dismiss();
             }
         });
@@ -230,6 +267,7 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             @Override
             public void onChanged(Long aLong) {
                 etSugarDate.setText(DateFormat.format("yyyy-MM-dd", aLong).toString());
+                date = aLong;
                 Log.i("BSF","Date" + aLong);
             }
         });
@@ -239,6 +277,7 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             @Override
             public void onChanged(Long aLong) {
                 etSugarTime.setText(DateFormat.format("HH:mm", aLong).toString());
+                time = aLong;
                 Log.i("BSF","Time" + aLong);
             }
         });
@@ -302,7 +341,6 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
         String outputDate;
         String outputMealType;
         MealRecord outputMealRecord;
-        Integer inputIntegers;
 
         @Override
         protected Void doInBackground(Integer... inputIntegers) {
@@ -340,6 +378,46 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             } else {
                 Toast.makeText(mContext, "No meals in database!", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    private class GetSugarMeasurementEntry extends AsyncTask<Integer, Void, Void> {
+
+        int index;
+        SugarMeasurement inputSugarMeasurement;
+
+        @Override
+        protected Void doInBackground(Integer... inputIntegers) {
+            index = inputIntegers[0];
+            inputSugarMeasurement = viewModelAddSugarMeasurement.getDataRepository().getSugarMeasurementById(index);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            //TODO: move this calendar modification work to utils
+            Calendar calendarDate = Calendar.getInstance();
+            calendarDate.setTimeInMillis(inputSugarMeasurement.getDate());
+            calendarDate.set(Calendar.HOUR, 1);
+            calendarDate.set(Calendar.MINUTE, 0);
+            calendarDate.set(Calendar.SECOND, 0);
+            calendarDate.set(Calendar.MILLISECOND, 0);
+
+            Calendar calendarTime = Calendar.getInstance();
+            calendarTime.setTimeInMillis(inputSugarMeasurement.getDate());
+            calendarTime.set(Calendar.YEAR, 1970);
+            calendarTime.set(Calendar.MONTH, 0);
+            calendarTime.set(Calendar.DAY_OF_MONTH, 1);
+
+            viewModelAddSugarMeasurement.setIndexMutableLiveData(index);
+            viewModelAddSugarMeasurement.setDateMutableLiveData(calendarDate.getTimeInMillis());
+            viewModelAddSugarMeasurement.setSugarMutableLiveData(inputSugarMeasurement.getMeasurement());
+            viewModelAddSugarMeasurement.setTimeMutableLiveData(calendarTime.getTimeInMillis());
+            viewModelAddSugarMeasurement.setIsFirstMeasurementMutableLiveData(inputSugarMeasurement.getIsFirstMeasurementOfDay());
+            viewModelAddSugarMeasurement.setAssociatedMealMutableLiveData(inputSugarMeasurement.getAssociatedMeal());
+            viewModelAddSugarMeasurement.setMealTimingMutableLiveData(inputSugarMeasurement.getMealSequence());
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.youngsoft.sugartracker.data;
+package com.youngsoft.sugartracker;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -15,9 +15,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-
-import com.youngsoft.sugartracker.R;
-import com.youngsoft.sugartracker.ViewModelAddSugarMeasurement;
 
 public class FragmentNumberPicker extends DialogFragment {
 
@@ -107,10 +104,14 @@ public class FragmentNumberPicker extends DialogFragment {
     }
 
     private void saveData() {
-        double outputValue = numberPickerHundreds.getValue()*100+
-                numberPickerTens.getValue()*10+
-                numberPickerOnes.getValue()+
-                numberPickerDecimals.getValue()/10;
+        double outputValue = (double) numberPickerHundreds.getValue()*100+
+                (double) numberPickerTens.getValue()*10+
+                (double) numberPickerOnes.getValue()+
+                (double) numberPickerDecimals.getValue()/10;
+        Log.i("FragmentNumberPicker","" + numberPickerHundreds.getValue());
+        Log.i("FragmentNumberPicker","" + numberPickerTens.getValue());
+        Log.i("FragmentNumberPicker","" + numberPickerOnes.getValue());
+        Log.i("FragmentNumberPicker","" + numberPickerDecimals.getValue());
         Log.i("FragmentNumberPicker","" + outputValue);
         viewModelAddSugarMeasurement.setSugarMutableLiveData(outputValue);
         dismiss();

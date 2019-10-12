@@ -20,7 +20,7 @@ import com.youngsoft.sugartracker.data.SugarMeasurement;
 
 import java.util.List;
 
-public class FragmentSugar extends Fragment implements AdapterSugarList.OnDeleteClickListener {
+public class FragmentSugar extends Fragment implements AdapterSugarList.OnDeleteClickListener, AdapterSugarList.OnEditClickListener{
 
     View view;
     FloatingActionButton floatingActionButton;
@@ -39,6 +39,9 @@ public class FragmentSugar extends Fragment implements AdapterSugarList.OnDelete
             @Override
             public void onClick(View v) {
                 bottomSheet = new BottomSheetDialogAddSugar();
+                Bundle inputs = new Bundle();
+                inputs.putInt("EntryId",-1);
+                bottomSheet.setArguments(inputs);
                 bottomSheet.show(getChildFragmentManager(), "sugarBottomSheet");
             }
         });
@@ -57,7 +60,7 @@ public class FragmentSugar extends Fragment implements AdapterSugarList.OnDelete
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
 
-        adapterSugarList = new AdapterSugarList(viewModelMainActivity.getDataRepository(), this, viewModelMainActivity, this);
+        adapterSugarList = new AdapterSugarList(viewModelMainActivity.getDataRepository(), this, viewModelMainActivity, this, this);
         recyclerView.setAdapter(adapterSugarList);
         viewModelMainActivity.getAllSugarMeasurementsSortedByDate().observe(getViewLifecycleOwner(), new Observer<List<SugarMeasurement>>() {
             @Override
@@ -85,6 +88,15 @@ public class FragmentSugar extends Fragment implements AdapterSugarList.OnDelete
                 });
 
         builder.create().show();
+    }
 
+    @Override
+    public void onEditClick(int index) {
+        Log.i("FragmentSugar","onEditClick " + index);
+        bottomSheet = new BottomSheetDialogAddSugar();
+        Bundle inputs = new Bundle();
+        inputs.putInt("EntryId",index);
+        bottomSheet.setArguments(inputs);
+        bottomSheet.show(getChildFragmentManager(), "sugarBottomSheet");
     }
 }

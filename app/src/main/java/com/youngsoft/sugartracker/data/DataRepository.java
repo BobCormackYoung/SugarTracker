@@ -115,4 +115,19 @@ public class DataRepository {
     public LiveData<List<SugarMeasurement>> getAllSugarMeasurementsSortedByDateInc() {
         return allSugarMeasurementsSortedByDateInc;
     }
+
+    public SugarMeasurement getSugarMeasurementById(int index) {
+        return dataDao.getSugarMeasurementById(index);
+    }
+
+    public void updateSugarMeasurementEntry(final SugarMeasurement outputSugarMeasurement) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                Log.i("DataRepository","UpdateSugarMeasurement " + outputSugarMeasurement.getId());
+                dataDao.updateSugarMeasurementEntry(outputSugarMeasurement);
+                return null;
+            }
+        }.execute();
+    }
 }
