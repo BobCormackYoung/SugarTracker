@@ -130,4 +130,15 @@ public class DataRepository {
             }
         }.execute();
     }
+
+    public void updateMealRecord(final MealRecord outputMealRecord) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                Log.i("DataRepository","UpdateMealRecord " + outputMealRecord.getId());
+                dataDao.updateMealRecordEntry(outputMealRecord);
+                return null;
+            }
+        }.execute();
+    }
 }

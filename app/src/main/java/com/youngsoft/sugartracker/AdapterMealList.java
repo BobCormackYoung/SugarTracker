@@ -27,6 +27,7 @@ public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.Mea
     FragmentMeals fragmentMeals;
     ViewModelMainActivity viewModelMainActivity;
     private OnDeleteClickListener onDeleteClickListener;
+    private OnEditClickListener onEditClickListener;
 
     private static final DiffUtil.ItemCallback<MealRecord> DIFF_CALLBACK = new DiffUtil.ItemCallback<MealRecord>() {
         @Override
@@ -43,12 +44,14 @@ public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.Mea
     public AdapterMealList(DataRepository dataRepository,
                            FragmentMeals fragmentMeals,
                            ViewModelMainActivity viewModelMainActivity,
-                           OnDeleteClickListener onDeleteClickListener) {
+                           OnDeleteClickListener onDeleteClickListener,
+                           OnEditClickListener onEditClickListener) {
         super(DIFF_CALLBACK);
         this.dataRepository = dataRepository;
         this.fragmentMeals = fragmentMeals;
         this.viewModelMainActivity = viewModelMainActivity;
         this.onDeleteClickListener = onDeleteClickListener;
+        this.onEditClickListener = onEditClickListener;
     }
 
     @NonNull
@@ -81,6 +84,14 @@ public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.Mea
             public void onClick(View v) {
                 Log.i("AdapterMealList","onDeleteClick " + currentMealRecord.getId());
                 onDeleteClickListener.onDeleteClick(currentMealRecord.getId());
+            }
+        });
+
+        holder.ibEditMeal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("AdapterMealList","onEditClick " + currentMealRecord.getId());
+                onEditClickListener.onEditClick(currentMealRecord.getId());
             }
         });
 
@@ -203,5 +214,9 @@ public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.Mea
 
     public interface OnDeleteClickListener {
         void onDeleteClick(int index);
+    }
+
+    public interface OnEditClickListener {
+        void onEditClick(int index);
     }
 }

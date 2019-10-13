@@ -65,4 +65,7 @@ public interface DataDao {
 
     @Update
     void updateSugarMeasurementEntry(SugarMeasurement... outputSugarMeasurements);
+
+    @Update
+    void updateMealRecordEntry(MealRecord... outputMealRecords);
 }

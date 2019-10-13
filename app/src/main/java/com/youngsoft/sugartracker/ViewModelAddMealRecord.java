@@ -16,6 +16,7 @@ public class ViewModelAddMealRecord extends AndroidViewModel {
 
     private DataRepository dataRepository;
 
+    private MutableLiveData<Integer> indexMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Long> dateMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Long> timeMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<String> mealMutableLiveData = new MutableLiveData<>();
@@ -79,5 +80,18 @@ public class ViewModelAddMealRecord extends AndroidViewModel {
                 dateMutableLiveData.getValue()+timeMutableLiveData.getValue(),
                 mealMutableLiveData.getValue(),
                 mealTypeMutableLiveData.getValue()));
+    }
+
+    public void setIndexMutableLiveData(int index) {
+        indexMutableLiveData.setValue(index);
+    }
+
+    public void updateData() {
+        MealRecord outputMealRecord = new MealRecord(
+                dateMutableLiveData.getValue()+timeMutableLiveData.getValue(),
+                mealMutableLiveData.getValue(),
+                mealTypeMutableLiveData.getValue());
+        outputMealRecord.setId(indexMutableLiveData.getValue());
+        dataRepository.updateMealRecord(outputMealRecord);
     }
 }

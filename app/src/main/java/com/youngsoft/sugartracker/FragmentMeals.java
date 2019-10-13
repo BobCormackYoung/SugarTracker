@@ -23,7 +23,7 @@ import com.youngsoft.sugartracker.data.SugarMeasurement;
 
 import java.util.List;
 
-public class FragmentMeals extends Fragment implements AdapterMealList.OnDeleteClickListener {
+public class FragmentMeals extends Fragment implements AdapterMealList.OnDeleteClickListener, AdapterMealList.OnEditClickListener{
 
     View view;
     FloatingActionButton floatingActionButton;
@@ -62,7 +62,7 @@ public class FragmentMeals extends Fragment implements AdapterMealList.OnDeleteC
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
 
-        adapterMealList = new AdapterMealList(viewModelMainActivity.getDataRepository(), this, viewModelMainActivity, this);
+        adapterMealList = new AdapterMealList(viewModelMainActivity.getDataRepository(), this, viewModelMainActivity, this, this);
         recyclerView.setAdapter(adapterMealList);
         viewModelMainActivity.getAllMealRecordsSortedByDate().observe(getViewLifecycleOwner(), new Observer<List<MealRecord>>() {
             @Override
@@ -139,5 +139,15 @@ public class FragmentMeals extends Fragment implements AdapterMealList.OnDeleteC
                 builder.create().show();
             }
         }
+    }
+
+    @Override
+    public void onEditClick(int index) {
+        Log.i("FragmentSugar","onEditClick " + index);
+        bottomSheet = new BottomSheetDialogAddMeal();
+        Bundle inputs = new Bundle();
+        inputs.putInt("EntryId",index);
+        bottomSheet.setArguments(inputs);
+        bottomSheet.show(getChildFragmentManager(), "mealBottomSheet");
     }
 }

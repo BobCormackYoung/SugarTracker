@@ -17,13 +17,19 @@ public class FragmentDatePickerMeal extends DialogFragment implements DatePicker
 
     ViewModelAddMealRecord viewModelAddMealRecord;
 
+    //TODO: read date data from the viewModel & set that as the initialised value instead of it being passed as a bundle
+    long inputDate;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
         viewModelAddMealRecord = ViewModelProviders.of(getParentFragment()).get(ViewModelAddMealRecord.class);
 
+        inputDate = getArguments().getLong("inputDate");
+
         Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(inputDate);
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day= c.get(Calendar.DAY_OF_MONTH);

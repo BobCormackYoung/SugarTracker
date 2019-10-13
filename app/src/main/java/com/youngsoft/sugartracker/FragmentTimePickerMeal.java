@@ -17,13 +17,19 @@ public class FragmentTimePickerMeal extends DialogFragment implements TimePicker
 
     ViewModelAddMealRecord viewModelAddMealRecord;
 
+    //TODO: read time data from the viewModel & set that as the initialised value instead of it being passed as a bundle
+    long inputTime;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
         viewModelAddMealRecord = ViewModelProviders.of(getParentFragment()).get(ViewModelAddMealRecord.class);
 
+        inputTime = getArguments().getLong("inputTime");
+
         final Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(inputTime);
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
 

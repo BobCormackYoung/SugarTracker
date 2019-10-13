@@ -41,6 +41,7 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
     Button btSugarCancel;
     Button btSugarSave;
     RadioGroup rgMealTiming;
+
     int sugarMeasurementEntryId;
 
     long date;

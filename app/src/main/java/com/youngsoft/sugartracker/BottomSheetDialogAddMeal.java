@@ -1,5 +1,6 @@
 package com.youngsoft.sugartracker;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,6 +20,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.youngsoft.sugartracker.data.MealRecord;
 
 import java.util.Calendar;
 
@@ -34,10 +36,19 @@ public class BottomSheetDialogAddMeal extends BottomSheetDialogFragment {
     Button btMealCancel;
     Button btMealSave;
 
+    int mealRecordId;
+
+    long date;
+    long time;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.bottomsheet_mealrecord, container, false);
+
+        //Get the entryId - required if editing an existing entry
+        // if a there is no value passed, default value is -1, triggering data fields for a new entry
+        mealRecordId = getArguments().getInt("EntryId",-1);
 
         mapViews(view);
         
@@ -50,10 +61,24 @@ public class BottomSheetDialogAddMeal extends BottomSheetDialogFragment {
 
         viewModelAddMealRecord = ViewModelProviders.of(this).get(ViewModelAddMealRecord.class);
 
-        initNewData();
+        if (mealRecordId == -1) {
+            //new data entry, initialise the data as a clean entry
+            initNewData();
+        } else {
+            //existing data entry, initialise the data as an existing entry
+            initNewData(); // first init clean entry values... to wait for asyn-task to finish on calling existing data
+            //TODO: avoid initialising clean data first
+            initExistingData();
+        }
+        
         setOnClickListeners();
         setObservers();
 
+    }
+
+    private void initExistingData() {
+        GetMealRecordEntry getSugarMeasurementEntry = new GetMealRecordEntry();
+        getSugarMeasurementEntry.execute(mealRecordId);
     }
 
     private void setObservers() {
@@ -63,6 +88,7 @@ public class BottomSheetDialogAddMeal extends BottomSheetDialogFragment {
             @Override
             public void onChanged(Long aLong) {
                 etMealDate.setText(DateFormat.format("yyyy-MM-dd", aLong).toString());
+                date = aLong;
                 Log.i("BSF","Date" + aLong);
             }
         });
@@ -72,6 +98,7 @@ public class BottomSheetDialogAddMeal extends BottomSheetDialogFragment {
             @Override
             public void onChanged(Long aLong) {
                 etMealTime.setText(DateFormat.format("HH:mm", aLong).toString());
+                time = aLong;
                 Log.i("BSF","Time" + aLong);
             }
         });
@@ -111,6 +138,9 @@ public class BottomSheetDialogAddMeal extends BottomSheetDialogFragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     DialogFragment datePickerFragment = new FragmentDatePickerMeal();
+                    Bundle inputs = new Bundle();
+                    inputs.putLong("inputDate",date);
+                    datePickerFragment.setArguments(inputs);
                     datePickerFragment.show(getChildFragmentManager(), "datePickerFragment");
                 }
             }
@@ -120,6 +150,9 @@ public class BottomSheetDialogAddMeal extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 DialogFragment datePickerFragment = new FragmentDatePickerMeal();
+                Bundle inputs = new Bundle();
+                inputs.putLong("inputDate",date);
+                datePickerFragment.setArguments(inputs);
                 datePickerFragment.show(getChildFragmentManager(), "datePickerFragment");
             }
         });
@@ -129,6 +162,9 @@ public class BottomSheetDialogAddMeal extends BottomSheetDialogFragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     DialogFragment timePickerFragment = new FragmentTimePickerMeal();
+                    Bundle inputs = new Bundle();
+                    inputs.putLong("inputTime",time);
+                    timePickerFragment.setArguments(inputs);
                     timePickerFragment.show(getChildFragmentManager(), "timePickerFragment");
                 }
             }
@@ -137,6 +173,9 @@ public class BottomSheetDialogAddMeal extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 DialogFragment timePickerFragment = new FragmentTimePickerMeal();
+                Bundle inputs = new Bundle();
+                inputs.putLong("inputTime",time);
+                timePickerFragment.setArguments(inputs);
                 timePickerFragment.show(getChildFragmentManager(), "timePickerFragment");
             }
         });
@@ -177,7 +216,13 @@ public class BottomSheetDialogAddMeal extends BottomSheetDialogFragment {
         btMealSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModelAddMealRecord.saveData();
+                if (mealRecordId == -1) {
+                    //new entry, save as a new row in the database
+                    viewModelAddMealRecord.saveData();
+                } else {
+                    //existing entry, update the row in the database with new data
+                    viewModelAddMealRecord.updateData();
+                }
                 dismiss();
             }
         });
@@ -224,5 +269,43 @@ public class BottomSheetDialogAddMeal extends BottomSheetDialogFragment {
         etMealType = view.findViewById(R.id.et_meal_type);
         btMealSave = view.findViewById(R.id.bt_save);
         btMealCancel = view.findViewById(R.id.bt_cancel);
+    }
+
+    private class GetMealRecordEntry extends AsyncTask<Integer, Void, Void> {
+
+        int index;
+        MealRecord inputMealRecord;
+
+        @Override
+        protected Void doInBackground(Integer... inputIntegers) {
+            index = inputIntegers[0];
+            inputMealRecord = viewModelAddMealRecord.getDataRepository().getMealRecordById(index);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            //TODO: move this calendar modification work to utils
+            Calendar calendarDate = Calendar.getInstance();
+            calendarDate.setTimeInMillis(inputMealRecord.getDate());
+            calendarDate.set(Calendar.HOUR, 1);
+            calendarDate.set(Calendar.MINUTE, 0);
+            calendarDate.set(Calendar.SECOND, 0);
+            calendarDate.set(Calendar.MILLISECOND, 0);
+
+            Calendar calendarTime = Calendar.getInstance();
+            calendarTime.setTimeInMillis(inputMealRecord.getDate());
+            calendarTime.set(Calendar.YEAR, 1970);
+            calendarTime.set(Calendar.MONTH, 0);
+            calendarTime.set(Calendar.DAY_OF_MONTH, 1);
+
+            viewModelAddMealRecord.setIndexMutableLiveData(index);
+            viewModelAddMealRecord.setDateMutableLiveData(calendarDate.getTimeInMillis());
+            viewModelAddMealRecord.setTimeMutableLiveData(calendarTime.getTimeInMillis());
+            viewModelAddMealRecord.setMealMutableLiveData(inputMealRecord.getDescription());
+            viewModelAddMealRecord.setMealTypeMutableLiveData(inputMealRecord.getType());
+        }
     }
 }
