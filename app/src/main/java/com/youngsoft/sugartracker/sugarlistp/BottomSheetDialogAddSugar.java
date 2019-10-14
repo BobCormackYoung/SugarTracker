@@ -1,4 +1,4 @@
-package com.youngsoft.sugartracker;
+package com.youngsoft.sugartracker.sugarlistp;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -23,6 +23,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.youngsoft.sugartracker.R;
+import com.youngsoft.sugartracker.UtilMethods;
 import com.youngsoft.sugartracker.data.MealRecord;
 import com.youngsoft.sugartracker.data.SugarMeasurement;
 

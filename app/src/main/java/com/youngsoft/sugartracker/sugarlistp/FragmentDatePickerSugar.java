@@ -1,4 +1,4 @@
-package com.youngsoft.sugartracker;
+package com.youngsoft.sugartracker.sugarlistp;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -13,9 +13,9 @@ import androidx.lifecycle.ViewModelProviders;
 
 import java.util.Calendar;
 
-public class FragmentDatePickerMeal extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+public class FragmentDatePickerSugar extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
-    ViewModelAddMealRecord viewModelAddMealRecord;
+    ViewModelAddSugarMeasurement viewModelAddSugarMeasurement;
 
     //TODO: read date data from the viewModel & set that as the initialised value instead of it being passed as a bundle
     long inputDate;
@@ -24,9 +24,9 @@ public class FragmentDatePickerMeal extends DialogFragment implements DatePicker
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
-        viewModelAddMealRecord = ViewModelProviders.of(getParentFragment()).get(ViewModelAddMealRecord.class);
-
         inputDate = getArguments().getLong("inputDate");
+
+        viewModelAddSugarMeasurement = ViewModelProviders.of(getParentFragment()).get(ViewModelAddSugarMeasurement.class);
 
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(inputDate);
@@ -53,7 +53,7 @@ public class FragmentDatePickerMeal extends DialogFragment implements DatePicker
         Log.i("DatePicker","" + month);
         Log.i("DatePicker","" + dayOfMonth);
 
-        viewModelAddMealRecord.setDateMutableLiveData(c.getTimeInMillis());
+        viewModelAddSugarMeasurement.setDateMutableLiveData(c.getTimeInMillis());
 
         Calendar b = Calendar.getInstance();
         b.setTimeInMillis(0);

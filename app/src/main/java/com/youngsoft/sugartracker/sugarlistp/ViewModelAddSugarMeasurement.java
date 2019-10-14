@@ -1,4 +1,4 @@
-package com.youngsoft.sugartracker;
+package com.youngsoft.sugartracker.sugarlistp;
 
 import android.app.Application;
 import android.text.format.DateFormat;

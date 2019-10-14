@@ -1,4 +1,4 @@
-package com.youngsoft.sugartracker;
+package com.youngsoft.sugartracker.sugarlistp;
 
 import android.icu.text.DecimalFormat;
 import android.os.AsyncTask;
@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.youngsoft.sugartracker.R;
+import com.youngsoft.sugartracker.UtilMethods;
+import com.youngsoft.sugartracker.ViewModelMainActivity;
 import com.youngsoft.sugartracker.data.DataRepository;
 import com.youngsoft.sugartracker.data.MealRecord;
 import com.youngsoft.sugartracker.data.SugarMeasurement;

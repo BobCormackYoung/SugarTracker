@@ -1,4 +1,4 @@
-package com.youngsoft.sugartracker;
+package com.youngsoft.sugartracker.sugarlistp;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -15,6 +15,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.youngsoft.sugartracker.R;
 
 public class FragmentNumberPicker extends DialogFragment {
 

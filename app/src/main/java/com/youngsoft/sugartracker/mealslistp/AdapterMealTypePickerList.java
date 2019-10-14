@@ -1,4 +1,4 @@
-package com.youngsoft.sugartracker;
+package com.youngsoft.sugartracker.mealslistp;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.youngsoft.sugartracker.R;
+import com.youngsoft.sugartracker.UtilMethods;
 
 public class AdapterMealTypePickerList extends ListAdapter<Integer, AdapterMealTypePickerList.ViewHolder> {
 

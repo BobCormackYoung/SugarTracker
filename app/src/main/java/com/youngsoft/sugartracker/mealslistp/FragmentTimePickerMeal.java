@@ -1,4 +1,4 @@
-package com.youngsoft.sugartracker;
+package com.youngsoft.sugartracker.mealslistp;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -13,9 +13,9 @@ import androidx.lifecycle.ViewModelProviders;
 
 import java.util.Calendar;
 
-public class FragmentTimePickerSugar extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+public class FragmentTimePickerMeal extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
-    ViewModelAddSugarMeasurement viewModelAddSugarMeasurement;
+    ViewModelAddMealRecord viewModelAddMealRecord;
 
     //TODO: read time data from the viewModel & set that as the initialised value instead of it being passed as a bundle
     long inputTime;
@@ -24,7 +24,7 @@ public class FragmentTimePickerSugar extends DialogFragment implements TimePicke
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
-        viewModelAddSugarMeasurement = ViewModelProviders.of(getParentFragment()).get(ViewModelAddSugarMeasurement.class);
+        viewModelAddMealRecord = ViewModelProviders.of(getParentFragment()).get(ViewModelAddMealRecord.class);
 
         inputTime = getArguments().getLong("inputTime");
 
@@ -33,7 +33,8 @@ public class FragmentTimePickerSugar extends DialogFragment implements TimePicke
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
 
-        return new TimePickerDialog(getParentFragment().getActivity(), this, hour, minute,true);
+        return new TimePickerDialog(getParentFragment().getActivity(), this, hour, minute,
+                true);
     }
 
     @Override
@@ -45,6 +46,6 @@ public class FragmentTimePickerSugar extends DialogFragment implements TimePicke
         Log.i("DatePicker", "" + hourOfDay);
         Log.i("DatePicker", "" + minute);
 
-        viewModelAddSugarMeasurement.setTimeMutableLiveData(c.getTimeInMillis());
+        viewModelAddMealRecord.setTimeMutableLiveData(c.getTimeInMillis());
     }
 }

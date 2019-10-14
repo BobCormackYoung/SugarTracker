@@ -1,4 +1,4 @@
-package com.youngsoft.sugartracker;
+package com.youngsoft.sugartracker.sugarlistp;
 
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.youngsoft.sugartracker.R;
+import com.youngsoft.sugartracker.UtilMethods;
 import com.youngsoft.sugartracker.data.DataRepository;
 import com.youngsoft.sugartracker.data.MealRecord;
 

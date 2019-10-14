@@ -8,6 +8,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.youngsoft.sugartracker.dashboardp.FragmentDashboard;
+import com.youngsoft.sugartracker.mealslistp.FragmentMeals;
+import com.youngsoft.sugartracker.sugarlistp.FragmentSugar;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.youngsoft.sugartracker;
+package com.youngsoft.sugartracker.mealslistp;
 
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.youngsoft.sugartracker.R;
+import com.youngsoft.sugartracker.ViewModelMainActivity;
 import com.youngsoft.sugartracker.data.DataRepository;
 import com.youngsoft.sugartracker.data.MealRecord;
 import com.youngsoft.sugartracker.data.SugarMeasurement;

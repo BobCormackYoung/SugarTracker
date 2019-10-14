@@ -1,4 +1,4 @@
-package com.youngsoft.sugartracker;
+package com.youngsoft.sugartracker.sugarlistp;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.youngsoft.sugartracker.R;
+import com.youngsoft.sugartracker.ViewModelMainActivity;
 import com.youngsoft.sugartracker.data.SugarMeasurement;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.youngsoft.sugartracker;
+package com.youngsoft.sugartracker.sugarlistp;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.youngsoft.sugartracker.R;
 import com.youngsoft.sugartracker.data.MealRecord;
 
 import java.util.List;
