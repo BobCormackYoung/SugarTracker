@@ -45,6 +45,9 @@ public class FragmentMeals extends Fragment implements AdapterMealList.OnDeleteC
             @Override
             public void onClick(View v) {
                 bottomSheet = new BottomSheetDialogAddMeal();
+                Bundle inputs = new Bundle();
+                inputs.putInt("EntryId",-1);
+                bottomSheet.setArguments(inputs);
                 bottomSheet.show(getChildFragmentManager(), "mealBottomSheet");
             }
         });
