@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,7 +90,7 @@ public class BottomSheetDialogAddMeal extends BottomSheetDialogFragment {
             public void onChanged(Long aLong) {
                 etMealDate.setText(DateFormat.format("yyyy-MM-dd", aLong).toString());
                 date = aLong;
-                Log.i("BSF","Date" + aLong);
+                //Log.i("BSF","Date" + aLong);
             }
         });
 
@@ -101,7 +100,7 @@ public class BottomSheetDialogAddMeal extends BottomSheetDialogFragment {
             public void onChanged(Long aLong) {
                 etMealTime.setText(DateFormat.format("HH:mm", aLong).toString());
                 time = aLong;
-                Log.i("BSF","Time" + aLong);
+                //Log.i("BSF","Time" + aLong);
             }
         });
 
@@ -254,8 +253,8 @@ public class BottomSheetDialogAddMeal extends BottomSheetDialogFragment {
         calendarTime.set(Calendar.MONTH, 0);
         calendarTime.set(Calendar.DAY_OF_MONTH, 1);
 
-        Log.i("BSF","Date" + calendarDate.getTimeInMillis());
-        Log.i("BSF","Time" + calendarTime.getTimeInMillis());
+        //Log.i("BSF","Date" + calendarDate.getTimeInMillis());
+        //Log.i("BSF","Time" + calendarTime.getTimeInMillis());
 
         viewModelAddMealRecord.setTimeMutableLiveData(calendarTime.getTimeInMillis());
 

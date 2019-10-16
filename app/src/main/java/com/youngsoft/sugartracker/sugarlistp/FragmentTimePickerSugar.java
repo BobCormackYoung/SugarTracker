@@ -3,7 +3,6 @@ package com.youngsoft.sugartracker.sugarlistp;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
@@ -41,9 +40,9 @@ public class FragmentTimePickerSugar extends DialogFragment implements TimePicke
 
         Calendar c = Calendar.getInstance();
         c.set(1970, 0, 1, hourOfDay, minute, 0);
-        Log.i("DatePicker", "Date = " + c.getTimeInMillis());
-        Log.i("DatePicker", "" + hourOfDay);
-        Log.i("DatePicker", "" + minute);
+        //Log.i("DatePicker", "Date = " + c.getTimeInMillis());
+        //Log.i("DatePicker", "" + hourOfDay);
+        //Log.i("DatePicker", "" + minute);
 
         viewModelAddSugarMeasurement.setTimeMutableLiveData(c.getTimeInMillis());
     }

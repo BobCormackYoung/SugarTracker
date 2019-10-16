@@ -3,7 +3,6 @@ package com.youngsoft.sugartracker.sugarlistp;
 import android.icu.text.DecimalFormat;
 import android.os.AsyncTask;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,7 +100,7 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
         holder.ibDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("AdapterSugarList","onDeleteClick " + currentSugarMeasurement.getId());
+                //Log.i("AdapterSugarList","onDeleteClick " + currentSugarMeasurement.getId());
                 onDeleteClickListener.onDeleteClick(currentSugarMeasurement.getId());
             }
         });
@@ -109,7 +108,7 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
         holder.ibEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("AdapterSugarList","onEditClick " + currentSugarMeasurement.getId());
+                //Log.i("AdapterSugarList","onEditClick " + currentSugarMeasurement.getId());
                 onEditClickListener.onEditClick(currentSugarMeasurement.getId());
             }
         });

@@ -1,8 +1,6 @@
 package com.youngsoft.sugartracker.sugarlistp;
 
 import android.app.Application;
-import android.text.format.DateFormat;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -104,13 +102,13 @@ public class ViewModelAddSugarMeasurement extends AndroidViewModel {
     //Save and Update
     public void saveData() {
 
-        Log.i("VM","Date = " + DateFormat.format("yyyy-MM-dd HH:mm", dateMutableLiveData.getValue()));
-        Log.i("VM","Time = " + DateFormat.format("yyyy-MM-dd HH:mm", timeMutableLiveData.getValue()));
-        Log.i("VM","Time + Date = " + DateFormat.format("yyyy-MM-dd HH:mm", dateMutableLiveData.getValue() + timeMutableLiveData.getValue()));
-        Log.i("VM","Sugar = " + sugarMutableLiveData.getValue());
-        Log.i("VM","First Meal = " + isFirstMeasurementMutableLiveData.getValue());
-        Log.i("VM","Meal Timing = " + mealTimingMutableLiveData.getValue());
-        Log.i("VM","Associated Meal = " + associatedMealMutableLiveData.getValue());
+        //Log.i("VM","Date = " + DateFormat.format("yyyy-MM-dd HH:mm", dateMutableLiveData.getValue()));
+        //Log.i("VM","Time = " + DateFormat.format("yyyy-MM-dd HH:mm", timeMutableLiveData.getValue()));
+        //Log.i("VM","Time + Date = " + DateFormat.format("yyyy-MM-dd HH:mm", dateMutableLiveData.getValue() + timeMutableLiveData.getValue()));
+        //Log.i("VM","Sugar = " + sugarMutableLiveData.getValue());
+        //Log.i("VM","First Meal = " + isFirstMeasurementMutableLiveData.getValue());
+        //Log.i("VM","Meal Timing = " + mealTimingMutableLiveData.getValue());
+        //Log.i("VM","Associated Meal = " + associatedMealMutableLiveData.getValue());
 
         dataRepository.addSingleSugarMeasurement(new SugarMeasurement(
                 dateMutableLiveData.getValue()+timeMutableLiveData.getValue(),

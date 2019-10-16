@@ -1,8 +1,6 @@
 package com.youngsoft.sugartracker.mealslistp;
 
 import android.app.Application;
-import android.text.format.DateFormat;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -70,11 +68,11 @@ public class ViewModelAddMealRecord extends AndroidViewModel {
     //Save and Update
     public void saveData() {
 
-        Log.i("VM","Date = " + DateFormat.format("yyyy-MM-dd HH:mm", dateMutableLiveData.getValue()));
-        Log.i("VM","Time = " + DateFormat.format("yyyy-MM-dd HH:mm", timeMutableLiveData.getValue()));
-        Log.i("VM","Time + Date = " + DateFormat.format("yyyy-MM-dd HH:mm", dateMutableLiveData.getValue() + timeMutableLiveData.getValue()));
-        //Log.i("VM","Meal Details = " + mealMutableLiveData.getValue());
-        Log.i("VM","Meal Type = " + mealTypeMutableLiveData.getValue());
+        //Log.i("VM","Date = " + DateFormat.format("yyyy-MM-dd HH:mm", dateMutableLiveData.getValue()));
+        //Log.i("VM","Time = " + DateFormat.format("yyyy-MM-dd HH:mm", timeMutableLiveData.getValue()));
+        //Log.i("VM","Time + Date = " + DateFormat.format("yyyy-MM-dd HH:mm", dateMutableLiveData.getValue() + timeMutableLiveData.getValue()));
+        ////Log.i("VM","Meal Details = " + mealMutableLiveData.getValue());
+        //Log.i("VM","Meal Type = " + mealTypeMutableLiveData.getValue());
 
         dataRepository.addSingleMealRecord(new MealRecord(
                 dateMutableLiveData.getValue()+timeMutableLiveData.getValue(),

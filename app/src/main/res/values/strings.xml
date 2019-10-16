@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SugarTracker</string>
+    <string name="app_name">Sugar Tracker</string>
     <string name="title_home">Home</string>
     <string name="title_sugar">Sugar</string>
     <string name="title_meals">Meals</string>

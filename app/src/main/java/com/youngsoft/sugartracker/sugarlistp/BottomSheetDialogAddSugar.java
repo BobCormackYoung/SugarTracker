@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,8 +116,8 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
         calendarTime.set(Calendar.MONTH, 0);
         calendarTime.set(Calendar.DAY_OF_MONTH, 1);
 
-        Log.i("BSF","Date" + calendarDate.getTimeInMillis());
-        Log.i("BSF","Time" + calendarTime.getTimeInMillis());
+        //Log.i("BSF","Date" + calendarDate.getTimeInMillis());
+        //Log.i("BSF","Time" + calendarTime.getTimeInMillis());
 
         viewModelAddSugarMeasurement.setSugarMutableLiveData(0);
 
@@ -271,7 +270,7 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             public void onChanged(Long aLong) {
                 etSugarDate.setText(DateFormat.format("yyyy-MM-dd", aLong).toString());
                 date = aLong;
-                Log.i("BSF","Date" + aLong);
+                //Log.i("BSF","Date" + aLong);
             }
         });
 
@@ -281,7 +280,7 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             public void onChanged(Long aLong) {
                 etSugarTime.setText(DateFormat.format("HH:mm", aLong).toString());
                 time = aLong;
-                Log.i("BSF","Time" + aLong);
+                //Log.i("BSF","Time" + aLong);
             }
         });
 
@@ -291,7 +290,7 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             public void onChanged(Double aDouble) {
                 //Check if null. If "yes" then clear text view. If "no" then display the value
                 if (aDouble != null) {
-                    Log.i("BSDAS","aDouble = " + aDouble);
+                    //Log.i("BSDAS","aDouble = " + aDouble);
                     etSugarValue.setText(Double.toString(aDouble));
                 } else {
                     etSugarValue.getText().clear();
@@ -351,7 +350,7 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             index = inputIntegers[0];
             outputMealRecord = viewModelAddSugarMeasurement.getDataRepository().getMealRecordById(index);
             outputDate = DateFormat.format("yyyy-MM-dd HH:mm", outputMealRecord.getDate()).toString();
-            Log.i("BSDAS","type " + outputMealRecord.getType());
+            //Log.i("BSDAS","type " + outputMealRecord.getType());
             outputMealType = UtilMethods.getMealType(outputMealRecord.getType());
             return null;
         }

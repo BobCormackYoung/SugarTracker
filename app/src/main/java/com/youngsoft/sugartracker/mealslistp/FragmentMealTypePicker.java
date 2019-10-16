@@ -3,7 +3,6 @@ package com.youngsoft.sugartracker.mealslistp;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,7 +87,7 @@ public class FragmentMealTypePicker extends DialogFragment implements AdapterMea
 
     @Override
     public void onMealTypeClick(int index) {
-        Log.i("OnMealClickListener", "Clicked index " + index);
+        //Log.i("OnMealClickListener", "Clicked index " + index);
         viewModelAddMealRecord.setMealTypeMutableLiveData(index);
         dismiss();
     }

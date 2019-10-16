@@ -3,7 +3,6 @@ package com.youngsoft.sugartracker.dashboardp;
 import android.graphics.DashPathEffect;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,16 +100,16 @@ public class FragmentDashboard extends Fragment {
         viewModelMainActivity.getAllSugarMeasurementsSortedByDateInc().observe(getViewLifecycleOwner(), new Observer<List<SugarMeasurement>>() {
             @Override
             public void onChanged(List<SugarMeasurement> sugarMeasurements) {
-                Log.i("FragDashboard","sugarMeasurements.size() " + sugarMeasurements.size());
+                //Log.i("FragDashboard","sugarMeasurements.size() " + sugarMeasurements.size());
                 values.clear();
                 for (int i = 0; i < sugarMeasurements.size(); i++) { //sugarMeasurements.size()
-                    Log.i("FragDashboard","i = " + i);
-                    Log.i("FragDashboard","" + sugarMeasurements.get(i).getDate() + " " + (long) sugarMeasurements.get(i).getMeasurement());
-                    Log.i("FragDashboard","" + (float) sugarMeasurements.get(i).getDate() + " " + sugarMeasurements.get(i).getDate());
+                    //Log.i("FragDashboard","i = " + i);
+                    //Log.i("FragDashboard","" + sugarMeasurements.get(i).getDate() + " " + (long) sugarMeasurements.get(i).getMeasurement());
+                    //Log.i("FragDashboard","" + (float) sugarMeasurements.get(i).getDate() + " " + sugarMeasurements.get(i).getDate());
 
                     if (i==0) {
                         initValue = sugarMeasurements.get(i).getDate();
-                        Log.i("FragDashboard", "initValue = " + initValue);
+                        //Log.i("FragDashboard", "initValue = " + initValue);
                     }
 
                     //values.add(new Entry((float) ((sugarMeasurements.get(i).getDate()-initValue)/86400000),(float) sugarMeasurements.get(i).getMeasurement()));
@@ -118,7 +117,7 @@ public class FragmentDashboard extends Fragment {
 
                     //values.add(new Entry(i,(long) sugarMeasurements.get(i).getMeasurement()));
                 }
-                Log.i("FragDashboard","values.size() " + values.size());
+                //Log.i("FragDashboard","values.size() " + values.size());
 
                 lineChart.clear();
                 dataSets.clear();
@@ -139,9 +138,9 @@ public class FragmentDashboard extends Fragment {
                 set1.setFormSize(15.f);
 
                 dataSets.add(set1);
-                Log.i("FragDashboard","dataSets.size() " + dataSets.size());
+                //Log.i("FragDashboard","dataSets.size() " + dataSets.size());
                 LineData data = new LineData(dataSets);
-                Log.i("FragDashboard","data count " + data.getDataSetCount());
+                //Log.i("FragDashboard","data count " + data.getDataSetCount());
                 lineChart.setData(data);
 
             }
@@ -162,7 +161,7 @@ public class FragmentDashboard extends Fragment {
                 xAxis.setValueFormatter(new DayAxisValueFormatter(lineChart));
                 xAxis.setAxisMinimum((float) c.getTimeInMillis()-24*3600000);
                 xAxis.setAxisMaximum((float) c.getTimeInMillis());
-                Log.i("DashboardChrat","Min: " + min + ", Max: " + max);
+                //Log.i("DashboardChrat","Min: " + min + ", Max: " + max);
                 lineChart.refreshDrawableState();
                 lineChart.invalidate();
                 lineChart.refreshDrawableState();
@@ -178,7 +177,7 @@ public class FragmentDashboard extends Fragment {
                 xAxis.setValueFormatter(new DayAxisValueFormatter(lineChart));
                 xAxis.setAxisMinimum((float) c.getTimeInMillis()-7*24*3600000);
                 xAxis.setAxisMaximum((float) c.getTimeInMillis());
-                Log.i("DashboardChrat","Min: " + min + ", Max: " + max);
+                //Log.i("DashboardChrat","Min: " + min + ", Max: " + max);
                 lineChart.refreshDrawableState();
                 lineChart.invalidate();
                 lineChart.refreshDrawableState();
@@ -194,7 +193,7 @@ public class FragmentDashboard extends Fragment {
                 xAxis.setValueFormatter(new DayAxisValueFormatter(lineChart));
                 xAxis.setAxisMinimum((float) c.getTimeInMillis()-30*24*3600000);
                 xAxis.setAxisMaximum((float) c.getTimeInMillis());
-                Log.i("DashboardChrat","Min: " + min + ", Max: " + max);
+                //Log.i("DashboardChrat","Min: " + min + ", Max: " + max);
                 lineChart.refreshDrawableState();
                 lineChart.invalidate();
                 lineChart.refreshDrawableState();
@@ -210,7 +209,7 @@ public class FragmentDashboard extends Fragment {
                 xAxis.setValueFormatter(new DayAxisValueFormatter(lineChart));
                 xAxis.setAxisMinimum((float) c.getTimeInMillis()-362*24*3600000);
                 xAxis.setAxisMaximum((float) c.getTimeInMillis());
-                Log.i("DashboardChrat","Min: " + xAxis.getAxisMinimum() + ", Max: " + xAxis.getAxisMaximum());
+                //Log.i("DashboardChrat","Min: " + xAxis.getAxisMinimum() + ", Max: " + xAxis.getAxisMaximum());
                 lineChart.refreshDrawableState();
                 lineChart.invalidate();
                 lineChart.refreshDrawableState();

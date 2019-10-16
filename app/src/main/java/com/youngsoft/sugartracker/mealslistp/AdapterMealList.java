@@ -3,7 +3,6 @@ package com.youngsoft.sugartracker.mealslistp;
 import android.icu.text.DecimalFormat;
 import android.os.AsyncTask;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,7 +84,7 @@ public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.Mea
         holder.ibDeleteMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("AdapterMealList","onDeleteClick " + currentMealRecord.getId());
+                //Log.i("AdapterMealList","onDeleteClick " + currentMealRecord.getId());
                 onDeleteClickListener.onDeleteClick(currentMealRecord.getId());
             }
         });
@@ -93,7 +92,7 @@ public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.Mea
         holder.ibEditMeal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("AdapterMealList","onEditClick " + currentMealRecord.getId());
+                //Log.i("AdapterMealList","onEditClick " + currentMealRecord.getId());
                 onEditClickListener.onEditClick(currentMealRecord.getId());
             }
         });
@@ -140,16 +139,16 @@ public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.Mea
             super.onPostExecute(aVoid);
             DecimalFormat decimalFormat = new DecimalFormat("#");
             if (outputList == null) {
-                Log.i("AdapterMeal","Meal " + index + ", List size null");
+                //Log.i("AdapterMeal","Meal " + index + ", List size null");
                 inputParams.holder.tvBeforeValue.setText("-");
             } else if (outputList.isEmpty()) {
-                Log.i("AdapterMeal","Meal " + index + ", List is empty");
+                //Log.i("AdapterMeal","Meal " + index + ", List is empty");
                 inputParams.holder.tvBeforeValue.setText("-");
             } else if (outputList.size() == 1) {
-                Log.i("AdapterMeal","Meal " + index + ", List size is 1");
+                //Log.i("AdapterMeal","Meal " + index + ", List size is 1");
                 inputParams.holder.tvBeforeValue.setText(decimalFormat.format(outputList.get(0).getMeasurement()));
             } else {
-                Log.i("AdapterMeal","Meal " + index + ", List size neither null, 1 nor empty");
+                //Log.i("AdapterMeal","Meal " + index + ", List size neither null, 1 nor empty");
             }
         }
 
@@ -174,16 +173,16 @@ public class AdapterMealList extends ListAdapter<MealRecord, AdapterMealList.Mea
             super.onPostExecute(aVoid);
             DecimalFormat decimalFormat = new DecimalFormat("#");
             if (outputList == null) {
-                Log.i("AdapterMeal","Meal " + index + ", List size null");
+                //Log.i("AdapterMeal","Meal " + index + ", List size null");
                 inputParams.holder.tvAfterValue.setText("-");
             } else if (outputList.isEmpty()) {
-                Log.i("AdapterMeal","Meal " + index + ", List is empty");
+                //Log.i("AdapterMeal","Meal " + index + ", List is empty");
                 inputParams.holder.tvAfterValue.setText("-");
             } else if (outputList.size() == 1) {
-                Log.i("AdapterMeal","Meal " + index + ", List size is 1");
+                //Log.i("AdapterMeal","Meal " + index + ", List size is 1");
                 inputParams.holder.tvAfterValue.setText(decimalFormat.format(outputList.get(0).getMeasurement()));
             } else {
-                Log.i("AdapterMeal","Meal " + index + ", List size neither null, 1 nor empty");
+                //Log.i("AdapterMeal","Meal " + index + ", List size neither null, 1 nor empty");
             }
         }
 

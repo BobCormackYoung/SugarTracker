@@ -3,7 +3,6 @@ package com.youngsoft.sugartracker.mealslistp;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,7 +79,7 @@ public class FragmentMeals extends Fragment implements AdapterMealList.OnDeleteC
 
     @Override
     public void onDeleteClick(final int index) {
-        Log.i("FragmentMeal","onDeleteClick " + index);
+        //Log.i("FragmentMeal","onDeleteClick " + index);
         DeleteMealRecordAsync deleteMealRecordAsync = new DeleteMealRecordAsync();
         deleteMealRecordAsync.execute(index);
     }
@@ -148,7 +147,7 @@ public class FragmentMeals extends Fragment implements AdapterMealList.OnDeleteC
 
     @Override
     public void onEditClick(int index) {
-        Log.i("FragmentSugar","onEditClick " + index);
+        //Log.i("FragmentSugar","onEditClick " + index);
         bottomSheet = new BottomSheetDialogAddMeal();
         Bundle inputs = new Bundle();
         inputs.putInt("EntryId",index);

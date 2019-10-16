@@ -3,7 +3,6 @@ package com.youngsoft.sugartracker.sugarlistp;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,11 +109,11 @@ public class FragmentNumberPicker extends DialogFragment {
                 (double) numberPickerTens.getValue()*10+
                 (double) numberPickerOnes.getValue()+
                 (double) numberPickerDecimals.getValue()/10;
-        Log.i("FragmentNumberPicker","" + numberPickerHundreds.getValue());
-        Log.i("FragmentNumberPicker","" + numberPickerTens.getValue());
-        Log.i("FragmentNumberPicker","" + numberPickerOnes.getValue());
-        Log.i("FragmentNumberPicker","" + numberPickerDecimals.getValue());
-        Log.i("FragmentNumberPicker","" + outputValue);
+        //Log.i("FragmentNumberPicker","" + numberPickerHundreds.getValue());
+        //Log.i("FragmentNumberPicker","" + numberPickerTens.getValue());
+        //Log.i("FragmentNumberPicker","" + numberPickerOnes.getValue());
+        //Log.i("FragmentNumberPicker","" + numberPickerDecimals.getValue());
+        //Log.i("FragmentNumberPicker","" + outputValue);
         viewModelAddSugarMeasurement.setSugarMutableLiveData(outputValue);
         dismiss();
     }
