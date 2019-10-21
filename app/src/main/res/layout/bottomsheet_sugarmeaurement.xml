@@ -99,9 +99,25 @@
     </RadioGroup>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:paddingTop="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:id="@+id/til_associated_meal_type">
+
+        <EditText
+            android:id="@+id/et_associated_meal_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:editable="false"
+            android:hint="Meal Type"
+            android:textSize="16dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/til_associated_meal">
 
         <EditText
             android:id="@+id/et_associated_meal"

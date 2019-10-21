@@ -74,11 +74,13 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
         holder.tvSugarMeasurement.setText(decimalFormat.format(currentSugarMeasurement.getMeasurement()));
         holder.tvDate.setText(DateFormat.format("yyyy-MM-dd",currentSugarMeasurement.getDate()).toString());
         holder.tvTime.setText(DateFormat.format("HH:mm",currentSugarMeasurement.getDate()).toString());
+
         if (currentSugarMeasurement.getIsFirstMeasurementOfDay()) {
             holder.tvFirstMeasurement.setText("Yes");
         } else {
             holder.tvFirstMeasurement.setText("No");
         }
+
         if (currentSugarMeasurement.getMealSequence() == 1) {
             holder.tvMealTiming.setText("Before meal");
             holder.tvMealTiming.setVisibility(View.VISIBLE);
@@ -89,8 +91,10 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
             holder.tvMealTiming.setVisibility(View.GONE);
         }
 
-        if (currentSugarMeasurement.getAssociatedMeal() == -1) {
+        if (currentSugarMeasurement.getAssociatedMeal() == -1 && currentSugarMeasurement.getAssociatedMealType() == -1) {
             holder.tvAssociatedMeal.setText("No associated meal");
+        } else if (currentSugarMeasurement.getAssociatedMeal() == -1 && currentSugarMeasurement.getAssociatedMealType() != -1) {
+            holder.tvAssociatedMeal.setText("" + UtilMethods.getMealType(currentSugarMeasurement.getAssociatedMealType()));
         } else {
             ParamsGetMealData paramsGetMealData = new ParamsGetMealData(holder, currentSugarMeasurement.getAssociatedMeal());
             GetMealDataAsync getMealDataAsync = new GetMealDataAsync();
