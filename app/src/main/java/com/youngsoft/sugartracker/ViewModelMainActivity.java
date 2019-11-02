@@ -1,6 +1,7 @@
 package com.youngsoft.sugartracker;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -18,6 +19,7 @@ public class ViewModelMainActivity extends AndroidViewModel {
     private LiveData<List<SugarMeasurement>> allSugarMeasurementsSortedByDate;
     private LiveData<List<SugarMeasurement>> allSugarMeasurementsSortedByDateInc;
     private LiveData<List<MealRecord>> allMealRecordsSortedByDate;
+    private LiveData<List<SugarMeasurement>> sugarMeasurementsBetweenDates;
 
     public ViewModelMainActivity(@NonNull Application application) {
         super(application);
@@ -55,5 +57,15 @@ public class ViewModelMainActivity extends AndroidViewModel {
     public void deleteMealRecord(int index) {
         //Log.i("VMMainActivity","deleteMealMeasurement " + index);
         dataRepository.deleteMealRecord(index);
+    }
+
+    public LiveData<List<SugarMeasurement>> getSugarMeasurementsBetweenDates() {
+        return sugarMeasurementsBetweenDates;
+    }
+
+    public void setSugarMeasurementsBetweenDates(long startDate, long endDate) {
+        Log.i("VMMA", "Start Date: " + UtilMethods.convertDate(startDate, "yyyy-MM-dd  HH:mm:ss") + ", End Date: " +
+                UtilMethods.convertDate(endDate, "yyyy-MM-dd  HH:mm:ss"));
+        sugarMeasurementsBetweenDates = dataRepository.getSugarMeasurementsBetweenDates(startDate, endDate);
     }
 }

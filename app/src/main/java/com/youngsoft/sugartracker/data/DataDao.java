@@ -68,4 +68,7 @@ public interface DataDao {
 
     @Update
     void updateMealRecordEntry(MealRecord... outputMealRecords);
+
+    @Query("SELECT * FROM SugarMeasurement_Table WHERE date BETWEEN :startDate AND :endDate ORDER BY date")
+    LiveData<List<SugarMeasurement>> getSugarMeasurementsBetweenDates(long startDate, long endDate);
 }

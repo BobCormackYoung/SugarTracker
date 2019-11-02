@@ -1,5 +1,7 @@
 package com.youngsoft.sugartracker;
 
+import android.text.format.DateFormat;
+
 public class UtilMethods {
 
     public static String getMealType(int input) {
@@ -30,6 +32,10 @@ public class UtilMethods {
         }
 
         return output;
+    }
+
+    public static String convertDate(long dateInMilliseconds, String dateFormat) {
+        return DateFormat.format(dateFormat, dateInMilliseconds).toString();
     }
 
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView android:id="@+id/tv_view_data_weekview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:text="100"
+    android:gravity="center"
+    android:background="@color/colorAccent2"
+    android:layout_margin="2dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" />

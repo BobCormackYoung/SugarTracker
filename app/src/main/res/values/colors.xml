@@ -6,9 +6,8 @@
     <color name="colorAccent1">#396AA4</color>
     <color name="colorAccent2">#EAB1AE</color>
 
-
-
     <color name="colorPrimaryOld">#008577</color>
     <color name="colorPrimaryDarkOld">#00574B</color>
     <color name="colorAccentOld">#D81B60</color>
+    <color name="white">#ffffff</color>
 </resources>

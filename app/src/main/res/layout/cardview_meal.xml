@@ -14,9 +14,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:background="@color/colorAccent1">
 
             <TextView
@@ -34,68 +35,73 @@
                 android:textAllCaps="true"
                 android:layout_alignParentLeft="true"/>
 
-            <TextView
-                android:id="@+id/tv_before_title"
-                android:layout_width="65dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@color/colorAccent1"
-                android:paddingLeft="16dp"
-                android:paddingTop="12dp"
-                android:paddingRight="4dp"
-                android:text="Before"
-                android:textAllCaps="true"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:layout_toLeftOf="@id/tv_before_value"/>
+                android:orientation="horizontal"
+                android:paddingBottom="4dp">
 
-            <TextView
-                android:layout_width="33dp"
-                android:layout_height="wrap_content"
-                android:text="100"
-                android:layout_gravity="center_vertical"
-                android:id="@+id/tv_before_value"
-                android:textColor="#40ED4E"
-                android:background="@color/colorAccent1"
-                android:paddingTop="12dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="8dp"
-                android:textSize="12sp"
-                android:textAllCaps="true"
-                android:layout_toLeftOf="@+id/tv_after_title"/>
+                <TextView
+                    android:id="@+id/tv_before_title"
+                    android:layout_width="65dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:background="@color/colorAccent1"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="4dp"
+                    android:text="Before"
+                    android:textAllCaps="true"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:layout_toLeftOf="@id/tv_before_value"/>
 
-            <TextView
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:text="After"
-                android:layout_gravity="center_vertical"
-                android:id="@+id/tv_after_title"
-                android:textColor="#FFFFFF"
-                android:background="@color/colorAccent1"
-                android:paddingTop="12dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="4dp"
-                android:textSize="12sp"
-                android:textAllCaps="true"
-                android:layout_toLeftOf="@+id/tv_after_value"/>
+                <TextView
+                    android:layout_width="33dp"
+                    android:layout_height="wrap_content"
+                    android:text="100"
+                    android:gravity="center_vertical"
+                    android:id="@+id/tv_before_value"
+                    android:textColor="#40ED4E"
+                    android:background="@color/colorAccent1"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="8dp"
+                    android:textSize="12sp"
+                    android:textAllCaps="true"
+                    android:layout_toLeftOf="@+id/tv_after_title"/>
 
-            <TextView
-                android:id="@+id/tv_after_value"
-                android:layout_width="43dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="3dp"
-                android:background="@color/colorAccent1"
-                android:paddingLeft="4dp"
-                android:paddingTop="12dp"
-                android:paddingRight="16dp"
-                android:text="100"
-                android:textAllCaps="true"
-                android:textColor="#ED4C40"
-                android:textSize="12sp" />
+                <TextView
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="After"
+                    android:gravity="center_vertical"
+                    android:id="@+id/tv_after_title"
+                    android:textColor="#FFFFFF"
+                    android:background="@color/colorAccent1"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="4dp"
+                    android:textSize="12sp"
+                    android:textAllCaps="true"
+                    android:layout_toLeftOf="@+id/tv_after_value"/>
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_after_value"
+                    android:layout_width="43dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="3dp"
+                    android:background="@color/colorAccent1"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="16dp"
+                    android:text="100"
+                    android:textAllCaps="true"
+                    android:textColor="#ED4C40"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

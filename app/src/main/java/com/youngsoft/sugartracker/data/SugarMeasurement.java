@@ -23,7 +23,7 @@ public class SugarMeasurement {
     //if no specific associated meal picked then assign one of the default meal types
     //"Breakfast" = 1
     //"Brunch" = 2
-    //"Lunch"; = 3
+    //"Lunch" = 3
     //"Dinner" = 4
     //"Supper" = 5
     //"Snack" = 6
