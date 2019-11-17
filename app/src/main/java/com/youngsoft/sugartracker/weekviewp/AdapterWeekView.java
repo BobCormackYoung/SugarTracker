@@ -1,5 +1,8 @@
 package com.youngsoft.sugartracker.weekviewp;
 
+import android.os.AsyncTask;
+import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,84 +10,363 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.youngsoft.sugartracker.R;
-import com.youngsoft.sugartracker.ViewModelMainActivity;
+import com.youngsoft.sugartracker.UtilMethods;
 import com.youngsoft.sugartracker.data.DataRepository;
+import com.youngsoft.sugartracker.data.SugarMeasurement;
 
-public class AdapterWeekView extends ListAdapter<WeekViewItem, AdapterWeekView.WeekViewHolder> {
+import java.util.ArrayList;
+import java.util.List;
 
-    private final DataRepository dataRepository;
-    private final FragmentWeekView fragmentWeekView;
-    private final ViewModelMainActivity viewModelMainActivity;
+public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.WeekViewHolder> {
 
-    private static final DiffUtil.ItemCallback<WeekViewItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<WeekViewItem>() {
+    FragmentWeekView parentFragment;
+    DataRepository dataRepository;
+
+    private static final DiffUtil.ItemCallback<WeekDatesItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<WeekDatesItem>() {
         @Override
-        public boolean areItemsTheSame(@NonNull WeekViewItem oldItem, @NonNull WeekViewItem newItem) {
+        public boolean areItemsTheSame(@NonNull WeekDatesItem oldItem, @NonNull WeekDatesItem newItem) {
             return false;
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull WeekViewItem oldItem, @NonNull WeekViewItem newItem) {
+        public boolean areContentsTheSame(@NonNull WeekDatesItem oldItem, @NonNull WeekDatesItem newItem) {
             return false;
         }
     };
 
-    public AdapterWeekView(DataRepository dataRepository,
-                           FragmentWeekView fragmentWeekView,
-                           ViewModelMainActivity viewModelMainActivity) {
+    public AdapterWeekView(FragmentWeekView parentFragment, DataRepository dataRepository) {
         super(DIFF_CALLBACK);
+        this.parentFragment = parentFragment;
+        //this.viewModelWeekView = viewModelWeekView;
         this.dataRepository = dataRepository;
-        this.fragmentWeekView = fragmentWeekView;
-        this.viewModelMainActivity = viewModelMainActivity;
     }
 
     @NonNull
     @Override
     public AdapterWeekView.WeekViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.view_data_weekview, parent, false);
+                .inflate(R.layout.cardview_week, parent, false);
+        Log.i("AWV","OCVH: " + itemView.getParent());
         return new AdapterWeekView.WeekViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull AdapterWeekView.WeekViewHolder holder, int position) {
-        final WeekViewItem currentSugarMeasurement = getItem(position);
+        final WeekDatesItem currentDateSet = getItem(position);
+        Log.i("AWV","OBVH Position: " + position);
+        Log.i("AWV","OBVH dates: " + currentDateSet.getStartDate() + " " + currentDateSet.getEndDate());
+        Log.i("AWV","OBVH fragManager: " + parentFragment.getChildFragmentManager());
 
-        if (position < 9) {
-            holder.tvData.setText("" + currentSugarMeasurement.getComment());
-            holder.tvData.setBackgroundResource(R.color.white);
-        } else {
-            switch (position) {
-                case 9:
-                case 9+5:
-                case 9+5*2:
-                case 9+5*3:
-                case 9+5*4:
-                case 9+5*5:
-                case 9+5*6:
-                    holder.tvData.setText("" + currentSugarMeasurement.getComment());
-                    holder.tvData.setBackgroundResource(R.color.white);
-                    break;
-                default:
-                    if (currentSugarMeasurement.getMeasurement() == -1) {
-                        holder.tvData.setText("" + currentSugarMeasurement.getComment());
-                    } else {
-                        holder.tvData.setText("" + currentSugarMeasurement.getMeasurement());
-                    }
-                    break;
+        holder.textView.setText(DateFormat.format("yyyy-MM-dd",currentDateSet.getStartDate()).toString()
+        + " to " + DateFormat.format("yyyy-MM-dd",currentDateSet.getEndDate()).toString());
+
+        ArrayList<WeekViewItem> weekViewItemArrayList = new ArrayList<>();
+        //viewModelWeekView.setSugarMeasurementsBetweenDates(currentDateSet.getStartDate(), currentDateSet.getEndDate());
+        holder.recyclerView.setHasFixedSize(true);
+        GridLayoutManager manager = new GridLayoutManager(parentFragment.getActivity(), 5);
+        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                int size = 0;
+                switch (position) {
+                    case 0:
+                        size = 1;
+                        break;
+                    case 1:
+                        size = 2;
+                        break;
+                    case 2:
+                        size = 1;
+                        break;
+                    case 3:
+                        size = 1;
+                        break;
+                    default:
+                        size = 1;
+                        break;
+                }
+                return size;
             }
+        });
+
+        holder.recyclerView.setLayoutManager(manager);
+
+        AdapterWeekViewItem adapterWeekViewItem = new AdapterWeekViewItem();
+        holder.recyclerView.setAdapter(adapterWeekViewItem);
+
+        weekViewItemArrayList.clear();
+        for (int item = 0; item < 44; item++) {
+            weekViewItemArrayList.add(new WeekViewItem(" "));
         }
+        adapterWeekViewItem.submitList(weekViewItemArrayList);
+
+        ParamsGetSugarWeekData paramsGetSugarWeekData = new ParamsGetSugarWeekData(currentDateSet.getStartDate(),
+                currentDateSet.getEndDate(), holder, dataRepository, adapterWeekViewItem,
+                weekViewItemArrayList);
+
+        GetSugarWeekDataAsync getSugarWeekDataAsync = new GetSugarWeekDataAsync();
+        getSugarWeekDataAsync.execute(paramsGetSugarWeekData);
+
     }
 
     public class WeekViewHolder extends RecyclerView.ViewHolder {
-        TextView tvData;
+
+        TextView textView;
+        RecyclerView recyclerView;
 
         public WeekViewHolder(View itemView) {
             super(itemView);
-            tvData = itemView.findViewById(R.id.tv_view_data_weekview);
+
+            textView = itemView.findViewById(R.id.tv_dummy_weekitem);
+            recyclerView = itemView.findViewById(R.id.rv_week_view_item);
         }
     }
+
+    private class GetSugarWeekDataAsync extends AsyncTask<ParamsGetSugarWeekData, Void, Void> {
+        //TODO: move to viewModel with a listener
+        long startDate;
+        long endDate;
+        DataRepository dataRepository;
+        AdapterWeekViewItem adapterWeekViewItem;
+        WeekViewHolder weekViewHolder;
+        List<SugarMeasurement> outputSugarMeasurements;
+        ArrayList<WeekViewItem> weekViewItemArrayList;
+
+        ParamsGetSugarWeekData inputParams;
+
+        @Override
+        protected Void doInBackground(ParamsGetSugarWeekData... paramsGetSugarWeekData) {
+
+            inputParams = paramsGetSugarWeekData[0];
+            startDate = inputParams.getStartDate();
+            endDate = inputParams.getEndDate();
+            dataRepository = inputParams.getDataRepository();
+            adapterWeekViewItem = inputParams.getAdapter();
+            weekViewHolder = inputParams.getHolder();
+            weekViewItemArrayList = inputParams.getArrayList();
+
+            outputSugarMeasurements = dataRepository.getSugarMeasurementsBetweenDatesNonLive(startDate, endDate);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            weekViewItemArrayList.clear();
+            weekViewItemArrayList.add(new WeekViewItem(" "));
+            weekViewItemArrayList.add(new WeekViewItem("Breakfast"));
+            weekViewItemArrayList.add(new WeekViewItem("Dinner"));
+            weekViewItemArrayList.add(new WeekViewItem("Supper"));
+            weekViewItemArrayList.add(new WeekViewItem("Day"));
+            weekViewItemArrayList.add(new WeekViewItem("B"));
+            weekViewItemArrayList.add(new WeekViewItem("A"));
+            weekViewItemArrayList.add(new WeekViewItem("A"));
+            weekViewItemArrayList.add(new WeekViewItem("A"));
+
+            //Cycle through all days and fill the data for each item
+            for (int item = 0; item < 35; item++) {
+                //Define the start and end of the day
+                long dayStart = startDate+(item/5)*(1000*60*60*24);
+                long dayEnd = dayStart+(1000*60*60*24);
+                //Input the first column with day data
+                switch (item) {
+                    case 0:
+                        weekViewItemArrayList.add(new WeekViewItem("Mon"));
+                        break;
+                    case 5:
+                        weekViewItemArrayList.add(new WeekViewItem("Tue"));
+                        break;
+                    case 10:
+                        weekViewItemArrayList.add(new WeekViewItem("Wed"));
+                        break;
+                    case 15:
+                        weekViewItemArrayList.add(new WeekViewItem("Thu"));
+                        break;
+                    case 20:
+                        weekViewItemArrayList.add(new WeekViewItem("Fri"));
+                        break;
+                    case 25:
+                        weekViewItemArrayList.add(new WeekViewItem("Sat"));
+                        break;
+                    case 30:
+                        weekViewItemArrayList.add(new WeekViewItem("Sun"));
+                        break;
+                    case 1:
+                    case 6:
+                    case 11:
+                    case 16:
+                    case 21:
+                    case 26:
+                    case 31:
+                        weekViewItemArrayList.add(getWeekViewItem(outputSugarMeasurements, dayStart, dayEnd, 1));
+                        break;
+                    case 2:
+                    case 7:
+                    case 12:
+                    case 17:
+                    case 22:
+                    case 27:
+                    case 32:
+                        weekViewItemArrayList.add(getWeekViewItem(outputSugarMeasurements, dayStart, dayEnd, 2));
+                        break;
+                    case 3:
+                    case 8:
+                    case 13:
+                    case 18:
+                    case 23:
+                    case 28:
+                    case 33:
+                        weekViewItemArrayList.add(getWeekViewItem(outputSugarMeasurements, dayStart, dayEnd, 3));
+                        break;
+                    case 4:
+                    case 9:
+                    case 14:
+                    case 19:
+                    case 24:
+                    case 29:
+                    case 34:
+                        weekViewItemArrayList.add(getWeekViewItem(outputSugarMeasurements, dayStart, dayEnd, 4));
+                        break;
+                    default:
+                        weekViewItemArrayList.add(new WeekViewItem("err"));//not one of the header or day cells, find relevant data for the specific cell
+                        break;
+                }
+            }
+
+            Log.i("AWV", "weekViewItemArrayList size: " + weekViewItemArrayList.size());
+            adapterWeekViewItem.submitList(weekViewItemArrayList);
+            adapterWeekViewItem.notifyDataSetChanged();
+        }
+    }
+
+    private class ParamsGetSugarWeekData {
+
+        long startDate;
+        long endDate;
+        WeekViewHolder holder;
+        DataRepository dataRepository;
+        AdapterWeekViewItem adapter;
+        ArrayList<WeekViewItem> arrayList;
+
+        ParamsGetSugarWeekData(long startDate, long endDate, WeekViewHolder holder,
+                               DataRepository dataRepository, AdapterWeekViewItem adapter,
+                               ArrayList<WeekViewItem> arrayList) {
+            this.adapter=adapter;
+            this.dataRepository=dataRepository;
+            this.endDate=endDate;
+            this.startDate=startDate;
+            this.adapter=adapter;
+            this.arrayList=arrayList;
+        }
+
+        public ArrayList<WeekViewItem> getArrayList() {
+            return arrayList;
+        }
+
+        public void setArrayList(ArrayList<WeekViewItem> arrayList) {
+            this.arrayList = arrayList;
+        }
+
+        public long getStartDate() {
+            return startDate;
+        }
+
+        public void setStartDate(long startDate) {
+            this.startDate = startDate;
+        }
+
+        public long getEndDate() {
+            return endDate;
+        }
+
+        public void setEndDate(long endDate) {
+            this.endDate = endDate;
+        }
+
+        public WeekViewHolder getHolder() {
+            return holder;
+        }
+
+        public void setHolder(WeekViewHolder holder) {
+            this.holder = holder;
+        }
+
+        public DataRepository getDataRepository() {
+            return dataRepository;
+        }
+
+        public void setDataRepository(DataRepository dataRepository) {
+            this.dataRepository = dataRepository;
+        }
+
+        public AdapterWeekViewItem getAdapter() {
+            return adapter;
+        }
+
+        public void setAdapter(AdapterWeekViewItem adapter) {
+            this.adapter = adapter;
+        }
+    }
+
+    private WeekViewItem getWeekViewItem (List<SugarMeasurement> inputArray, long dayStart, long dayEnd, int criteria) {
+        Log.i("getWeekViewItem", "Start Date: " + UtilMethods.convertDate(dayStart, "yyyy-MM-dd  HH:mm:ss") + ", End Date: " +
+                UtilMethods.convertDate(dayEnd, "yyyy-MM-dd  HH:mm:ss") +
+                " inputArraySize: " + inputArray.size());
+        for (int i = 0; i < inputArray.size(); i++) {
+            SugarMeasurement currentItem = inputArray.get(i);
+            //Check if the items is for the current day
+            if (currentItem.getDate() < dayEnd && currentItem.getDate() > dayStart) {
+                //Check whether meets data criteria
+                // 1 = first meal of the day
+                // 2 = after breakfast
+                // 3 = after dinner
+                // 4 = after supper
+                if (criteria == 1 && currentItem.getIsFirstMeasurementOfDay()) {
+                    return new WeekViewItem(currentItem.getId(),
+                            currentItem.getDate(),
+                            currentItem.getMeasurement(),
+                            currentItem.getMealSequence(),
+                            currentItem.getAssociatedMealType(),
+                            currentItem.getAssociatedMeal(),
+                            currentItem.getIsFirstMeasurementOfDay());
+                } else if ((criteria == 2 && currentItem.getMealSequence() == 2 && currentItem.getAssociatedMealType() == 1)) {
+                    return new WeekViewItem(currentItem.getId(),
+                            currentItem.getDate(),
+                            currentItem.getMeasurement(),
+                            currentItem.getMealSequence(),
+                            currentItem.getAssociatedMealType(),
+                            currentItem.getAssociatedMeal(),
+                            currentItem.getIsFirstMeasurementOfDay());
+                } else if ((criteria == 3 && currentItem.getMealSequence() == 2 && currentItem.getAssociatedMealType() == 4)) {
+                    return new WeekViewItem(currentItem.getId(),
+                            currentItem.getDate(),
+                            currentItem.getMeasurement(),
+                            currentItem.getMealSequence(),
+                            currentItem.getAssociatedMealType(),
+                            currentItem.getAssociatedMeal(),
+                            currentItem.getIsFirstMeasurementOfDay());
+                } else if ((criteria == 4 && currentItem.getMealSequence() == 2 && currentItem.getAssociatedMealType() == 5)) {
+                    return new WeekViewItem(currentItem.getId(),
+                            currentItem.getDate(),
+                            currentItem.getMeasurement(),
+                            currentItem.getMealSequence(),
+                            currentItem.getAssociatedMealType(),
+                            currentItem.getAssociatedMeal(),
+                            currentItem.getIsFirstMeasurementOfDay());
+                }
+            } else {
+                if (i == inputArray.size()-1) {
+                    //End of the loop, nothing found, insert empty data and break loop
+                    return new WeekViewItem(" - ");
+                }
+            }
+        }
+        return new WeekViewItem(" - ");
+    }
+
 }

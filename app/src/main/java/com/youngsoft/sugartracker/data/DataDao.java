@@ -71,4 +71,8 @@ public interface DataDao {
 
     @Query("SELECT * FROM SugarMeasurement_Table WHERE date BETWEEN :startDate AND :endDate ORDER BY date")
     LiveData<List<SugarMeasurement>> getSugarMeasurementsBetweenDates(long startDate, long endDate);
+
+    @Query("SELECT * FROM SugarMeasurement_Table WHERE date BETWEEN :startDate AND :endDate ORDER BY date")
+    List<SugarMeasurement> getSugarMeasurementsBetweenDatesNonLive(long startDate, long endDate);
+
 }

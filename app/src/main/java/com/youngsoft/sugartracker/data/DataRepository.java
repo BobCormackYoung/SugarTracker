@@ -144,4 +144,8 @@ public class DataRepository {
     public LiveData<List<SugarMeasurement>> getSugarMeasurementsBetweenDates(long startDate, long endDate) {
         return dataDao.getSugarMeasurementsBetweenDates(startDate, endDate);
     }
+
+    public List<SugarMeasurement> getSugarMeasurementsBetweenDatesNonLive(long startDate, long endDate) {
+        return dataDao.getSugarMeasurementsBetweenDatesNonLive(startDate, endDate);
+    }
 }
