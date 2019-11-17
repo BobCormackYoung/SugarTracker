@@ -24,8 +24,8 @@ import java.util.List;
 
 public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.WeekViewHolder> {
 
-    FragmentWeekView parentFragment;
-    DataRepository dataRepository;
+    private FragmentWeekView parentFragment;
+    private DataRepository dataRepository;
 
     private static final DiffUtil.ItemCallback<WeekDatesItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<WeekDatesItem>() {
         @Override
@@ -72,23 +72,11 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                int size = 0;
-                switch (position) {
-                    case 0:
-                        size = 1;
-                        break;
-                    case 1:
-                        size = 2;
-                        break;
-                    case 2:
-                        size = 1;
-                        break;
-                    case 3:
-                        size = 1;
-                        break;
-                    default:
-                        size = 1;
-                        break;
+                int size;
+                if (position == 1) {
+                    size = 2;
+                } else {
+                    size = 1;
                 }
                 return size;
             }
@@ -114,12 +102,12 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
 
     }
 
-    public class WeekViewHolder extends RecyclerView.ViewHolder {
+    class WeekViewHolder extends RecyclerView.ViewHolder {
 
         TextView textView;
         RecyclerView recyclerView;
 
-        public WeekViewHolder(View itemView) {
+        WeekViewHolder(View itemView) {
             super(itemView);
 
             textView = itemView.findViewById(R.id.tv_dummy_weekitem);
@@ -162,7 +150,7 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
             weekViewItemArrayList.add(new WeekViewItem("Breakfast"));
             weekViewItemArrayList.add(new WeekViewItem("Dinner"));
             weekViewItemArrayList.add(new WeekViewItem("Supper"));
-            weekViewItemArrayList.add(new WeekViewItem("Day"));
+            weekViewItemArrayList.add(new WeekViewItem(" "));
             weekViewItemArrayList.add(new WeekViewItem("B"));
             weekViewItemArrayList.add(new WeekViewItem("A"));
             weekViewItemArrayList.add(new WeekViewItem("A"));

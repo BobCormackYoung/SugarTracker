@@ -1,5 +1,7 @@
 package com.youngsoft.sugartracker.weekviewp;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +47,9 @@ public class AdapterWeekViewItem extends ListAdapter<WeekViewItem, AdapterWeekVi
 
         if (position < 9) {
             holder.tvData.setText("" + currentSugarMeasurement.getComment());
-            holder.tvData.setBackgroundResource(R.color.white);
+            holder.tvData.setBackgroundColor(Color.argb(0,0,0,0));
+            holder.tvData.setTextColor(Color.parseColor("#FFFFFF"));
+            holder.tvData.setTypeface(null, Typeface.BOLD);
             Log.i("AWVI", "Position: " + position + " Comment: " + currentSugarMeasurement.getComment());
         } else {
             switch (position) {
@@ -57,14 +61,22 @@ public class AdapterWeekViewItem extends ListAdapter<WeekViewItem, AdapterWeekVi
                 case 9+5*5:
                 case 9+5*6:
                     holder.tvData.setText("" + currentSugarMeasurement.getComment());
-                    holder.tvData.setBackgroundResource(R.color.white);
+                    holder.tvData.setBackgroundColor(Color.argb(0,0,0,0));
+                    holder.tvData.setTextColor(Color.parseColor("#FFFFFF"));
+                    holder.tvData.setTypeface(null, Typeface.BOLD);
                     Log.i("AWVI", "Position: " + position + " Comment: " + currentSugarMeasurement.getComment());
                     break;
                 default:
                     if (currentSugarMeasurement.getMeasurement() == -1) {
                         holder.tvData.setText("" + currentSugarMeasurement.getComment());
+                        holder.tvData.setBackgroundColor(Color.argb(255,191, 191, 191));
                         Log.i("AWVI", "Position: " + position + " Comment: " + currentSugarMeasurement.getComment());
                     } else {
+                        if (currentSugarMeasurement.getMeasurement() > 100) {
+                            holder.tvData.setBackgroundColor(Color.argb(255,237, 140, 133));
+                        } else {
+                            holder.tvData.setBackgroundColor(Color.argb(255,137, 240, 164));
+                        }
                         holder.tvData.setText("" + currentSugarMeasurement.getMeasurement());
                         Log.i("AWVI", "Position: " + position + " Measurement: " + currentSugarMeasurement.getMeasurement());
                     }

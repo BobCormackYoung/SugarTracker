@@ -20,22 +20,23 @@ import com.youngsoft.sugartracker.data.SugarMeasurement;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 public class FragmentWeekView extends Fragment {
 
-    View view;
-    RecyclerView recyclerView;
-    AdapterWeekView adapterWeekView;
-    ViewModelMainActivity viewModelMainActivity;
-    long newestDate; //newest date with a sugar measurement recorded
-    long oldestDate; //oldest date with a sugar measurement recorded
-    long weekCount; //number of weeks stored in the database
-    ArrayList<WeekDatesItem> weekDatesArrayList = new ArrayList<>();
+    //private View view;
+    private RecyclerView recyclerView;
+    private AdapterWeekView adapterWeekView;
+    private ViewModelMainActivity viewModelMainActivity;
+    private long newestDate; //newest date with a sugar measurement recorded
+    private long oldestDate; //oldest date with a sugar measurement recorded
+    private long weekCount; //number of weeks stored in the database
+    private ArrayList<WeekDatesItem> weekDatesArrayList = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_week_view, container, false);
+        View view = inflater.inflate(R.layout.fragment_week_view, container, false);
         recyclerView = view.findViewById(R.id.rv_week_view);
         return view;
     }
@@ -44,12 +45,11 @@ public class FragmentWeekView extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        viewModelMainActivity = ViewModelProviders.of(getActivity()).get(ViewModelMainActivity.class);
+        viewModelMainActivity = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(ViewModelMainActivity.class);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
 
-        //adapterWeekView = new AdapterWeekView(this, viewModelWeekView, viewModelMainActivity.getDataRepository());
         adapterWeekView = new AdapterWeekView(this, viewModelMainActivity.getDataRepository());
         recyclerView.setAdapter(adapterWeekView);
 
