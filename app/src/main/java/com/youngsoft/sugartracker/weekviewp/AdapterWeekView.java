@@ -42,8 +42,8 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
     public AdapterWeekView(FragmentWeekView parentFragment, DataRepository dataRepository) {
         super(DIFF_CALLBACK);
         this.parentFragment = parentFragment;
-        //this.viewModelWeekView = viewModelWeekView;
         this.dataRepository = dataRepository;
+        Log.i("AWV","AdapterWeekView: constructor");
     }
 
     @NonNull
@@ -66,7 +66,6 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
         + " to " + DateFormat.format("yyyy-MM-dd",currentDateSet.getEndDate()).toString());
 
         ArrayList<WeekViewItem> weekViewItemArrayList = new ArrayList<>();
-        //viewModelWeekView.setSugarMeasurementsBetweenDates(currentDateSet.getStartDate(), currentDateSet.getEndDate());
         holder.recyclerView.setHasFixedSize(true);
         GridLayoutManager manager = new GridLayoutManager(parentFragment.getActivity(), 5);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {

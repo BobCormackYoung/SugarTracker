@@ -63,6 +63,7 @@ public class FragmentSugar extends Fragment implements AdapterSugarList.OnDelete
 
         adapterSugarList = new AdapterSugarList(viewModelMainActivity.getDataRepository(), this, viewModelMainActivity, this, this);
         recyclerView.setAdapter(adapterSugarList);
+
         viewModelMainActivity.getAllSugarMeasurementsSortedByDate().observe(getViewLifecycleOwner(), new Observer<List<SugarMeasurement>>() {
             @Override
             public void onChanged(List<SugarMeasurement> sugarMeasurements) {

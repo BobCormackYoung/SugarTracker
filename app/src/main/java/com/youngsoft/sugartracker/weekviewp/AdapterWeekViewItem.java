@@ -66,7 +66,13 @@ public class AdapterWeekViewItem extends ListAdapter<WeekViewItem, AdapterWeekVi
                     holder.tvData.setTypeface(null, Typeface.BOLD);
                     Log.i("AWVI", "Position: " + position + " Comment: " + currentSugarMeasurement.getComment());
                     break;
-                default:
+                case 10:
+                case 10+5:
+                case 10+5*2:
+                case 10+5*3:
+                case 10+5*4:
+                case 10+5*5:
+                case 10+5*6:
                     if (currentSugarMeasurement.getMeasurement() == -1) {
                         holder.tvData.setText("" + currentSugarMeasurement.getComment());
                         holder.tvData.setBackgroundColor(Color.argb(255,191, 191, 191));
@@ -77,6 +83,17 @@ public class AdapterWeekViewItem extends ListAdapter<WeekViewItem, AdapterWeekVi
                         } else {
                             holder.tvData.setBackgroundColor(Color.argb(255,137, 240, 164));
                         }
+                        holder.tvData.setText("" + currentSugarMeasurement.getMeasurement());
+                        Log.i("AWVI", "Position: " + position + " Measurement: " + currentSugarMeasurement.getMeasurement());
+                    }
+                    break;
+                default:
+                    if (currentSugarMeasurement.getMeasurement() == -1) {
+                        holder.tvData.setText("" + currentSugarMeasurement.getComment());
+                        holder.tvData.setBackgroundColor(Color.argb(255,191, 191, 191));
+                        Log.i("AWVI", "Position: " + position + " Comment: " + currentSugarMeasurement.getComment());
+                    } else {
+                        holder.tvData.setBackgroundColor(Color.argb(255,137, 240, 164));
                         holder.tvData.setText("" + currentSugarMeasurement.getMeasurement());
                         Log.i("AWVI", "Position: " + position + " Measurement: " + currentSugarMeasurement.getMeasurement());
                     }
