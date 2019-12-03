@@ -44,6 +44,17 @@ public class WeekViewItem {
         this.isFirstMeasurementOfDay = false;
     }
 
+    public WeekViewItem(String comment, boolean isFirstMeasurementOfDay, int associatedMealType, int mealSequence, long date) {
+        this.comment = comment;
+        this.id = -1;
+        this.date = -1;
+        this.measurement = -1;
+        this.mealSequence = mealSequence;
+        this.associatedMealType = associatedMealType;
+        this.associatedMeal = -1;
+        this.isFirstMeasurementOfDay = isFirstMeasurementOfDay;
+    }
+
     public int getId() {
         return id;
     }

@@ -26,7 +26,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
-public class FragmentWeekView extends Fragment {
+public class FragmentWeekView extends Fragment implements AdapterWeekViewItem.OnItemClickListener {
 
     //private View view;
     private RecyclerView recyclerView;
@@ -69,7 +69,7 @@ public class FragmentWeekView extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
 
-        adapterWeekView = new AdapterWeekView(this, viewModelMainActivity.getDataRepository());
+        adapterWeekView = new AdapterWeekView(this, viewModelMainActivity.getDataRepository(), this);
         recyclerView.setAdapter(adapterWeekView);
 
         viewModelMainActivity.getAllSugarMeasurementsSortedByDate().observe(getViewLifecycleOwner(), new Observer<List<SugarMeasurement>>() {
@@ -98,5 +98,28 @@ public class FragmentWeekView extends Fragment {
                 adapterWeekView.notifyDataSetChanged();
             }
         });
+    }
+
+    @Override
+    public void onItemClick(WeekViewItem weekViewItem) {
+        if(weekViewItem.getId() == -1) {
+            //TODO: if a comment value, then need the date and meal type, then pre-populate the bottomSheet
+            bottomSheet = new BottomSheetDialogAddSugar();
+            Bundle inputs = new Bundle();
+            inputs.putInt("MealType",weekViewItem.getAssociatedMealType());
+            inputs.putInt("MealSequence",weekViewItem.getMealSequence());
+            inputs.putBoolean("FirstMeal", weekViewItem.isFirstMeasurementOfDay());
+            inputs.putLong("Date", weekViewItem.getDate());
+            Log.i("FWV","onClick: " + UtilMethods.convertDate(weekViewItem.getDate(),"dd-MM-yyyy HH-mm-ss"));
+            bottomSheet.setArguments(inputs);
+            bottomSheet.show(getChildFragmentManager(), "sugarBottomSheet");
+        } else {
+            //if an existing measurement, load the data and show in the bottomSheet
+            bottomSheet = new BottomSheetDialogAddSugar();
+            Bundle inputs = new Bundle();
+            inputs.putInt("EntryId",weekViewItem.getId());
+            bottomSheet.setArguments(inputs);
+            bottomSheet.show(getChildFragmentManager(), "sugarBottomSheet");
+        }
     }
 }

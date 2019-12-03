@@ -48,6 +48,10 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
     RadioGroup rgMealTiming;
 
     int sugarMeasurementEntryId;
+    int sugarMeasurementMealType;
+    int sugarMeasurementMealSequence;
+    boolean sugarMeasurementFirstMeal;
+    long sugarMeasurementDate;
 
     long date;
     long time;
@@ -64,6 +68,10 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
         //Get the entryId - required if editing an existing entry
         // if a there is no value passed, default value is -1, triggering data fields for a new entry
         sugarMeasurementEntryId = getArguments().getInt("EntryId",-1);
+        sugarMeasurementMealType = getArguments().getInt("MealType",-1);
+        sugarMeasurementMealSequence = getArguments().getInt("MealSequence",-1);
+        sugarMeasurementFirstMeal = getArguments().getBoolean("FirstMeal",false);
+        sugarMeasurementDate = getArguments().getLong("Date",-1);
         return view;
     }
 
@@ -74,10 +82,19 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
         viewModelAddSugarMeasurement = ViewModelProviders.of(this).get(ViewModelAddSugarMeasurement.class);
 
         if (sugarMeasurementEntryId == -1) {
-            //new data entry, initialise the data as a clean entry
-            initNewData();
-            setOnClickListeners();
-            setObservers();
+            if (sugarMeasurementDate != -1) {
+                //partial data entry, initialise partial data
+                initNewData();
+                setOnClickListeners();
+                setObservers();
+                //TODO: avoid initialising clean data first
+                initPartialData();
+            } else {
+                //new data entry, initialise the data as a clean entry
+                initNewData();
+                setOnClickListeners();
+                setObservers();
+            }
         } else {
             //existing data entry, initialise the data as an existing entry
             initNewData(); // first init clean entry values... to wait for asyn-task to finish on calling existing data
@@ -88,6 +105,14 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
         }
 
 
+    }
+
+    private void initPartialData() {
+        viewModelAddSugarMeasurement.setDateMutableLiveData(sugarMeasurementDate);
+        viewModelAddSugarMeasurement.setTimeMutableLiveData(sugarMeasurementDate);
+        viewModelAddSugarMeasurement.setIsFirstMeasurementMutableLiveData(sugarMeasurementFirstMeal);
+        viewModelAddSugarMeasurement.setAssociatedMealTypeMutableLiveData(sugarMeasurementMealType);
+        viewModelAddSugarMeasurement.setMealTimingMutableLiveData(sugarMeasurementMealSequence);
     }
 
     private void initExistingData() {

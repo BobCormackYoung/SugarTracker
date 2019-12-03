@@ -26,6 +26,7 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
 
     private FragmentWeekView parentFragment;
     private DataRepository dataRepository;
+    private AdapterWeekViewItem.OnItemClickListener onItemClickListener;
 
     private static final DiffUtil.ItemCallback<WeekDatesItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<WeekDatesItem>() {
         @Override
@@ -39,10 +40,11 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
         }
     };
 
-    public AdapterWeekView(FragmentWeekView parentFragment, DataRepository dataRepository) {
+    public AdapterWeekView(FragmentWeekView parentFragment, DataRepository dataRepository, AdapterWeekViewItem.OnItemClickListener onItemClickListener) {
         super(DIFF_CALLBACK);
         this.parentFragment = parentFragment;
         this.dataRepository = dataRepository;
+        this.onItemClickListener = onItemClickListener;
         Log.i("AWV","AdapterWeekView: constructor");
     }
 
@@ -83,7 +85,7 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
 
         holder.recyclerView.setLayoutManager(manager);
 
-        AdapterWeekViewItem adapterWeekViewItem = new AdapterWeekViewItem();
+        AdapterWeekViewItem adapterWeekViewItem = new AdapterWeekViewItem(onItemClickListener);
         holder.recyclerView.setAdapter(adapterWeekViewItem);
 
         weekViewItemArrayList.clear();
@@ -349,11 +351,31 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
             } else {
                 if (i == inputArray.size()-1) {
                     //End of the loop, nothing found, insert empty data and break loop
-                    return new WeekViewItem(" - ");
+                    switch (criteria) {
+                        case 1:
+                            return new WeekViewItem(" - ", true, 1, 1, dayStart+1000*60*60*6);
+                        case 2:
+                            return new WeekViewItem(" - ", false, 1, 2, dayStart+1000*60*60*7);
+                        case 3:
+                            return new WeekViewItem(" - ", false, 4, 2, dayStart+1000*60*60*14);
+                        case 4:
+                            return new WeekViewItem(" - ", false, 5, 2, dayStart+1000*60*60*18);
+                    }
                 }
             }
         }
-        return new WeekViewItem(" - ");
+        switch (criteria) {
+            case 1:
+                return new WeekViewItem(" - ", true, 1, 1, dayStart+1000*60*60*6);
+            case 2:
+                return new WeekViewItem(" - ", false, 1, 2, dayStart+1000*60*60*7);
+            case 3:
+                return new WeekViewItem(" - ", false, 4, 2, dayStart+1000*60*60*14);
+            case 4:
+                return new WeekViewItem(" - ", false, 5, 2, dayStart+1000*60*60*18);
+            default:
+                return new WeekViewItem(" - ");
+        }
+        //return new WeekViewItem(" - ");
     }
-
 }

@@ -17,6 +17,8 @@ import com.youngsoft.sugartracker.R;
 
 public class AdapterWeekViewItem extends ListAdapter<WeekViewItem, AdapterWeekViewItem.WeekViewHolder> {
 
+    private OnItemClickListener onItemClickListener;
+
     private static final DiffUtil.ItemCallback<WeekViewItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<WeekViewItem>() {
         @Override
         public boolean areItemsTheSame(@NonNull WeekViewItem oldItem, @NonNull WeekViewItem newItem) {
@@ -29,8 +31,9 @@ public class AdapterWeekViewItem extends ListAdapter<WeekViewItem, AdapterWeekVi
         }
     };
 
-    public AdapterWeekViewItem() {
+    public AdapterWeekViewItem (OnItemClickListener onItemClickListener) {
         super(DIFF_CALLBACK);
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -42,8 +45,37 @@ public class AdapterWeekViewItem extends ListAdapter<WeekViewItem, AdapterWeekVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdapterWeekViewItem.WeekViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdapterWeekViewItem.WeekViewHolder holder, final int position) {
         final WeekViewItem currentSugarMeasurement = getItem(position);
+
+        holder.tvData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (position) {
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 8:
+                    case 9:
+                    case 9+5:
+                    case 9+5*2:
+                    case 9+5*3:
+                    case 9+5*4:
+                    case 9+5*5:
+                    case 9+5*6:
+                        break;
+                    default:
+                        // Only return on click for actual measurement spaces
+                        onItemClickListener.onItemClick(currentSugarMeasurement);
+                        break;
+                }
+            }
+        });
 
         if (position < 9) {
             holder.tvData.setText("" + currentSugarMeasurement.getComment());
@@ -60,6 +92,7 @@ public class AdapterWeekViewItem extends ListAdapter<WeekViewItem, AdapterWeekVi
                 case 9+5*4:
                 case 9+5*5:
                 case 9+5*6:
+                    // Day titles
                     holder.tvData.setText("" + currentSugarMeasurement.getComment());
                     holder.tvData.setBackgroundColor(Color.argb(0,0,0,0));
                     holder.tvData.setTextColor(Color.parseColor("#FFFFFF"));
@@ -73,6 +106,7 @@ public class AdapterWeekViewItem extends ListAdapter<WeekViewItem, AdapterWeekVi
                 case 10+5*4:
                 case 10+5*5:
                 case 10+5*6:
+                    // First measurement of the day
                     if (currentSugarMeasurement.getMeasurement() == -1) {
                         holder.tvData.setText("" + currentSugarMeasurement.getComment());
                         holder.tvData.setBackgroundColor(Color.argb(255,191, 191, 191));
@@ -88,6 +122,7 @@ public class AdapterWeekViewItem extends ListAdapter<WeekViewItem, AdapterWeekVi
                     }
                     break;
                 default:
+                    // All other measurements
                     if (currentSugarMeasurement.getMeasurement() == -1) {
                         holder.tvData.setText("" + currentSugarMeasurement.getComment());
                         holder.tvData.setBackgroundColor(Color.argb(255,191, 191, 191));
@@ -98,6 +133,7 @@ public class AdapterWeekViewItem extends ListAdapter<WeekViewItem, AdapterWeekVi
                         Log.i("AWVI", "Position: " + position + " Measurement: " + currentSugarMeasurement.getMeasurement());
                     }
                     break;
+
             }
         }
     }
@@ -109,5 +145,9 @@ public class AdapterWeekViewItem extends ListAdapter<WeekViewItem, AdapterWeekVi
             super(itemView);
             tvData = itemView.findViewById(R.id.tv_view_data_weekview);
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(WeekViewItem weekViewItem);
     }
 }
