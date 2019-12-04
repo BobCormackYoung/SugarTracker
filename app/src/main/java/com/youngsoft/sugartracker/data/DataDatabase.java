@@ -34,7 +34,6 @@ public abstract class DataDatabase extends RoomDatabase {
 
     public static synchronized DataDatabase getInstance(Context context) {
         if (instance == null) {
-            //Log.i("DataDatabase", "In constructor, instance = null");
             //Populate database on first creation
             instance = Room.databaseBuilder(context.getApplicationContext(),
                     DataDatabase.class, "dataDatabase")

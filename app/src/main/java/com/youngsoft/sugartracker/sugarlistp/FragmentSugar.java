@@ -74,7 +74,6 @@ public class FragmentSugar extends Fragment implements AdapterSugarList.OnDelete
 
     @Override
     public void onDeleteClick(final int index) {
-        //Log.i("FragmentSugar","onDeleteClick " + index);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.Theme_MaterialComponents_Light_Dialog_Alert)
                 .setMessage("Are you sure you'd like to delete this record?")
@@ -94,7 +93,6 @@ public class FragmentSugar extends Fragment implements AdapterSugarList.OnDelete
 
     @Override
     public void onEditClick(int index) {
-        //Log.i("FragmentSugar","onEditClick " + index);
         bottomSheet = new BottomSheetDialogAddSugar();
         Bundle inputs = new Bundle();
         inputs.putInt("EntryId",index);

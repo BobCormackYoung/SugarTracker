@@ -94,7 +94,6 @@ public class FragmentMealPicker extends DialogFragment implements AdapterMealPic
 
     @Override
     public void onMealClick(int index) {
-        //Log.i("OnMealClickListener", "Clicked index " + index);
         viewModelAddSugarMeasurement.setAssociatedMealMutableLiveData(index);
         dismiss();
     }

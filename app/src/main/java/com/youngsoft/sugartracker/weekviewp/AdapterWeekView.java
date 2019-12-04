@@ -2,7 +2,6 @@ package com.youngsoft.sugartracker.weekviewp;
 
 import android.os.AsyncTask;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.youngsoft.sugartracker.R;
-import com.youngsoft.sugartracker.UtilMethods;
 import com.youngsoft.sugartracker.data.DataRepository;
 import com.youngsoft.sugartracker.data.SugarMeasurement;
 
@@ -45,7 +43,6 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
         this.parentFragment = parentFragment;
         this.dataRepository = dataRepository;
         this.onItemClickListener = onItemClickListener;
-        Log.i("AWV","AdapterWeekView: constructor");
     }
 
     @NonNull
@@ -53,16 +50,12 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
     public AdapterWeekView.WeekViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.cardview_week, parent, false);
-        Log.i("AWV","OCVH: " + itemView.getParent());
         return new AdapterWeekView.WeekViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull AdapterWeekView.WeekViewHolder holder, int position) {
         final WeekDatesItem currentDateSet = getItem(position);
-        Log.i("AWV","OBVH Position: " + position);
-        Log.i("AWV","OBVH dates: " + currentDateSet.getStartDate() + " " + currentDateSet.getEndDate());
-        Log.i("AWV","OBVH fragManager: " + parentFragment.getChildFragmentManager());
 
         holder.textView.setText(DateFormat.format("yyyy-MM-dd",currentDateSet.getStartDate()).toString()
         + " to " + DateFormat.format("yyyy-MM-dd",currentDateSet.getEndDate()).toString());
@@ -227,7 +220,6 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
                 }
             }
 
-            Log.i("AWV", "weekViewItemArrayList size: " + weekViewItemArrayList.size());
             adapterWeekViewItem.submitList(weekViewItemArrayList);
             adapterWeekViewItem.notifyDataSetChanged();
         }
@@ -303,9 +295,6 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
     }
 
     private WeekViewItem getWeekViewItem (List<SugarMeasurement> inputArray, long dayStart, long dayEnd, int criteria) {
-        Log.i("getWeekViewItem", "Start Date: " + UtilMethods.convertDate(dayStart, "yyyy-MM-dd  HH:mm:ss") + ", End Date: " +
-                UtilMethods.convertDate(dayEnd, "yyyy-MM-dd  HH:mm:ss") +
-                " inputArraySize: " + inputArray.size());
         for (int i = 0; i < inputArray.size(); i++) {
             SugarMeasurement currentItem = inputArray.get(i);
             //Check if the items is for the current day
@@ -352,40 +341,29 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
             } else {
                 if (i == inputArray.size()-1) {
                     //End of the loop, nothing found, insert empty data and break loop
-                    Log.i("AWV","End of loop");
                     switch (criteria) {
                         case 1:
-                            Log.i("AWV","Case 1 " + UtilMethods.convertDate(dayStart+1000*60*60*6,"dd-MM-yyyy HH:mm:ss"));
                             return new WeekViewItem(" - ", true, 1, 1, dayStart+1000*60*60*6);
                         case 2:
-                            Log.i("AWV","Case 2 " + UtilMethods.convertDate(dayStart+1000*60*60*6,"dd-MM-yyyy HH:mm:ss"));
                             return new WeekViewItem(" - ", false, 1, 2, dayStart+1000*60*60*7);
                         case 3:
-                            Log.i("AWV","Case 3 " + UtilMethods.convertDate(dayStart+1000*60*60*6,"dd-MM-yyyy HH:mm:ss"));
                             return new WeekViewItem(" - ", false, 4, 2, dayStart+1000*60*60*14);
                         case 4:
-                            Log.i("AWV","Case 4 " + UtilMethods.convertDate(dayStart+1000*60*60*6,"dd-MM-yyyy HH:mm:ss"));
                             return new WeekViewItem(" - ", false, 5, 2, dayStart+1000*60*60*18);
                     }
                 }
             }
         }
-        Log.i("AWV","Outside Loop");
         switch (criteria) {
             case 1:
-                Log.i("AWV","Case 1 " + UtilMethods.convertDate(dayStart+1000*60*60*6,"dd-MM-yyyy HH:mm:ss"));
                 return new WeekViewItem(" - ", true, 1, 1, dayStart+1000*60*60*6);
             case 2:
-                Log.i("AWV","Case 2 " + UtilMethods.convertDate(dayStart+1000*60*60*6,"dd-MM-yyyy HH:mm:ss"));
                 return new WeekViewItem(" - ", false, 1, 2, dayStart+1000*60*60*7);
             case 3:
-                Log.i("AWV","Case 3 " + UtilMethods.convertDate(dayStart+1000*60*60*6,"dd-MM-yyyy HH:mm:ss"));
                 return new WeekViewItem(" - ", false, 4, 2, dayStart+1000*60*60*14);
             case 4:
-                Log.i("AWV","Case 4 " + UtilMethods.convertDate(dayStart+1000*60*60*6,"dd-MM-yyyy HH:mm:ss"));
                 return new WeekViewItem(" - ", false, 5, 2, dayStart+1000*60*60*18);
             default:
-                Log.i("AWV","Default");
                 return new WeekViewItem(" - ");
         }
         //return new WeekViewItem(" - ");

@@ -29,7 +29,6 @@ public class DataRepository {
             protected Void doInBackground(Void... voids) {
                 dataDao.insertMultipleMealRecords(MealRecord.populateMealRecordData());
                 dataDao.insertMultipleSugarMeasurementRecords(SugarMeasurement.populateSugarMeasurementData());
-                //Log.i(TAG, "Adding Debug Data");
                 return null;
             }
         }.execute();
@@ -87,9 +86,7 @@ public class DataRepository {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                //Log.i("DataRepository","deleteSugarMeasurement " + index);
                 int affectRows = dataDao.deleteSugarMeasurement(index);
-                //Log.i("DataRepository","deleteSugarMeasurement affects rows " + affectRows);
                 return null;
             }
         }.execute();
@@ -103,9 +100,7 @@ public class DataRepository {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                //Log.i("DataRepository","deleteMealMeasurement " + index);
                 int affectRows = dataDao.deleteMealRecord(index);
-                //Log.i("DataRepository","deleteMealMeasurement affects rows " + affectRows);
                 return null;
             }
         }.execute();
@@ -123,7 +118,6 @@ public class DataRepository {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                //Log.i("DataRepository","UpdateSugarMeasurement " + outputSugarMeasurement.getId());
                 dataDao.updateSugarMeasurementEntry(outputSugarMeasurement);
                 return null;
             }
@@ -134,7 +128,6 @@ public class DataRepository {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                //Log.i("DataRepository","UpdateMealRecord " + outputMealRecord.getId());
                 dataDao.updateMealRecordEntry(outputMealRecord);
                 return null;
             }

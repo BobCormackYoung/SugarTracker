@@ -47,22 +47,11 @@ public class FragmentDatePickerSugar extends DialogFragment implements DatePicke
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);
         c.set(Calendar.MILLISECOND, 0);
-        //Log.i("DatePicker","Date = " + c.getTimeInMillis());
-        //Log.i("DatePicker","" + year);
-        //Log.i("DatePicker","" + month);
-        //Log.i("DatePicker","" + dayOfMonth);
 
         viewModelAddSugarMeasurement.setDateMutableLiveData(c.getTimeInMillis());
 
         Calendar b = Calendar.getInstance();
         b.setTimeInMillis(0);
-        //Log.i("DatePicker","" + b.get(Calendar.YEAR));
-        //Log.i("DatePicker","" + b.get(Calendar.MONTH));
-        //Log.i("DatePicker","" + b.get(Calendar.DAY_OF_MONTH));
-        //Log.i("DatePicker","" + b.get(Calendar.HOUR));
-        //Log.i("DatePicker","" + b.get(Calendar.MINUTE));
-        //Log.i("DatePicker","" + b.get(Calendar.SECOND));
-        //Log.i("DatePicker","" + b.get(Calendar.MILLISECOND));
 
     }
 }

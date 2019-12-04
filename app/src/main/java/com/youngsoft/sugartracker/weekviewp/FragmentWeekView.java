@@ -1,7 +1,6 @@
 package com.youngsoft.sugartracker.weekviewp;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.youngsoft.sugartracker.R;
-import com.youngsoft.sugartracker.UtilMethods;
 import com.youngsoft.sugartracker.ViewModelMainActivity;
 import com.youngsoft.sugartracker.data.SugarMeasurement;
 import com.youngsoft.sugartracker.sugarlistp.BottomSheetDialogAddSugar;
@@ -75,7 +73,6 @@ public class FragmentWeekView extends Fragment implements AdapterWeekViewItem.On
         viewModelMainActivity.getAllSugarMeasurementsSortedByDate().observe(getViewLifecycleOwner(), new Observer<List<SugarMeasurement>>() {
             @Override
             public void onChanged(List<SugarMeasurement> sugarMeasurements) {
-                Log.i("FWV","observer changed");
                 //TODO: handle if the observed item is null
                 Calendar tempCalendar = Calendar.getInstance();
                 tempCalendar.set(Calendar.HOUR_OF_DAY,0);
@@ -89,8 +86,6 @@ public class FragmentWeekView extends Fragment implements AdapterWeekViewItem.On
                 tempCalendar.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
                 long startDateOfFirstWeek = tempCalendar.getTimeInMillis();
                 for (long item = 0; item < weekCount+1; item++) {
-                    Log.i("FWV","item " + item + ", date " + UtilMethods.convertDate(startDateOfFirstWeek-item*1000*60*60*24*7,"dd-MM-yyyy HH:mm:ss"));
-                    //Log.i("FWV","startDateOfFirstWeek " + startDateOfFirstWeek + ", item " + item*1000*60*60*24*7);
                     tempCalendar.setTimeInMillis(startDateOfFirstWeek-item*1000*60*60*24*7);
                     weekDatesArrayList.add(new WeekDatesItem(tempCalendar.getTimeInMillis(),tempCalendar.getTimeInMillis()+1000*60*60*24*7));
                 }
@@ -110,7 +105,6 @@ public class FragmentWeekView extends Fragment implements AdapterWeekViewItem.On
             inputs.putInt("MealSequence",weekViewItem.getMealSequence());
             inputs.putBoolean("FirstMeal", weekViewItem.isFirstMeasurementOfDay());
             inputs.putLong("Date", weekViewItem.getDate());
-            Log.i("FWV","onClick: " + UtilMethods.convertDate(weekViewItem.getDate(),"dd-MM-yyyy HH-mm-ss"));
             bottomSheet.setArguments(inputs);
             bottomSheet.show(getChildFragmentManager(), "sugarBottomSheet");
         } else {

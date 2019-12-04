@@ -41,9 +41,6 @@ public class FragmentTimePickerMeal extends DialogFragment implements TimePicker
 
         Calendar c = Calendar.getInstance();
         c.set(1970, 0, 1, hourOfDay, minute, 0);
-        //Log.i("DatePicker", "Date = " + c.getTimeInMillis());
-        //Log.i("DatePicker", "" + hourOfDay);
-        //Log.i("DatePicker", "" + minute);
 
         viewModelAddMealRecord.setTimeMutableLiveData(c.getTimeInMillis());
     }

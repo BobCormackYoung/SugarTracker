@@ -104,7 +104,6 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
         holder.ibDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Log.i("AdapterSugarList","onDeleteClick " + currentSugarMeasurement.getId());
                 onDeleteClickListener.onDeleteClick(currentSugarMeasurement.getId());
             }
         });
@@ -112,7 +111,6 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
         holder.ibEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Log.i("AdapterSugarList","onEditClick " + currentSugarMeasurement.getId());
                 onEditClickListener.onEditClick(currentSugarMeasurement.getId());
             }
         });

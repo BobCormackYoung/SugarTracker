@@ -87,7 +87,6 @@ public class FragmentMealTypePicker extends DialogFragment implements AdapterMea
 
     @Override
     public void onMealTypeClick(int index) {
-        //Log.i("OnMealClickListener", "Clicked index " + index);
         viewModelAddMealRecord.setMealTypeMutableLiveData(index);
         dismiss();
     }
