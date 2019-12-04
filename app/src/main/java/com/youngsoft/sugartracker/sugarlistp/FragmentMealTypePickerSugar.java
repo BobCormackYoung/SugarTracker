@@ -67,6 +67,7 @@ public class FragmentMealTypePickerSugar extends DialogFragment implements Adapt
         recyclerView.setAdapter(adapterMealTypePickerList);
 
         mealTypeArrayList = new ArrayList<>();
+        mealTypeArrayList.add(-1);
         mealTypeArrayList.add(1);
         mealTypeArrayList.add(2);
         mealTypeArrayList.add(3);
@@ -87,7 +88,6 @@ public class FragmentMealTypePickerSugar extends DialogFragment implements Adapt
 
     @Override
     public void onMealTypeClick(int index) {
-        //Log.i("OnMealClickListener", "Clicked index " + index);
         viewModelAddSugarMeasurement.setAssociatedMealTypeMutableLiveData(index);
         dismiss();
     }

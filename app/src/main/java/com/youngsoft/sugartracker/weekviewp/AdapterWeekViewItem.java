@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.youngsoft.sugartracker.R;
+import com.youngsoft.sugartracker.UtilMethods;
 
 public class AdapterWeekViewItem extends ListAdapter<WeekViewItem, AdapterWeekViewItem.WeekViewHolder> {
 
@@ -72,6 +73,7 @@ public class AdapterWeekViewItem extends ListAdapter<WeekViewItem, AdapterWeekVi
                     default:
                         // Only return on click for actual measurement spaces
                         onItemClickListener.onItemClick(currentSugarMeasurement);
+                        Log.i("AWVI OnClick","Date " + UtilMethods.convertDate(currentSugarMeasurement.getDate(),"dd-MM-yyyy HH:mm:ss"));
                         break;
                 }
             }

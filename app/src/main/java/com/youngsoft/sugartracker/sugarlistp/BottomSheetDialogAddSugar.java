@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,14 +109,31 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
     }
 
     private void initPartialData() {
-        viewModelAddSugarMeasurement.setDateMutableLiveData(sugarMeasurementDate);
-        viewModelAddSugarMeasurement.setTimeMutableLiveData(sugarMeasurementDate);
+        Log.i("BSDAS" , "initPartialData");
+        //TODO: move this to utils... also used in the init existing data
+        Calendar calendarDate = Calendar.getInstance();
+        calendarDate.setTimeInMillis(sugarMeasurementDate);
+        calendarDate.set(Calendar.HOUR, 1);
+        calendarDate.set(Calendar.MINUTE, 0);
+        calendarDate.set(Calendar.SECOND, 0);
+        calendarDate.set(Calendar.MILLISECOND, 0);
+
+        Calendar calendarTime = Calendar.getInstance();
+        calendarTime.setTimeInMillis(sugarMeasurementDate);
+        calendarTime.set(Calendar.YEAR, 1970);
+        calendarTime.set(Calendar.MONTH, 0);
+        calendarTime.set(Calendar.DAY_OF_MONTH, 1);
+
+        viewModelAddSugarMeasurement.setDateMutableLiveData(calendarDate.getTimeInMillis());
+        viewModelAddSugarMeasurement.setTimeMutableLiveData(calendarTime.getTimeInMillis());
         viewModelAddSugarMeasurement.setIsFirstMeasurementMutableLiveData(sugarMeasurementFirstMeal);
         viewModelAddSugarMeasurement.setAssociatedMealTypeMutableLiveData(sugarMeasurementMealType);
+        Log.i("BSDAS initPartialData", "Meal Type " + sugarMeasurementMealType);
         viewModelAddSugarMeasurement.setMealTimingMutableLiveData(sugarMeasurementMealSequence);
     }
 
     private void initExistingData() {
+        Log.i("BSDAS" , "initPartialData");
         GetSugarMeasurementEntry getSugarMeasurementEntry = new GetSugarMeasurementEntry();
         getSugarMeasurementEntry.execute(sugarMeasurementEntryId);
     }
@@ -136,7 +154,7 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
     }
 
     private void initNewData() {
-
+        Log.i("BSDAS" , "initNewData");
         // Set Date and Time to now
         Calendar calendarDate = Calendar.getInstance();
         calendarDate.set(Calendar.HOUR, 1);
@@ -373,6 +391,7 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
         viewModelAddSugarMeasurement.getAssociatedMealTypeMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer index) {
+                Log.i("BSDAS observer", "Meal Type " + index);
                 if (index == -1) {
                     etSugarAssociatedMealType.setText("None");
                 } else {
@@ -385,8 +404,9 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
         viewModelAddSugarMeasurement.getAssociatedMealMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer index) {
+                Log.i("BSDAS observer", "Meal " + index);
                 if (index == -1) {
-                    viewModelAddSugarMeasurement.setAssociatedMealTypeMutableLiveData(-1);
+                    //viewModelAddSugarMeasurement.setAssociatedMealTypeMutableLiveData(-1);
                     etSugarAssociatedMeal.setText("None");
                 } else {
                     GetMealDataAsync getMealDataAsync = new GetMealDataAsync();

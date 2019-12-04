@@ -8,6 +8,9 @@ public class UtilMethods {
         String output = null;
 
         switch (input) {
+            case -1:
+                output = "None";
+                break;
             case 1:
                 output = "Breakfast";
                 break;

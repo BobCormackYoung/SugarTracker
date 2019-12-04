@@ -309,7 +309,8 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
         for (int i = 0; i < inputArray.size(); i++) {
             SugarMeasurement currentItem = inputArray.get(i);
             //Check if the items is for the current day
-            if (currentItem.getDate() < dayEnd && currentItem.getDate() > dayStart) {
+            if (currentItem.getDate() < dayEnd && currentItem.getDate() > dayStart)
+            {
                 //Check whether meets data criteria
                 // 1 = first meal of the day
                 // 2 = after breakfast
@@ -351,29 +352,40 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
             } else {
                 if (i == inputArray.size()-1) {
                     //End of the loop, nothing found, insert empty data and break loop
+                    Log.i("AWV","End of loop");
                     switch (criteria) {
                         case 1:
+                            Log.i("AWV","Case 1 " + UtilMethods.convertDate(dayStart+1000*60*60*6,"dd-MM-yyyy HH:mm:ss"));
                             return new WeekViewItem(" - ", true, 1, 1, dayStart+1000*60*60*6);
                         case 2:
+                            Log.i("AWV","Case 2 " + UtilMethods.convertDate(dayStart+1000*60*60*6,"dd-MM-yyyy HH:mm:ss"));
                             return new WeekViewItem(" - ", false, 1, 2, dayStart+1000*60*60*7);
                         case 3:
+                            Log.i("AWV","Case 3 " + UtilMethods.convertDate(dayStart+1000*60*60*6,"dd-MM-yyyy HH:mm:ss"));
                             return new WeekViewItem(" - ", false, 4, 2, dayStart+1000*60*60*14);
                         case 4:
+                            Log.i("AWV","Case 4 " + UtilMethods.convertDate(dayStart+1000*60*60*6,"dd-MM-yyyy HH:mm:ss"));
                             return new WeekViewItem(" - ", false, 5, 2, dayStart+1000*60*60*18);
                     }
                 }
             }
         }
+        Log.i("AWV","Outside Loop");
         switch (criteria) {
             case 1:
+                Log.i("AWV","Case 1 " + UtilMethods.convertDate(dayStart+1000*60*60*6,"dd-MM-yyyy HH:mm:ss"));
                 return new WeekViewItem(" - ", true, 1, 1, dayStart+1000*60*60*6);
             case 2:
+                Log.i("AWV","Case 2 " + UtilMethods.convertDate(dayStart+1000*60*60*6,"dd-MM-yyyy HH:mm:ss"));
                 return new WeekViewItem(" - ", false, 1, 2, dayStart+1000*60*60*7);
             case 3:
+                Log.i("AWV","Case 3 " + UtilMethods.convertDate(dayStart+1000*60*60*6,"dd-MM-yyyy HH:mm:ss"));
                 return new WeekViewItem(" - ", false, 4, 2, dayStart+1000*60*60*14);
             case 4:
+                Log.i("AWV","Case 4 " + UtilMethods.convertDate(dayStart+1000*60*60*6,"dd-MM-yyyy HH:mm:ss"));
                 return new WeekViewItem(" - ", false, 5, 2, dayStart+1000*60*60*18);
             default:
+                Log.i("AWV","Default");
                 return new WeekViewItem(" - ");
         }
         //return new WeekViewItem(" - ");
