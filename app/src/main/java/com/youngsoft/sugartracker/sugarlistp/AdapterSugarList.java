@@ -23,8 +23,6 @@ import com.youngsoft.sugartracker.data.SugarMeasurement;
 
 public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugarList.SugarListHolder> {
 
-    //TODO: add delete & edit item functionality
-
     DataRepository dataRepository;
     FragmentSugar fragmentSugar;
     ViewModelMainActivity viewModelMainActivity;

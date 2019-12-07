@@ -22,11 +22,10 @@ import com.youngsoft.sugartracker.sugarlistp.BottomSheetDialogAddSugar;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Objects;
 
 public class FragmentWeekView extends Fragment implements AdapterWeekViewItem.OnItemClickListener {
 
-    //private View view;
+    View view;
     private RecyclerView recyclerView;
     private AdapterWeekView adapterWeekView;
     private ViewModelMainActivity viewModelMainActivity;
@@ -40,7 +39,7 @@ public class FragmentWeekView extends Fragment implements AdapterWeekViewItem.On
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_week_view, container, false);
+        view = inflater.inflate(R.layout.fragment_week_view, container, false);
 
         floatingActionButton = view.findViewById(R.id.fab_add_sugar_weekly);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -62,15 +61,15 @@ public class FragmentWeekView extends Fragment implements AdapterWeekViewItem.On
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        viewModelMainActivity = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(ViewModelMainActivity.class);
+        viewModelMainActivity = ViewModelProviders.of(getActivity()).get(ViewModelMainActivity.class);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
-
         adapterWeekView = new AdapterWeekView(this, viewModelMainActivity.getDataRepository(), this);
         recyclerView.setAdapter(adapterWeekView);
 
-        viewModelMainActivity.getAllSugarMeasurementsSortedByDate().observe(getViewLifecycleOwner(), new Observer<List<SugarMeasurement>>() {
+        viewModelMainActivity.getAllSugarMeasurementsSortedByDate().observe(getViewLifecycleOwner(),
+                new Observer<List<SugarMeasurement>>() {
             @Override
             public void onChanged(List<SugarMeasurement> sugarMeasurements) {
                 //TODO: handle if the observed item is null
@@ -89,8 +88,9 @@ public class FragmentWeekView extends Fragment implements AdapterWeekViewItem.On
                     tempCalendar.setTimeInMillis(startDateOfFirstWeek-item*1000*60*60*24*7);
                     weekDatesArrayList.add(new WeekDatesItem(tempCalendar.getTimeInMillis(),tempCalendar.getTimeInMillis()+1000*60*60*24*7));
                 }
+
                 adapterWeekView.submitList(weekDatesArrayList);
-                adapterWeekView.notifyDataSetChanged();
+                //adapterWeekView.notifyDataSetChanged();
             }
         });
     }

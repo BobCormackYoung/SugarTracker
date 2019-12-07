@@ -38,7 +38,9 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
         }
     };
 
-    public AdapterWeekView(FragmentWeekView parentFragment, DataRepository dataRepository, AdapterWeekViewItem.OnItemClickListener onItemClickListener) {
+    public AdapterWeekView(FragmentWeekView parentFragment,
+                           DataRepository dataRepository,
+                           AdapterWeekViewItem.OnItemClickListener onItemClickListener) {
         super(DIFF_CALLBACK);
         this.parentFragment = parentFragment;
         this.dataRepository = dataRepository;
@@ -85,6 +87,7 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
         for (int item = 0; item < 44; item++) {
             weekViewItemArrayList.add(new WeekViewItem(" "));
         }
+
         adapterWeekViewItem.submitList(weekViewItemArrayList);
 
         ParamsGetSugarWeekData paramsGetSugarWeekData = new ParamsGetSugarWeekData(currentDateSet.getStartDate(),
@@ -96,12 +99,12 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
 
     }
 
-    class WeekViewHolder extends RecyclerView.ViewHolder {
+    public class WeekViewHolder extends RecyclerView.ViewHolder {
 
         TextView textView;
         RecyclerView recyclerView;
 
-        WeekViewHolder(View itemView) {
+        public WeekViewHolder(View itemView) {
             super(itemView);
 
             textView = itemView.findViewById(R.id.tv_dummy_weekitem);
