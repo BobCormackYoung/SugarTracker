@@ -1,6 +1,7 @@
 package com.youngsoft.sugartracker.weekviewp;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,25 +73,29 @@ public class FragmentWeekView extends Fragment implements AdapterWeekViewItem.On
                 new Observer<List<SugarMeasurement>>() {
             @Override
             public void onChanged(List<SugarMeasurement> sugarMeasurements) {
-                //TODO: handle if the observed item is null
-                Calendar tempCalendar = Calendar.getInstance();
-                tempCalendar.set(Calendar.HOUR_OF_DAY,0);
-                tempCalendar.set(Calendar.MINUTE,0);
-                tempCalendar.set(Calendar.SECOND,0);
-                newestDate = tempCalendar.getTimeInMillis(); //get the newest date from the existing data
-                oldestDate = sugarMeasurements.get(sugarMeasurements.size()-1).getDate(); //get the oldest date from the existing data
-                weekCount = 1+(newestDate-oldestDate)/(1000*60*60*24*7);
-                weekDatesArrayList.clear();
+                if (sugarMeasurements.isEmpty()) {
+                    //TODO: add a placeholder view
+                    Log.i("FWV","observer is null");
+                } else {
+                    Calendar tempCalendar = Calendar.getInstance();
+                    tempCalendar.set(Calendar.HOUR_OF_DAY,0);
+                    tempCalendar.set(Calendar.MINUTE,0);
+                    tempCalendar.set(Calendar.SECOND,0);
+                    newestDate = tempCalendar.getTimeInMillis(); //get the newest date from the existing data
+                    oldestDate = sugarMeasurements.get(sugarMeasurements.size()-1).getDate(); //get the oldest date from the existing data
+                    weekCount = 1+(newestDate-oldestDate)/(1000*60*60*24*7);
+                    weekDatesArrayList.clear();
 
-                tempCalendar.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
-                long startDateOfFirstWeek = tempCalendar.getTimeInMillis();
-                for (long item = 0; item < weekCount+1; item++) {
-                    tempCalendar.setTimeInMillis(startDateOfFirstWeek-item*1000*60*60*24*7);
-                    weekDatesArrayList.add(new WeekDatesItem(tempCalendar.getTimeInMillis(),tempCalendar.getTimeInMillis()+1000*60*60*24*7));
+                    tempCalendar.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
+                    long startDateOfFirstWeek = tempCalendar.getTimeInMillis();
+                    for (long item = 0; item < weekCount+1; item++) {
+                        tempCalendar.setTimeInMillis(startDateOfFirstWeek-item*1000*60*60*24*7);
+                        weekDatesArrayList.add(new WeekDatesItem(tempCalendar.getTimeInMillis(),tempCalendar.getTimeInMillis()+1000*60*60*24*7));
+                    }
+
+                    adapterWeekView.submitList(weekDatesArrayList);
+                    adapterWeekView.notifyDataSetChanged();
                 }
-
-                adapterWeekView.submitList(weekDatesArrayList);
-                //adapterWeekView.notifyDataSetChanged();
             }
         });
     }
@@ -98,7 +103,6 @@ public class FragmentWeekView extends Fragment implements AdapterWeekViewItem.On
     @Override
     public void onItemClick(WeekViewItem weekViewItem) {
         if(weekViewItem.getId() == -1) {
-            //TODO: if a comment value, then need the date and meal type, then pre-populate the bottomSheet
             bottomSheet = new BottomSheetDialogAddSugar();
             Bundle inputs = new Bundle();
             inputs.putInt("MealType",weekViewItem.getAssociatedMealType());
