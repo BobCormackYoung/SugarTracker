@@ -1,5 +1,6 @@
 package com.youngsoft.sugartracker;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,10 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.youngsoft.sugartracker.dashboardp.FragmentDashboard;
 import com.youngsoft.sugartracker.mealslistp.FragmentMeals;
+import com.youngsoft.sugartracker.preferencesp.SettingsActivity;
 import com.youngsoft.sugartracker.sugarlistp.FragmentSugar;
 import com.youngsoft.sugartracker.weekviewp.FragmentWeekView;
 
@@ -64,6 +67,18 @@ public class MainActivity extends AppCompatActivity {
                 fragmentDashboard).commit();
         Toolbar toolbarMainActivity = findViewById(R.id.toolbar_main_activity);
         setSupportActionBar(toolbarMainActivity);
+
+        // Sets default values only once, first time this is called.
+        // The third argument is a boolean that indicates whether
+        // the default values should be set more than once. When false,
+        // the system sets the default values only if this method has never
+        // been called in the past.
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
+        // Read the settings from the shared preferences and display a toast.
+        /*SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean switchPref = sharedPref.getBoolean(SettingsActivity.KEY_PREF_SWITCH, false);
+        Toast.makeText(this, switchPref.toString(),Toast.LENGTH_SHORT).show();*/
     }
 
     @Override
@@ -83,8 +98,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
             // action with ID action_settings was selected
             case R.id.action_settings:
-                Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT)
-                        .show();
+                //Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT).show();
+                //TODO: https://codelabs.developers.google.com/codelabs/android-training-adding-settings-to-app/index.html?index=..%2F..android-training#2
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
                 break;
             // action with ID  was selected
             case R.id.action_bug_report:

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditTextPreference
+        android:defaultValue="Default value"
+        android:key="edit_text_preference_1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:summary="test edit text"
+        android:title="Edit text preference"
+        app:iconSpaceReserved="false"/>
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="switch_preference_1"
+        android:summary="test switch"
+        android:title="Switch preference"
+        app:iconSpaceReserved="false"/>
+
+    <PreferenceCategory
+        android:title="APP INFO"
+        app:iconSpaceReserved="false">
+
+        <EditTextPreference
+            android:defaultValue="Default value"
+            android:editable="false"
+            android:key="edit_text_preference_2"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/versionCode"
+            android:title="Build Number"
+            app:iconSpaceReserved="false"/>
+
+        <EditTextPreference
+            android:defaultValue="Default value"
+            android:editable="false"
+            android:key="edit_text_preference_3"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/versionName"
+            android:title="Version"
+            app:iconSpaceReserved="false"/>
+    </PreferenceCategory>
+</PreferenceScreen>

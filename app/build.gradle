@@ -11,9 +11,16 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            versionNameSuffix ".debug"
+            resValue "string", "versionName", "${defaultConfig.versionName}${versionNameSuffix}"
+            resValue "string", "versionCode", "${defaultConfig.versionCode}${versionNameSuffix}"
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue "string", "versionName", "${defaultConfig.versionName}"
+            resValue "string", "versionCode", "${defaultConfig.versionCode}"
         }
     }
 }
@@ -32,4 +39,5 @@ dependencies {
     annotationProcessor 'androidx.room:room-compiler:2.1.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'androidx.preference:preference:1.1.0'
 }
