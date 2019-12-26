@@ -1,5 +1,6 @@
 package com.youngsoft.sugartracker.weekviewp;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
     private FragmentWeekView parentFragment;
     private DataRepository dataRepository;
     private AdapterWeekViewItem.OnItemClickListener onItemClickListener;
+    private Context context;
 
     private static final DiffUtil.ItemCallback<WeekDatesItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<WeekDatesItem>() {
         @Override
@@ -38,10 +40,12 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
         }
     };
 
-    public AdapterWeekView(FragmentWeekView parentFragment,
+    public AdapterWeekView(Context context,
+                           FragmentWeekView parentFragment,
                            DataRepository dataRepository,
                            AdapterWeekViewItem.OnItemClickListener onItemClickListener) {
         super(DIFF_CALLBACK);
+        this.context = context;
         this.parentFragment = parentFragment;
         this.dataRepository = dataRepository;
         this.onItemClickListener = onItemClickListener;
@@ -80,7 +84,7 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
 
         holder.recyclerView.setLayoutManager(manager);
 
-        AdapterWeekViewItem adapterWeekViewItem = new AdapterWeekViewItem(onItemClickListener);
+        AdapterWeekViewItem adapterWeekViewItem = new AdapterWeekViewItem(context, onItemClickListener);
         holder.recyclerView.setAdapter(adapterWeekViewItem);
 
         weekViewItemArrayList.clear();

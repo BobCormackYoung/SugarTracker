@@ -66,7 +66,7 @@ public class FragmentWeekView extends Fragment implements AdapterWeekViewItem.On
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
-        adapterWeekView = new AdapterWeekView(this, viewModelMainActivity.getDataRepository(), this);
+        adapterWeekView = new AdapterWeekView(getActivity(),this, viewModelMainActivity.getDataRepository(), this);
         recyclerView.setAdapter(adapterWeekView);
 
         viewModelMainActivity.getAllSugarMeasurementsSortedByDate().observe(getViewLifecycleOwner(),

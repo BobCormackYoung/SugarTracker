@@ -1,40 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <EditTextPreference
-        android:defaultValue="Default value"
-        android:key="edit_text_preference_1"
+    <Preference
+        android:key="preference_limit_pre_breakfast"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:summary="test edit text"
-        android:title="Edit text preference"
+        android:summary="mg/dL"
+        android:title="Sugar limit (pre-Breakfast)"
         app:iconSpaceReserved="false"/>
+
     <SwitchPreference
-        android:defaultValue="false"
-        android:key="switch_preference_1"
-        android:summary="test switch"
-        android:title="Switch preference"
+        android:defaultValue="true"
+        android:key="preference_limit_highlight_pre_breakfast"
+        android:summary="Pre-Breakfast"
+        android:title="Limit highlighting?"
+        app:iconSpaceReserved="false"/>
+
+    <Preference
+        android:key="preference_limit_post_meal"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:summary="mg/dL"
+        android:title="Sugar limit (post-Meal)"
+        app:iconSpaceReserved="false"/>
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="preference_limit_highlight_post_meal"
+        android:summary="Post-Meal"
+        android:title="Limit highlighting?"
         app:iconSpaceReserved="false"/>
 
     <PreferenceCategory
         android:title="APP INFO"
         app:iconSpaceReserved="false">
 
-        <EditTextPreference
+        <Preference
             android:defaultValue="Default value"
             android:editable="false"
-            android:key="edit_text_preference_2"
+            android:key="preference_build_number"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:summary="@string/versionCode"
             android:title="Build Number"
             app:iconSpaceReserved="false"/>
 
-        <EditTextPreference
+        <Preference
             android:defaultValue="Default value"
             android:editable="false"
-            android:key="edit_text_preference_3"
+            android:key="preference_version"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:summary="@string/versionName"

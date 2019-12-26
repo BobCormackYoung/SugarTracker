@@ -1,6 +1,7 @@
 package com.youngsoft.sugartracker;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -68,17 +69,41 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbarMainActivity = findViewById(R.id.toolbar_main_activity);
         setSupportActionBar(toolbarMainActivity);
 
+        /*
         // Sets default values only once, first time this is called.
         // The third argument is a boolean that indicates whether
         // the default values should be set more than once. When false,
         // the system sets the default values only if this method has never
         // been called in the past.
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        */
+        setDefaultSharedPreferences();
 
+        /*
         // Read the settings from the shared preferences and display a toast.
-        /*SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         Boolean switchPref = sharedPref.getBoolean(SettingsActivity.KEY_PREF_SWITCH, false);
-        Toast.makeText(this, switchPref.toString(),Toast.LENGTH_SHORT).show();*/
+        Toast.makeText(this, switchPref.toString(),Toast.LENGTH_SHORT).show();
+        */
+    }
+
+    private void setDefaultSharedPreferences() {
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        if (preferences.getLong(SettingsActivity.KEY_PREF_LIMIT1, -1) == -1) {
+            editor.putLong(SettingsActivity.KEY_PREF_LIMIT1, Double.doubleToRawLongBits(100.0));
+            editor.commit();
+        }
+
+        if (preferences.getLong(SettingsActivity.KEY_PREF_LIMIT2, -1) == -1) {
+            editor.putLong(SettingsActivity.KEY_PREF_LIMIT2, Double.doubleToRawLongBits(200.0));
+            editor.commit();
+        }
+
     }
 
     @Override
@@ -98,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             // action with ID action_settings was selected
             case R.id.action_settings:
-                //Toast.makeText(this, "Settings selected", Toast.LENGTH_SHORT).show();
                 //TODO: https://codelabs.developers.google.com/codelabs/android-training-adding-settings-to-app/index.html?index=..%2F..android-training#2
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);

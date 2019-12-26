@@ -1,5 +1,7 @@
 package com.youngsoft.sugartracker.weekviewp;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
@@ -8,15 +10,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.youngsoft.sugartracker.R;
+import com.youngsoft.sugartracker.preferencesp.SettingsActivity;
 
 public class AdapterWeekViewItem extends ListAdapter<WeekViewItem, AdapterWeekViewItem.WeekViewHolder> {
 
     private OnItemClickListener onItemClickListener;
+    private Context context;
 
     private static final DiffUtil.ItemCallback<WeekViewItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<WeekViewItem>() {
         @Override
@@ -30,8 +35,9 @@ public class AdapterWeekViewItem extends ListAdapter<WeekViewItem, AdapterWeekVi
         }
     };
 
-    public AdapterWeekViewItem (OnItemClickListener onItemClickListener) {
+    public AdapterWeekViewItem (Context context, OnItemClickListener onItemClickListener) {
         super(DIFF_CALLBACK);
+        this.context = context;
         this.onItemClickListener = onItemClickListener;
     }
 
@@ -46,6 +52,8 @@ public class AdapterWeekViewItem extends ListAdapter<WeekViewItem, AdapterWeekVi
     @Override
     public void onBindViewHolder(@NonNull AdapterWeekViewItem.WeekViewHolder holder, final int position) {
         final WeekViewItem currentSugarMeasurement = getItem(position);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         holder.tvData.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +116,7 @@ public class AdapterWeekViewItem extends ListAdapter<WeekViewItem, AdapterWeekVi
                         holder.tvData.setText("" + currentSugarMeasurement.getComment());
                         holder.tvData.setBackgroundColor(Color.argb(255,191, 191, 191));
                     } else {
-                        if (currentSugarMeasurement.getMeasurement() > 100) {
+                        if (currentSugarMeasurement.getMeasurement() > Double.longBitsToDouble(preferences.getLong(SettingsActivity.KEY_PREF_LIMIT1,-1))) {
                             holder.tvData.setBackgroundColor(Color.argb(255,237, 140, 133));
                         } else {
                             holder.tvData.setBackgroundColor(Color.argb(255,137, 240, 164));
@@ -122,7 +130,11 @@ public class AdapterWeekViewItem extends ListAdapter<WeekViewItem, AdapterWeekVi
                         holder.tvData.setText("" + currentSugarMeasurement.getComment());
                         holder.tvData.setBackgroundColor(Color.argb(255,191, 191, 191));
                     } else {
-                        holder.tvData.setBackgroundColor(Color.argb(255,137, 240, 164));
+                        if (currentSugarMeasurement.getMeasurement() > Double.longBitsToDouble(preferences.getLong(SettingsActivity.KEY_PREF_LIMIT2,-1))) {
+                            holder.tvData.setBackgroundColor(Color.argb(255,237, 140, 133));
+                        } else {
+                            holder.tvData.setBackgroundColor(Color.argb(255,137, 240, 164));
+                        }
                         holder.tvData.setText("" + currentSugarMeasurement.getMeasurement());
                     }
                     break;

@@ -12,10 +12,13 @@ import com.youngsoft.sugartracker.R;
 public class SettingsActivity extends AppCompatActivity {
 
     Fragment fragmentPreferences = new PreferencesFragment();
-    public static final String KEY_PREF_EDITTEXT1 = "edit_text_preference_1";
-    public static final String KEY_PREF_SWITCH = "switch_preference_1";
-    public static final String KEY_PREF_EDITTEXT2 = "edit_text_preference_2";
-    public static final String KEY_PREF_EDITTEXT3 = "edit_text_preference_3";
+    public static final String KEY_PREF_LIMIT1 = "preference_limit_pre_breakfast";
+    public static final String KEY_PREF_SWITCH1 = "preference_limit_highlight_pre_breakfast";
+    public static final String KEY_PREF_LIMIT2 = "preference_limit_post_meal";
+    public static final String KEY_PREF_SWITCH3 = "preference_limit_highlight_post_meal";
+    public static final String KEY_PREF_BUILDNUMBER = "preference_build_number";
+    public static final String KEY_PREF_VERSION = "preference_version";
+    public static final String SHARED_PREFS_FILENAME = "com.youngsoft.sugartracker_preferences";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,4 +32,6 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_settings,
                 fragmentPreferences).commit();
     }
+
+
 }
