@@ -111,7 +111,7 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
         //TODO: move this to utils... also used in the init existing data
         Calendar calendarDate = Calendar.getInstance();
         calendarDate.setTimeInMillis(sugarMeasurementDate);
-        calendarDate.set(Calendar.HOUR, 1);
+        calendarDate.set(Calendar.HOUR_OF_DAY, 1);
         calendarDate.set(Calendar.MINUTE, 0);
         calendarDate.set(Calendar.SECOND, 0);
         calendarDate.set(Calendar.MILLISECOND, 0);
