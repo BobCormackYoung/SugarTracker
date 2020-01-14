@@ -4,45 +4,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+
+    <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:id="@+id/vp_dashboard">
 
-        <Button
-            android:id="@+id/bt_dashboard_1d"
+        <com.google.android.material.tabs.TabLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="1D"/>
+            android:id="@+id/tl_vp_dashboard"/>
 
-        <Button
-            android:id="@+id/bt_dashboard_7d"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="7D"/>
-
-        <Button
-            android:id="@+id/bt_dashboard_1M"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="1M"/>
-
-        <Button
-            android:id="@+id/bt_dashboard_1Y"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="1Y"/>
-
-    </LinearLayout>
-
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/chart1"
-        android:layout_margin="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="300dp" />
+    </androidx.viewpager.widget.ViewPager>
 
 </LinearLayout>
