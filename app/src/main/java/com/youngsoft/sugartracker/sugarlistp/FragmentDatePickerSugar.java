@@ -43,10 +43,10 @@ public class FragmentDatePickerSugar extends DialogFragment implements DatePicke
         c.set(Calendar.YEAR, year);
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        c.set(Calendar.HOUR_OF_DAY, 1);
+        c.set(Calendar.HOUR_OF_DAY, 0);
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);
-        c.set(Calendar.MILLISECOND, 0);
+        c.set(Calendar.MILLISECOND, 1);
 
         viewModelAddSugarMeasurement.setDateMutableLiveData(c.getTimeInMillis());
 

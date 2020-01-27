@@ -1,12 +1,15 @@
 package com.youngsoft.sugartracker.dashboardp;
 
+import android.graphics.Color;
 import android.graphics.DashPathEffect;
+import android.icu.text.DecimalFormat;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,12 +31,12 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.android.material.tabs.TabLayout;
 import com.youngsoft.sugartracker.R;
-import com.youngsoft.sugartracker.UtilMethods;
 import com.youngsoft.sugartracker.ViewModelMainActivity;
 import com.youngsoft.sugartracker.data.SugarMeasurement;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 public class FragmentDashboard extends Fragment {
@@ -46,10 +49,17 @@ public class FragmentDashboard extends Fragment {
 
 
     private ViewModelMainActivity viewModelMainActivity;
+    private ViewModelDashboard viewModelDashboard;
     int viewCase;
 
     AdapterDashboardTabLayout2 adapterDashboardTabLayout;
     ViewPager viewPagerDashboard;
+    TextView tvDataBeforeBreakfast;
+    TextView tvDataAfterBreakfast;
+    TextView tvDataAfterLunch;
+    TextView tvDataAfterDinner;
+    TextView tvDataAfterSupper;
+    HashMap<String, Double> dailySummaryMap = new HashMap<>();
 
     @Nullable
     @Override
@@ -72,6 +82,96 @@ public class FragmentDashboard extends Fragment {
         tabLayout.setupWithViewPager(viewPagerDashboard);
 
         viewModelMainActivity = ViewModelProviders.of(getActivity()).get(ViewModelMainActivity.class);
+        viewModelDashboard = ViewModelProviders.of(this).get(ViewModelDashboard.class);
+
+        final DecimalFormat decimalFormat = new DecimalFormat("#");
+        dailySummaryMap.put("beforeBreakfast", -1.0);
+        dailySummaryMap.put("afterBreakfast", -1.0);
+        dailySummaryMap.put("afterLunch", -1.0);
+        dailySummaryMap.put("afterDinner", -1.0);
+        dailySummaryMap.put("afterSupper", -1.0);
+
+        viewModelDashboard.getSugarMeasurementLiveData().observe(getViewLifecycleOwner(), new Observer<List<SugarMeasurement>>() {
+            @Override
+            public void onChanged(List<SugarMeasurement> sugarMeasurements) {
+                //check if the list has data or not
+
+                Log.i("FD","Num records: " + sugarMeasurements.size());
+
+                if (sugarMeasurements == null) {
+                    dailySummaryMap.replace("beforeBreakfast", -1.0);
+                    dailySummaryMap.replace("afterBreakfast", -1.0);
+                    dailySummaryMap.replace("afterLunch", -1.0);
+                    dailySummaryMap.replace("afterDinner", -1.0);
+                    dailySummaryMap.replace("afterSupper", -1.0);
+                } else {
+                    //"Breakfast" = 1
+                    //"Brunch" = 2
+                    //"Lunch" = 3
+                    //"Dinner" = 4
+                    //"Supper" = 5
+                    //"Snack" = 6
+                    //"Other" = 7
+                    //default = -1;
+
+                    for (int i = 0; i < sugarMeasurements.size(); i++) {
+                        Log.i("FD","record " + i + " meal type " + sugarMeasurements.get(i).getAssociatedMealType());
+                        switch (sugarMeasurements.get(i).getAssociatedMealType()) {
+                            case 1:
+                                //breakfast
+                                if (sugarMeasurements.get(i).getIsFirstMeasurementOfDay()) {
+                                    dailySummaryMap.replace("beforeBreakfast", sugarMeasurements.get(i).getMeasurement());
+                                } else if (sugarMeasurements.get(i).getMealSequence() == 2) {
+                                    dailySummaryMap.replace("afterBreakfast", sugarMeasurements.get(i).getMeasurement());
+                                }
+                            case 3:
+                                if (sugarMeasurements.get(i).getMealSequence() == 2) {
+                                    dailySummaryMap.replace("afterLunch", sugarMeasurements.get(i).getMeasurement());
+                                }
+                                break;
+                            case 4:
+                                if (sugarMeasurements.get(i).getMealSequence() == 2) {
+                                    dailySummaryMap.replace("afterDinner", sugarMeasurements.get(i).getMeasurement());
+                                }
+                                break;
+                            case 5:
+                                if (sugarMeasurements.get(i).getMealSequence() == 2) {
+                                    dailySummaryMap.replace("afterSupper", sugarMeasurements.get(i).getMeasurement());
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                if (dailySummaryMap.get("beforeBreakfast") == -1) {
+                    tvDataBeforeBreakfast.setText(" - ");
+                } else {
+                    tvDataBeforeBreakfast.setText(decimalFormat.format(dailySummaryMap.get("beforeBreakfast")));
+                }
+                if (dailySummaryMap.get("afterBreakfast") == -1) {
+                    tvDataAfterBreakfast.setText(" - ");
+                } else {
+                    tvDataAfterBreakfast.setText(decimalFormat.format(dailySummaryMap.get("afterBreakfast")));
+                }
+                if (dailySummaryMap.get("afterLunch") == -1) {
+                    tvDataAfterLunch.setText(" - ");
+                } else {
+                    tvDataAfterLunch.setText(decimalFormat.format(dailySummaryMap.get("afterLunch")));
+                }
+                if (dailySummaryMap.get("afterDinner") == -1) {
+                    tvDataAfterDinner.setText(" - ");
+                } else {
+                    tvDataAfterDinner.setText(decimalFormat.format(dailySummaryMap.get("afterDinner")));
+                }
+                if (dailySummaryMap.get("afterSupper") == -1) {
+                    tvDataAfterSupper.setText(" - ");
+                } else {
+                    tvDataAfterSupper.setText(decimalFormat.format(dailySummaryMap.get("afterSupper")));
+                }
+
+            }
+        });
 
     }
 
@@ -125,9 +225,12 @@ public class FragmentDashboard extends Fragment {
 
     private void mapViews() {
         viewPagerDashboard = view.findViewById(R.id.vp_dashboard);
+        tvDataBeforeBreakfast = view.findViewById(R.id.tv_dashboard_before_breakfast);
+        tvDataAfterBreakfast = view.findViewById(R.id.tv_dashboard_after_breakfast);
+        tvDataAfterLunch = view.findViewById(R.id.tv_dashboard_after_lunch);
+        tvDataAfterDinner = view.findViewById(R.id.tv_dashboard_after_dinner);
+        tvDataAfterSupper = view.findViewById(R.id.tv_dashboard_after_supper);
     }
-
-
 
     public static class FragmentDashboardPager extends Fragment {
 
@@ -135,7 +238,9 @@ public class FragmentDashboard extends Fragment {
         LineChart lineChart;
         private ViewModelMainActivity viewModelMainActivity;
         LineDataSet set1;
+        LineDataSet set2;
         ArrayList<Entry> values = new ArrayList<>();
+        ArrayList<Entry> valuesBreakfast = new ArrayList<>();
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         ValueFormatter xAxisFormatter;
         XAxis xAxis;
@@ -155,6 +260,7 @@ public class FragmentDashboard extends Fragment {
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             pagerView = inflater.inflate(R.layout.fragment_dashboard_pager,container,false);
+
 
             Bundle args = getArguments();
             numDays = args.getInt("numDays",1);
@@ -193,12 +299,6 @@ public class FragmentDashboard extends Fragment {
             //xAxis.setAxisMinimum((float) (c.getTimeInMillis()-numDays*24*3600000)/1000);
             xAxis.setAxisMinimum((float) (cStart.getTimeInMillis()/1000));
             xAxis.setAxisMaximum((float) (c.getTimeInMillis()/1000));
-            Log.i("FDrange","numDays " + numDays +
-                    " start: " + UtilMethods.convertDate(c.getTimeInMillis()-numDays*24*3600000, "yyyy/MM/dd HH:mm:ss")
-                    + " end: " + UtilMethods.convertDate(c.getTimeInMillis(), "yyyy/MM/dd HH:mm:ss"));
-            Log.i("FDrangeC","numDays " + numDays +
-                    " start: " + UtilMethods.convertDate(cStart.getTimeInMillis(), "yyyy/MM/dd HH:mm:ss")
-                    + " end: " + UtilMethods.convertDate(c.getTimeInMillis(), "yyyy/MM/dd HH:mm:ss"));
 
             YAxis yaxis = lineChart.getAxisLeft();
             yaxis.setAxisMinimum(0f);
@@ -214,17 +314,26 @@ public class FragmentDashboard extends Fragment {
             super.onActivityCreated(savedInstanceState);
             viewModelMainActivity = ViewModelProviders.of(getActivity()).get(ViewModelMainActivity.class);
 
+
+
+
             viewModelMainActivity.getAllSugarMeasurementsSortedByDateInc().observe(getViewLifecycleOwner(), new Observer<List<SugarMeasurement>>() {
                 @Override
                 public void onChanged(List<SugarMeasurement> sugarMeasurements) {
                     values.clear();
+                    valuesBreakfast.clear();
                     for (int i = 0; i < sugarMeasurements.size(); i++) {
 
                         if (i==0) {
                             initValue = sugarMeasurements.get(i).getDate();
                         }
 
-                        values.add(new Entry((float) sugarMeasurements.get(i).getDate()/1000,(float) sugarMeasurements.get(i).getMeasurement()));
+                        if (sugarMeasurements.get(i).getIsFirstMeasurementOfDay() == true) {
+                            valuesBreakfast.add(new Entry((float) sugarMeasurements.get(i).getDate()/1000,(float) sugarMeasurements.get(i).getMeasurement()));
+                        } else {
+                            values.add(new Entry((float) sugarMeasurements.get(i).getDate()/1000,(float) sugarMeasurements.get(i).getMeasurement()));
+                        }
+
 
                     }
 
@@ -233,22 +342,38 @@ public class FragmentDashboard extends Fragment {
 
                     //xAxisFormatter = new DayAxisValueFormatter(lineChart, initValue, 86400000);
 
-                    set1 = new LineDataSet(values, "Sample Data");
-                    set1.setDrawIcons(false);
-                    set1.setDrawCircles(false);
+                    set1 = new LineDataSet(values, "Meal Data");
+                    set1.setDrawIcons(true);
+                    set1.setFillAlpha(110);
+                    set1.setDrawCircles(true);
                     set1.setDrawValues(false);
-                    set1.setColor(R.color.colorAccent);
-                    //set1.setCircleColor(R.color.colorAccent);
+                    set1.setColor(Color.BLUE);
+                    set1.setCircleColor(Color.BLUE);
                     set1.setLineWidth(3f);
-                    //set1.setCircleRadius(6f);
-                    //set1.setDrawCircleHole(true);
-                    //set1.setValueTextSize(9f);
+                    set1.setCircleRadius(1.5f);
+                    set1.setDrawCircleHole(false);
                     set1.setDrawFilled(false);
                     set1.setFormLineWidth(1f);
                     set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
                     set1.setFormSize(15.f);
 
+                    set2 = new LineDataSet(valuesBreakfast, "Breakfast Data");
+                    set2.setDrawIcons(true);
+                    set2.setFillAlpha(110);
+                    set2.setDrawCircles(true);
+                    set2.setDrawValues(false);
+                    set2.setColor(Color.GREEN);
+                    set2.setCircleColor(Color.GREEN);
+                    set2.setLineWidth(3f);
+                    set2.setCircleRadius(1.5f);
+                    set2.setDrawCircleHole(false);
+                    set2.setDrawFilled(false);
+                    set2.setFormLineWidth(1f);
+                    set2.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+                    set2.setFormSize(15.f);
+
                     dataSets.add(set1);
+                    dataSets.add(set2);
                     LineData data = new LineData(dataSets);
                     lineChart.setData(data);
 

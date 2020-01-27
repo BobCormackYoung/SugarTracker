@@ -239,10 +239,10 @@ public class BottomSheetDialogAddMeal extends BottomSheetDialogFragment {
 
         // Set Date and Time to now
         Calendar calendarDate = Calendar.getInstance();
-        calendarDate.set(Calendar.HOUR, 1);
+        calendarDate.set(Calendar.HOUR_OF_DAY, 1);
         calendarDate.set(Calendar.MINUTE, 0);
         calendarDate.set(Calendar.SECOND, 0);
-        calendarDate.set(Calendar.MILLISECOND, 0);
+        calendarDate.set(Calendar.MILLISECOND, 1);
 
         viewModelAddMealRecord.setDateMutableLiveData(calendarDate.getTimeInMillis());
 
@@ -286,10 +286,10 @@ public class BottomSheetDialogAddMeal extends BottomSheetDialogFragment {
             //TODO: move this calendar modification work to utils
             Calendar calendarDate = Calendar.getInstance();
             calendarDate.setTimeInMillis(inputMealRecord.getDate());
-            calendarDate.set(Calendar.HOUR, 1);
+            calendarDate.set(Calendar.HOUR_OF_DAY, 1);
             calendarDate.set(Calendar.MINUTE, 0);
             calendarDate.set(Calendar.SECOND, 0);
-            calendarDate.set(Calendar.MILLISECOND, 0);
+            calendarDate.set(Calendar.MILLISECOND, 1);
 
             Calendar calendarTime = Calendar.getInstance();
             calendarTime.setTimeInMillis(inputMealRecord.getDate());
