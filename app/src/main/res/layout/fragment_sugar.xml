@@ -8,10 +8,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="debug data"
+            android:id="@+id/bt_add_debug_data"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="delete all data"
+            android:id="@+id/bt_remove_all_data"
+            android:layout_below="@id/bt_add_debug_data"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_sugar_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_below="@id/bt_remove_all_data"/>
 
     </RelativeLayout>
 

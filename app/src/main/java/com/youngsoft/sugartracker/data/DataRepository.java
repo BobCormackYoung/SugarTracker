@@ -27,7 +27,7 @@ public class DataRepository {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                dataDao.insertMultipleMealRecords(MealRecord.populateMealRecordData());
+                //dataDao.insertMultipleMealRecords(MealRecord.populateMealRecordData());
                 dataDao.insertMultipleSugarMeasurementRecords(SugarMeasurement.populateSugarMeasurementData());
                 return null;
             }
@@ -140,5 +140,15 @@ public class DataRepository {
 
     public List<SugarMeasurement> getSugarMeasurementsBetweenDatesNonLive(long startDate, long endDate) {
         return dataDao.getSugarMeasurementsBetweenDatesNonLive(startDate, endDate);
+    }
+
+    public void deleteAllSugarMeasurements() {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                dataDao.deleteAllSugarMeasurements();
+                return null;
+            }
+        }.execute();
     }
 }

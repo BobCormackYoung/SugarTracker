@@ -24,6 +24,9 @@ public interface DataDao {
     @Insert
     void insertSingleMealRecord(MealRecord... mealRecord);
 
+    @Query("DELETE FROM SugarMeasurement_Table")
+    void deleteAllSugarMeasurements();
+
     @Query("SELECT * FROM MealRecord_Table ORDER BY id DESC")
     LiveData<List<MealRecord>> getAllMealRecordsSortById();
 

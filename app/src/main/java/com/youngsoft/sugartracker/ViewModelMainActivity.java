@@ -63,4 +63,19 @@ public class ViewModelMainActivity extends AndroidViewModel {
     public void setSugarMeasurementsBetweenDates(long startDate, long endDate) {
         sugarMeasurementsBetweenDates = dataRepository.getSugarMeasurementsBetweenDates(startDate, endDate);
     }
+
+    public void deleteAllSugarMeasurements() {
+        dataRepository.deleteAllSugarMeasurements();
+    }
+
+
+    public void addSingleSugarMeasurement(long date, double measurement, int mealSequence, int associatedMeal, int associatedMealType, boolean isFirstMeasurementOfDay) {
+        dataRepository.addSingleSugarMeasurement(new SugarMeasurement(
+                date,
+                measurement,
+                mealSequence,
+                associatedMeal,
+                associatedMealType,
+                isFirstMeasurementOfDay));
+    }
 }
