@@ -312,64 +312,60 @@ public class AdapterWeekView extends ListAdapter<WeekDatesItem, AdapterWeekView.
                 // 2 = after breakfast
                 // 3 = after dinner
                 // 4 = after supper
-                if (criteria == 1 && currentItem.getIsFirstMeasurementOfDay()) {
+                if (criteria == 1 && currentItem.getMealSequence() == 1 && currentItem.getAssociatedMealType() == 1) {
                     return new WeekViewItem(currentItem.getId(),
                             currentItem.getDate(),
                             currentItem.getMeasurement(),
                             currentItem.getMealSequence(),
                             currentItem.getAssociatedMealType(),
-                            currentItem.getAssociatedMeal(),
-                            currentItem.getIsFirstMeasurementOfDay());
+                            currentItem.getAssociatedMeal());
                 } else if ((criteria == 2 && currentItem.getMealSequence() == 2 && currentItem.getAssociatedMealType() == 1)) {
                     return new WeekViewItem(currentItem.getId(),
                             currentItem.getDate(),
                             currentItem.getMeasurement(),
                             currentItem.getMealSequence(),
                             currentItem.getAssociatedMealType(),
-                            currentItem.getAssociatedMeal(),
-                            currentItem.getIsFirstMeasurementOfDay());
+                            currentItem.getAssociatedMeal());
                 } else if ((criteria == 3 && currentItem.getMealSequence() == 2 && currentItem.getAssociatedMealType() == 4)) {
                     return new WeekViewItem(currentItem.getId(),
                             currentItem.getDate(),
                             currentItem.getMeasurement(),
                             currentItem.getMealSequence(),
                             currentItem.getAssociatedMealType(),
-                            currentItem.getAssociatedMeal(),
-                            currentItem.getIsFirstMeasurementOfDay());
+                            currentItem.getAssociatedMeal());
                 } else if ((criteria == 4 && currentItem.getMealSequence() == 2 && currentItem.getAssociatedMealType() == 5)) {
                     return new WeekViewItem(currentItem.getId(),
                             currentItem.getDate(),
                             currentItem.getMeasurement(),
                             currentItem.getMealSequence(),
                             currentItem.getAssociatedMealType(),
-                            currentItem.getAssociatedMeal(),
-                            currentItem.getIsFirstMeasurementOfDay());
+                            currentItem.getAssociatedMeal());
                 }
             } else {
                 if (i == inputArray.size()-1) {
                     //End of the loop, nothing found, insert empty data and break loop
                     switch (criteria) {
                         case 1:
-                            return new WeekViewItem(" - ", true, 1, 1, dayStart+1000*60*60*6);
+                            return new WeekViewItem(" - ", 1, 1, dayStart+1000*60*60*6);
                         case 2:
-                            return new WeekViewItem(" - ", false, 1, 2, dayStart+1000*60*60*7);
+                            return new WeekViewItem(" - ", 1, 2, dayStart+1000*60*60*7);
                         case 3:
-                            return new WeekViewItem(" - ", false, 4, 2, dayStart+1000*60*60*14);
+                            return new WeekViewItem(" - ", 4, 2, dayStart+1000*60*60*14);
                         case 4:
-                            return new WeekViewItem(" - ", false, 5, 2, dayStart+1000*60*60*18);
+                            return new WeekViewItem(" - ", 5, 2, dayStart+1000*60*60*18);
                     }
                 }
             }
         }
         switch (criteria) {
             case 1:
-                return new WeekViewItem(" - ", true, 1, 1, dayStart+1000*60*60*6);
+                return new WeekViewItem(" - ", 1, 1, dayStart+1000*60*60*6);
             case 2:
-                return new WeekViewItem(" - ", false, 1, 2, dayStart+1000*60*60*7);
+                return new WeekViewItem(" - ", 1, 2, dayStart+1000*60*60*7);
             case 3:
-                return new WeekViewItem(" - ", false, 4, 2, dayStart+1000*60*60*14);
+                return new WeekViewItem(" - ", 4, 2, dayStart+1000*60*60*14);
             case 4:
-                return new WeekViewItem(" - ", false, 5, 2, dayStart+1000*60*60*18);
+                return new WeekViewItem(" - ", 5, 2, dayStart+1000*60*60*18);
             default:
                 return new WeekViewItem(" - ");
         }

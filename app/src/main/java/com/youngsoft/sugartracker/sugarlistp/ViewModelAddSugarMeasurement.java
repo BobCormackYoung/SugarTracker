@@ -24,7 +24,6 @@ public class ViewModelAddSugarMeasurement extends AndroidViewModel {
     private MutableLiveData<Long> dateMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Long> timeMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Double> sugarMutableLiveData = new MutableLiveData<>();
-    private MutableLiveData<Boolean> isFirstMeasurementMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Integer> mealTimingMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Integer> associatedMealMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<Integer> indexMutableLiveData = new MutableLiveData<>();
@@ -53,10 +52,6 @@ public class ViewModelAddSugarMeasurement extends AndroidViewModel {
 
     public LiveData<Double> getSugarMutableLiveData() {
         return sugarMutableLiveData;
-    }
-
-    public LiveData<Boolean> getIsFirstMeasurementMutableLiveData() {
-        return isFirstMeasurementMutableLiveData;
     }
 
     public LiveData<Integer> getMealTimingMutableLiveData() {
@@ -100,10 +95,6 @@ public class ViewModelAddSugarMeasurement extends AndroidViewModel {
         sugarMutableLiveData.setValue(sugarValue);
     }
 
-    public void setIsFirstMeasurementMutableLiveData(boolean isFirstMeasurement) {
-        isFirstMeasurementMutableLiveData.setValue(isFirstMeasurement);
-    }
-
     public void setMealTimingMutableLiveData(int mealTiming) {
         mealTimingMutableLiveData.setValue(mealTiming);
     }
@@ -124,8 +115,7 @@ public class ViewModelAddSugarMeasurement extends AndroidViewModel {
                 sugarMutableLiveData.getValue(),
                 mealTimingMutableLiveData.getValue(),
                 associatedMealMutableLiveData.getValue(),
-                associatedMealTypeMutableLiveData.getValue(),
-                isFirstMeasurementMutableLiveData.getValue()));
+                associatedMealTypeMutableLiveData.getValue()));
     }
 
     public void updateData() {
@@ -134,8 +124,7 @@ public class ViewModelAddSugarMeasurement extends AndroidViewModel {
                 sugarMutableLiveData.getValue(),
                 mealTimingMutableLiveData.getValue(),
                 associatedMealMutableLiveData.getValue(),
-                associatedMealTypeMutableLiveData.getValue(),
-                isFirstMeasurementMutableLiveData.getValue());
+                associatedMealTypeMutableLiveData.getValue());
         outputSugarMeasurement.setId(indexMutableLiveData.getValue());
         dataRepository.updateSugarMeasurementEntry(outputSugarMeasurement);
     }

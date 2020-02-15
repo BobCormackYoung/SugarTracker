@@ -107,7 +107,6 @@ public class FragmentWeekView extends Fragment implements AdapterWeekViewItem.On
             Bundle inputs = new Bundle();
             inputs.putInt("MealType",weekViewItem.getAssociatedMealType());
             inputs.putInt("MealSequence",weekViewItem.getMealSequence());
-            inputs.putBoolean("FirstMeal", weekViewItem.isFirstMeasurementOfDay());
             inputs.putLong("Date", weekViewItem.getDate());
             bottomSheet.setArguments(inputs);
             bottomSheet.show(getChildFragmentManager(), "sugarBottomSheet");

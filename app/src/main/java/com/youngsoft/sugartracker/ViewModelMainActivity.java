@@ -69,13 +69,12 @@ public class ViewModelMainActivity extends AndroidViewModel {
     }
 
 
-    public void addSingleSugarMeasurement(long date, double measurement, int mealSequence, int associatedMeal, int associatedMealType, boolean isFirstMeasurementOfDay) {
+    public void addSingleSugarMeasurement(long date, double measurement, int mealSequence, int associatedMeal, int associatedMealType) {
         dataRepository.addSingleSugarMeasurement(new SugarMeasurement(
                 date,
                 measurement,
                 mealSequence,
                 associatedMeal,
-                associatedMealType,
-                isFirstMeasurementOfDay));
+                associatedMealType));
     }
 }

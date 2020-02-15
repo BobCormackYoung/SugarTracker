@@ -64,14 +64,6 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <CheckBox
-        android:id="@+id/cb_first_measurement"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center_vertical"
-        android:text="First measurement of the day?" />
-
     <RadioGroup
         android:id="@+id/rg_meal_timing"
         android:layout_width="wrap_content"

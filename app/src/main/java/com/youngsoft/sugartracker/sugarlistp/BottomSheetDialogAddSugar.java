@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -42,7 +40,6 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
     EditText etSugarAssociatedMealType;
     TextInputLayout tilSugarAssociatedMeal;
     TextInputLayout tilSugarAssociatedMealType;
-    CheckBox cbFirstMeal;
     Button btSugarCancel;
     Button btSugarSave;
     RadioGroup rgMealTiming;
@@ -50,7 +47,6 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
     int sugarMeasurementEntryId;
     int sugarMeasurementMealType;
     int sugarMeasurementMealSequence;
-    boolean sugarMeasurementFirstMeal;
     long sugarMeasurementDate;
 
     long date;
@@ -70,7 +66,6 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
         sugarMeasurementEntryId = getArguments().getInt("EntryId",-1);
         sugarMeasurementMealType = getArguments().getInt("MealType",-1);
         sugarMeasurementMealSequence = getArguments().getInt("MealSequence",-1);
-        sugarMeasurementFirstMeal = getArguments().getBoolean("FirstMeal",false);
         sugarMeasurementDate = getArguments().getLong("Date",-1);
         return view;
     }
@@ -124,7 +119,6 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
 
         viewModelAddSugarMeasurement.setDateMutableLiveData(calendarDate.getTimeInMillis());
         viewModelAddSugarMeasurement.setTimeMutableLiveData(calendarTime.getTimeInMillis());
-        viewModelAddSugarMeasurement.setIsFirstMeasurementMutableLiveData(sugarMeasurementFirstMeal);
         viewModelAddSugarMeasurement.setAssociatedMealTypeMutableLiveData(sugarMeasurementMealType);
         viewModelAddSugarMeasurement.setMealTimingMutableLiveData(sugarMeasurementMealSequence);
     }
@@ -140,7 +134,6 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
         etSugarTime = view.findViewById(R.id.et_time_sugar);
         etSugarAssociatedMeal = view.findViewById(R.id.et_associated_meal);
         etSugarAssociatedMealType = view.findViewById(R.id.et_associated_meal_type);
-        cbFirstMeal = view.findViewById(R.id.cb_first_measurement);
         btSugarCancel = view.findViewById(R.id.bt_cancel);
         btSugarSave = view.findViewById(R.id.bt_save);
         etSugarValue = view.findViewById(R.id.et_sugar_measurement);
@@ -167,8 +160,6 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
         viewModelAddSugarMeasurement.setSugarMutableLiveData(0);
 
         viewModelAddSugarMeasurement.setTimeMutableLiveData(calendarTime.getTimeInMillis());
-
-        viewModelAddSugarMeasurement.setIsFirstMeasurementMutableLiveData(false);
 
         viewModelAddSugarMeasurement.setAssociatedMealTypeMutableLiveData(-1);
 
@@ -287,13 +278,6 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             }
         });
 
-        // Listen for change to the checkbox, update viewModel if changed
-        cbFirstMeal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                viewModelAddSugarMeasurement.setIsFirstMeasurementMutableLiveData(isChecked);
-            }
-        });
 
         // Listen for changes to the RadioGroup
         rgMealTiming.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -365,14 +349,6 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
                     etSugarValue.getText().clear();
                 }
 
-            }
-        });
-
-        // Setting observer for whether is first meal measurement of the day & updating the UI when changed
-        viewModelAddSugarMeasurement.getIsFirstMeasurementMutableLiveData().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                cbFirstMeal.setChecked(aBoolean);
             }
         });
 
@@ -512,7 +488,6 @@ public class BottomSheetDialogAddSugar extends BottomSheetDialogFragment {
             viewModelAddSugarMeasurement.setDateMutableLiveData(calendarDate.getTimeInMillis());
             viewModelAddSugarMeasurement.setSugarMutableLiveData(inputSugarMeasurement.getMeasurement());
             viewModelAddSugarMeasurement.setTimeMutableLiveData(calendarTime.getTimeInMillis());
-            viewModelAddSugarMeasurement.setIsFirstMeasurementMutableLiveData(inputSugarMeasurement.getIsFirstMeasurementOfDay());
             viewModelAddSugarMeasurement.setAssociatedMealMutableLiveData(inputSugarMeasurement.getAssociatedMeal());
             viewModelAddSugarMeasurement.setAssociatedMealTypeMutableLiveData(inputSugarMeasurement.getAssociatedMealType());
             viewModelAddSugarMeasurement.setMealTimingMutableLiveData(inputSugarMeasurement.getMealSequence());

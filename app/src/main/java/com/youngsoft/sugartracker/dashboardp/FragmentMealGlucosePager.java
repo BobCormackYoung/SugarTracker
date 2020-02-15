@@ -139,7 +139,7 @@ public class FragmentMealGlucosePager extends Fragment {
                         initValue = sugarMeasurements.get(i).getDate();
                     }
 
-                    if (sugarMeasurements.get(i).getIsFirstMeasurementOfDay() == true) {
+                    if (sugarMeasurements.get(i).getAssociatedMealType() == 1 && sugarMeasurements.get(i).getMealSequence() == 1) {
                         valuesBeforeBreakfast.add(new Entry((float) sugarMeasurements.get(i).getDate()/1000,(float) sugarMeasurements.get(i).getMeasurement()));
                     } else {
                         if (sugarMeasurements.get(i).getAssociatedMealType() == 1) {

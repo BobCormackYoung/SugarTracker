@@ -23,8 +23,7 @@ public abstract class DataDatabase extends RoomDatabase {
             Executors.newSingleThreadExecutor().execute(new Runnable() {
                 @Override
                 public void run() {
-                    //instance.dataDao().insertMultipleMealRecords(MealRecord.populateMealRecordData());
-                    //instance.dataDao().insertMultipleSugarMeasurementRecords(SugarMeasurement.populateSugarMeasurementData());
+
                 }
             });
 

@@ -19,17 +19,15 @@ public class WeekViewItem {
     //default = -1;
     private int associatedMeal;
     //-1 = no associated meal
-    private boolean isFirstMeasurementOfDay;
     private String comment;
 
-    public WeekViewItem(int id, long date, double measurement, int mealSequence, int associatedMealType, int associatedMeal, boolean isFirstMeasurementOfDay) {
+    public WeekViewItem(int id, long date, double measurement, int mealSequence, int associatedMealType, int associatedMeal) {
         this.id = id;
         this.date = date;
         this.measurement = measurement;
         this.mealSequence = mealSequence;
         this.associatedMealType = associatedMealType;
         this.associatedMeal = associatedMeal;
-        this.isFirstMeasurementOfDay = isFirstMeasurementOfDay;
         this.comment = "";
     }
 
@@ -41,10 +39,9 @@ public class WeekViewItem {
         this.mealSequence = -1;
         this.associatedMealType = -1;
         this.associatedMeal = -1;
-        this.isFirstMeasurementOfDay = false;
     }
 
-    public WeekViewItem(String comment, boolean isFirstMeasurementOfDay, int associatedMealType, int mealSequence, long date) {
+    public WeekViewItem(String comment, int associatedMealType, int mealSequence, long date) {
         this.comment = comment;
         this.id = -1;
         this.date = date;
@@ -52,7 +49,6 @@ public class WeekViewItem {
         this.mealSequence = mealSequence;
         this.associatedMealType = associatedMealType;
         this.associatedMeal = -1;
-        this.isFirstMeasurementOfDay = isFirstMeasurementOfDay;
     }
 
     public int getId() {
@@ -101,14 +97,6 @@ public class WeekViewItem {
 
     public void setAssociatedMeal(int associatedMeal) {
         this.associatedMeal = associatedMeal;
-    }
-
-    public boolean isFirstMeasurementOfDay() {
-        return isFirstMeasurementOfDay;
-    }
-
-    public void setFirstMeasurementOfDay(boolean firstMeasurementOfDay) {
-        isFirstMeasurementOfDay = firstMeasurementOfDay;
     }
 
     public String getComment() {

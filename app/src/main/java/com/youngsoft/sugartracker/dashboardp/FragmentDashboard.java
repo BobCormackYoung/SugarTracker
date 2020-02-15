@@ -101,7 +101,7 @@ public class FragmentDashboard extends Fragment {
                         switch (sugarMeasurements.get(i).getAssociatedMealType()) {
                             case 1:
                                 //breakfast
-                                if (sugarMeasurements.get(i).getIsFirstMeasurementOfDay()) {
+                                if (sugarMeasurements.get(i).getMealSequence()== 1) {
                                     dailySummaryMap.replace("beforeBreakfast", sugarMeasurements.get(i).getMeasurement());
                                 } else if (sugarMeasurements.get(i).getMealSequence() == 2) {
                                     dailySummaryMap.replace("afterBreakfast", sugarMeasurements.get(i).getMeasurement());

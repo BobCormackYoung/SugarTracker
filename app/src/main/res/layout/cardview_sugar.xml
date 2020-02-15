@@ -58,24 +58,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="First measurement?   " />
-
-                <TextView
-                    android:id="@+id/tv_sugar_first_measurement"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Yes" />
-
-            </LinearLayout>
-
             <TextView
                 android:id="@+id/tv_sugar_meal_timing"
                 android:layout_width="wrap_content"

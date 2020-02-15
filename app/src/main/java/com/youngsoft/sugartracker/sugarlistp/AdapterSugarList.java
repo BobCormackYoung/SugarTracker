@@ -28,7 +28,6 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
     ViewModelMainActivity viewModelMainActivity;
     private OnDeleteClickListener onDeleteClickListener;
     private OnEditClickListener onEditClickListener;
-    //SugarMeasurement currentSugarMeasurement;
 
     private static final DiffUtil.ItemCallback<SugarMeasurement> DIFF_CALLBACK = new DiffUtil.ItemCallback<SugarMeasurement>() {
         @Override
@@ -73,12 +72,6 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
         holder.tvDate.setText(DateFormat.format("yyyy-MM-dd",currentSugarMeasurement.getDate()).toString());
         holder.tvTime.setText(DateFormat.format("HH:mm",currentSugarMeasurement.getDate()).toString());
 
-        if (currentSugarMeasurement.getIsFirstMeasurementOfDay()) {
-            holder.tvFirstMeasurement.setText("Yes");
-        } else {
-            holder.tvFirstMeasurement.setText("No");
-        }
-
         if (currentSugarMeasurement.getMealSequence() == 1) {
             holder.tvMealTiming.setText("Before meal");
             holder.tvMealTiming.setVisibility(View.VISIBLE);
@@ -120,7 +113,6 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
         TextView tvSugarMeasurement;
         TextView tvDate;
         TextView tvTime;
-        TextView tvFirstMeasurement;
         TextView tvMealTiming;
         TextView tvAssociatedMeal;
         ImageButton ibDelete;
@@ -131,7 +123,6 @@ public class AdapterSugarList extends ListAdapter<SugarMeasurement, AdapterSugar
             tvSugarMeasurement = itemView.findViewById(R.id.tv_sugar_value);
             tvDate = itemView.findViewById(R.id.tv_sugar_date);
             tvTime = itemView.findViewById(R.id.tv_sugar_time);
-            tvFirstMeasurement = itemView.findViewById(R.id.tv_sugar_first_measurement);
             tvMealTiming = itemView.findViewById(R.id.tv_sugar_meal_timing);
             tvAssociatedMeal = itemView.findViewById(R.id.tv_sugar_associated_meal);
             ibDelete = itemView.findViewById(R.id.ib_delete_sugar);
