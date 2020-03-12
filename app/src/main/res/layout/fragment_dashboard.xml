@@ -266,12 +266,12 @@
                 <androidx.viewpager.widget.ViewPager
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/vp_dashboard">
+                    android:id="@+id/vp_dashboard_meal_glucose">
 
                     <com.google.android.material.tabs.TabLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/tl_vp_dashboard"/>
+                        android:id="@+id/tl_vp_dashboard_meal_glucose"/>
 
                 </androidx.viewpager.widget.ViewPager>
 

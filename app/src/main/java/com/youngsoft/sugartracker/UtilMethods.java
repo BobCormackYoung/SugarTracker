@@ -2,6 +2,8 @@ package com.youngsoft.sugartracker;
 
 import android.text.format.DateFormat;
 
+import java.util.Calendar;
+
 public class UtilMethods {
 
     public static String getMealType(int input) {
@@ -39,6 +41,14 @@ public class UtilMethods {
 
     public static String convertDate(long dateInMilliseconds, String dateFormat) {
         return DateFormat.format(dateFormat, dateInMilliseconds).toString();
+    }
+
+    public static Calendar setCalendarToBeginningOfDay(Calendar calendar) {
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,0);
+        calendar.set(Calendar.MILLISECOND,1);
+        return calendar;
     }
 
 }

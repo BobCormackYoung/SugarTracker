@@ -1,43 +1,40 @@
 package com.youngsoft.sugartracker.dashboardp;
 
-import android.graphics.DashPathEffect;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
 
 import com.github.mikephil.charting.charts.BarLineChartBase;
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.youngsoft.sugartracker.R;
 import com.youngsoft.sugartracker.ViewModelMainActivity;
 import com.youngsoft.sugartracker.data.SugarMeasurement;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 public class FragmentMealGlucosePager extends Fragment {
 
-    View pagerView;
-    LineChart lineChart;
+    View view;
+    ViewPager viewPagerMealGlucoseGraph;
+    AdapterMealGlucoseGraphPager adapterMealGlucoseGraphPager;
     private ViewModelMainActivity viewModelMainActivity;
-    LineDataSet set1;
+    /*
+    LineChart lineChart;
+    ineDataSet set1;
     LineDataSet set2;
     LineDataSet set3;
     LineDataSet set4;
@@ -46,7 +43,7 @@ public class FragmentMealGlucosePager extends Fragment {
     ArrayList<Entry> valuesAfterBreakfast = new ArrayList<>();
     ArrayList<Entry> valuesBeforeBreakfast = new ArrayList<>();
     ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-    ValueFormatter xAxisFormatter;
+    ValueFormatter xAxisFormatter;*/
     XAxis xAxis;
     Calendar c;
     Calendar cStart;
@@ -54,6 +51,10 @@ public class FragmentMealGlucosePager extends Fragment {
     int numDays;
     float min;
     float max;
+
+    Button debugButton1;
+    Button debugButton2;
+    Button debugButton3;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,15 +64,16 @@ public class FragmentMealGlucosePager extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        pagerView = inflater.inflate(R.layout.fragment_dashboard_pager,container,false);
+        view = inflater.inflate(R.layout.fragment_dashboard_meal_glucose_pager,container,false);
 
+        mapViews();
 
         Bundle args = getArguments();
         numDays = args.getInt("numDays",1);
 
         Log.i("FD","numDays " + numDays);
 
-        lineChart = pagerView.findViewById(R.id.chart1);
+        /*lineChart = pagerView.findViewById(R.id.chart1);
         lineChart.setTouchEnabled(false);
         lineChart.setPinchZoom(false);
 
@@ -92,20 +94,14 @@ public class FragmentMealGlucosePager extends Fragment {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setLabelRotationAngle(-90f);
         xAxis.setDrawGridLines(true);
-        //xAxis.setTypeface(tfLight);
 
         if (numDays == 7) {
             xAxis.setLabelCount(8,true);
-            //xAxis.setGranularity(86400f); // only intervals of 1 day
         } else if (numDays == 7*4) {
             xAxis.setLabelCount(7*4/2+1,true);
-            //xAxis.setGranularity(2*86400f); // only intervals of 1 day
         } else if (numDays == 12*30) {
             xAxis.setLabelCount(12+1,true);
-            //xAxis.setGranularity(30*86400f); // only intervals of 1 day
         } else {
-            //xAxis.setLabelCount(7);
-            //xAxis.setGranularity(86400000f); // only intervals of 1 day
         }
 
         xAxis.setValueFormatter(new DayAxisValueFormatter(lineChart));
@@ -116,20 +112,63 @@ public class FragmentMealGlucosePager extends Fragment {
         yaxis.setAxisMinimum(40f);
         yaxis.setAxisMaximum(160f);
 
-        lineChart.getAxisRight().setEnabled(false);
+        lineChart.getAxisRight().setEnabled(false);*/
 
-        return pagerView;
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        adapterMealGlucoseGraphPager = new AdapterMealGlucoseGraphPager(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        viewPagerMealGlucoseGraph.setAdapter(adapterMealGlucoseGraphPager);
+        viewPagerMealGlucoseGraph.setCurrentItem(adapterMealGlucoseGraphPager.getCount()-1);
+
+        //adapterMealGlucoseGraphPager.setCount(1);
+        //adapterMealGlucoseGraphPager.notifyDataSetChanged();
+
+        debugButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapterMealGlucoseGraphPager.setCount(2);
+                adapterMealGlucoseGraphPager.notifyDataSetChanged();
+                if (viewPagerMealGlucoseGraph.getCurrentItem()>=2) {
+                    viewPagerMealGlucoseGraph.setCurrentItem(adapterMealGlucoseGraphPager.getCount()-1);
+                }
+            }
+        });
+
+        debugButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapterMealGlucoseGraphPager.setCount(5);
+                adapterMealGlucoseGraphPager.notifyDataSetChanged();
+                if (viewPagerMealGlucoseGraph.getCurrentItem()>=5) {
+                    viewPagerMealGlucoseGraph.setCurrentItem(adapterMealGlucoseGraphPager.getCount()-1);
+                }
+            }
+        });
+
+        debugButton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapterMealGlucoseGraphPager.setCount(10);
+                adapterMealGlucoseGraphPager.notifyDataSetChanged();
+                if (viewPagerMealGlucoseGraph.getCurrentItem()>=10) {
+                    viewPagerMealGlucoseGraph.setCurrentItem(adapterMealGlucoseGraphPager.getCount()-1);
+                }
+            }
+        });
+
+
+
         viewModelMainActivity = ViewModelProviders.of(getActivity()).get(ViewModelMainActivity.class);
 
         viewModelMainActivity.getAllSugarMeasurementsSortedByDateInc().observe(getViewLifecycleOwner(), new Observer<List<SugarMeasurement>>() {
             @Override
             public void onChanged(List<SugarMeasurement> sugarMeasurements) {
-                valuesAfterBreakfast.clear();
+                /*valuesAfterBreakfast.clear();
                 valuesAfterDinner.clear();
                 valuesAfterSupper.clear();
                 valuesBeforeBreakfast.clear();
@@ -228,11 +267,27 @@ public class FragmentMealGlucosePager extends Fragment {
                 dataSets.add(set3);
                 dataSets.add(set4);
                 LineData data = new LineData(dataSets);
-                lineChart.setData(data);
+                lineChart.setData(data);*/
 
             }
         });
 
+        viewModelMainActivity.getOldestSugarMeasurement().observe(getViewLifecycleOwner(), new Observer<SugarMeasurement>() {
+            @Override
+            public void onChanged(SugarMeasurement sugarMeasurement) {
+                Log.i("FMGP","oldest on changed");
+                Log.i("FMGP","Date oldest: " + sugarMeasurement.getDate());
+            }
+        });
+
+    }
+
+    private void mapViews() {
+
+        viewPagerMealGlucoseGraph = view.findViewById(R.id.vp_dashboard_meal_glucose_graph);
+        debugButton1 = view.findViewById(R.id.bt_debug_1);
+        debugButton2 = view.findViewById(R.id.bt_debug_5);
+        debugButton3 = view.findViewById(R.id.bt_debug_10);
 
     }
 

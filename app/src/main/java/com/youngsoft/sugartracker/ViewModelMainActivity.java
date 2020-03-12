@@ -5,11 +5,14 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.Observer;
 
 import com.youngsoft.sugartracker.data.DataRepository;
 import com.youngsoft.sugartracker.data.MealRecord;
 import com.youngsoft.sugartracker.data.SugarMeasurement;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class ViewModelMainActivity extends AndroidViewModel {
@@ -19,6 +22,9 @@ public class ViewModelMainActivity extends AndroidViewModel {
     private LiveData<List<SugarMeasurement>> allSugarMeasurementsSortedByDateInc;
     private LiveData<List<MealRecord>> allMealRecordsSortedByDate;
     private LiveData<List<SugarMeasurement>> sugarMeasurementsBetweenDates;
+    private MediatorLiveData<SugarMeasurement> oldestSugarMeasurement;
+    private MediatorLiveData<SugarMeasurement> newestSugarMeasurement;
+    private MediatorLiveData<List<SugarMeasurement>> boundingSugarMeasurements;
 
     public ViewModelMainActivity(@NonNull Application application) {
         super(application);
@@ -26,6 +32,22 @@ public class ViewModelMainActivity extends AndroidViewModel {
         allSugarMeasurementsSortedByDate = dataRepository.getAllSugarMeasurementsSortedByDate();
         allSugarMeasurementsSortedByDateInc = dataRepository.getAllSugarMeasurementsSortedByDateInc();
         allMealRecordsSortedByDate = dataRepository.getAllMealRecordsSortedByDate();
+
+        oldestSugarMeasurement = new MediatorLiveData<>();
+        oldestSugarMeasurement.addSource(allSugarMeasurementsSortedByDateInc, new Observer<List<SugarMeasurement>>() {
+            @Override
+            public void onChanged(List<SugarMeasurement> sugarMeasurements) {
+                if (sugarMeasurements.size() == 0) {
+                    Calendar tempCalendar = Calendar.getInstance();
+                    tempCalendar = UtilMethods.setCalendarToBeginningOfDay(tempCalendar);
+                    tempCalendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+                    oldestSugarMeasurement.setValue(new SugarMeasurement(tempCalendar.getTimeInMillis(),0,0,0,0));
+                } else {
+                    oldestSugarMeasurement.setValue(sugarMeasurements.get(0));
+                }
+            }
+        });
+
     }
 
     public void addDebugData() {
@@ -77,4 +99,9 @@ public class ViewModelMainActivity extends AndroidViewModel {
                 associatedMeal,
                 associatedMealType));
     }
+
+    public  LiveData<SugarMeasurement> getOldestSugarMeasurement() {
+        return oldestSugarMeasurement;
+    }
+
 }

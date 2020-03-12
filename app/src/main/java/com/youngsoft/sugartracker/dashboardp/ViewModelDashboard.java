@@ -18,7 +18,9 @@ public class ViewModelDashboard extends AndroidViewModel {
     private Calendar calendarStart;
     private Calendar calendarEnd;
 
-    private LiveData<List<SugarMeasurement>> sugarMeasurementLiveData;
+    private LiveData<List<SugarMeasurement>> sugarMeasurementTodayLiveData;
+    private LiveData<List<SugarMeasurement>> allSugarMeasurementsSortedByDate;
+    private LiveData<List<SugarMeasurement>> allSugarMeasurementsSortedByDateInc;
 
     public ViewModelDashboard(@NonNull Application application) {
         super(application);
@@ -35,14 +37,24 @@ public class ViewModelDashboard extends AndroidViewModel {
         calendarEnd.set(Calendar.SECOND,59);
         calendarEnd.set(Calendar.MILLISECOND,0);
 
-        setSugarMeasurements(calendarStart,calendarEnd);
+        setSugarMeasurementsToday(calendarStart,calendarEnd);
+        allSugarMeasurementsSortedByDate = dataRepository.getAllSugarMeasurementsSortedByDate();
+        allSugarMeasurementsSortedByDateInc = dataRepository.getAllSugarMeasurementsSortedByDateInc();
     }
 
-    private void setSugarMeasurements(Calendar calendarStart, Calendar calendarEnd) {
-        sugarMeasurementLiveData = dataRepository.getSugarMeasurementsBetweenDates(calendarStart.getTimeInMillis(),calendarEnd.getTimeInMillis());
+    private void setSugarMeasurementsToday(Calendar calendarStart, Calendar calendarEnd) {
+        sugarMeasurementTodayLiveData = dataRepository.getSugarMeasurementsBetweenDates(calendarStart.getTimeInMillis(),calendarEnd.getTimeInMillis());
     }
 
-    public LiveData<List<SugarMeasurement>> getSugarMeasurementLiveData() {
-        return sugarMeasurementLiveData;
+    public LiveData<List<SugarMeasurement>> getSugarMeasurementTodayLiveData() {
+        return sugarMeasurementTodayLiveData;
+    }
+
+    public LiveData<List<SugarMeasurement>> getAllSugarMeasurementsSortedByDate() {
+        return allSugarMeasurementsSortedByDate;
+    }
+
+    public LiveData<List<SugarMeasurement>> getAllSugarMeasurementsSortedByDateInc() {
+        return allSugarMeasurementsSortedByDateInc;
     }
 }
